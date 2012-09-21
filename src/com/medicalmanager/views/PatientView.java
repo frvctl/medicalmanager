@@ -1,26 +1,11 @@
 package com.medicalmanager.views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 
 public class PatientView extends JInternalFrame {
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PatientView frame = new PatientView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	PatientView frame = new PatientView();
+//	frame.setVisible(true);
 
 	/**
 	 * Create the frame.
