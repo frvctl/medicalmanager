@@ -1,7 +1,8 @@
 package com.medicalmanager.main;
 
 import java.awt.EventQueue;
-import com.medicalmanager.views.MainMenu;
+
+import com.medicalmanager.views.TheGUI;
 
 public class Main {
 	/**
@@ -11,7 +12,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainMenu frame = new MainMenu();
+					TheGUI frame = new TheGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
