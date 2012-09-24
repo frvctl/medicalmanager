@@ -18,10 +18,13 @@ import com.medicalmanager.models.Patient;
 
 @SuppressWarnings("serial")
 public class TheGUI extends JFrame {
-	private ArrayList<Patient> patieRay = new ArrayList<Patient>();
+	private ArrayList<Patient> patietRay = new ArrayList<Patient>();
 	
 	public static JPanel contentPane;
 	public static JToolBar toolBar;
+	
+	private WelcomePane welcomePane;
+	private PatientPane patientPane;
 	
 	private JMenuBar menuBar;
 	
@@ -49,8 +52,8 @@ public class TheGUI extends JFrame {
 		makeContentPane();
 		placeMenu();
 		placeToolBar();
-		//placeWelcomeMenu();
-		placePatientPane();
+		placeWelcomeMenu();
+		//placePatientPane();
 		actionTime();
 		Patient rawr = new Patient()
 							.addName("rawr")
@@ -125,12 +128,12 @@ public class TheGUI extends JFrame {
 	
 	
 	public void placeWelcomeMenu(){
-		WelcomePane welcomePane = new WelcomePane();
+		welcomePane = new WelcomePane();
 		contentPane.add(welcomePane);
 	}
 	
 	public void placePatientPane(){
-		PatientPane patientPane = new PatientPane();
+		patientPane = new PatientPane();
 		contentPane.add(patientPane);
 	}
 	
@@ -150,6 +153,27 @@ public class TheGUI extends JFrame {
 				newUsar.setVisible(true);
 			}
 		});
+		
+		WelcomePane.engageTutorialButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				
+			}
+		});
+		
+		WelcomePane.engageMainApplicationButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//FIXME Uh, the welcome pain won't go away. Kill it with fire.
+				
+				placePatientPane();
+			}
+		});
+		
+		WelcomePane.engageInformationButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
 		
 	}
 }
