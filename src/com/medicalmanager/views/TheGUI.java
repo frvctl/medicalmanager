@@ -1,23 +1,16 @@
 package com.medicalmanager.views;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 
@@ -27,11 +20,8 @@ import com.medicalmanager.models.Patient;
 public class TheGUI extends JFrame {
 	private ArrayList<Patient> patieRay = new ArrayList<Patient>();
 	
-	private JPanel contentPane;
-	
-	private JDesktopPane desktopPane;
-	
-	private JToolBar toolBar;
+	public static JPanel contentPane;
+	public static JToolBar toolBar;
 	
 	private JMenuBar menuBar;
 	
@@ -50,12 +40,7 @@ public class TheGUI extends JFrame {
 	private JButton toolBarSaveUserButton;
 	private JButton toolBarLoadUserButton;
 	private JButton toolBarSearchButton;
-	
-	private JSplitPane patientPane_1;
-	
-	private JTextArea infoArea;
-	
-	private JList<Object> patientList;
+
 	
 	/**
 	 * Create the frame.
@@ -64,8 +49,8 @@ public class TheGUI extends JFrame {
 		makeContentPane();
 		placeMenu();
 		placeToolBar();
-		makeDesktopPane();
-		placePatientInfoArea();
+		//placeWelcomeMenu();
+		placePatientPane();
 		actionTime();
 		Patient rawr = new Patient()
 							.addName("rawr")
@@ -81,58 +66,15 @@ public class TheGUI extends JFrame {
 							.addPhoneNumber("124-555-3432")
 							.addEmailAddress("vestawesome@awesome.com")
 							.addAdditionalComments("BigDerp");
-		
-		
-		patieRay.add(rawr);
-		infoArea.append(patientDisplay(rawr));
-		
-	}
-	
-	public String patientDisplay(Patient patient){
-		String dataToDisplay = null;
-	    dataToDisplay += patient.getName() + "\n";
-	    dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-		dataToDisplay += patient.getName() + "\n";
-			
-		return dataToDisplay;
 	}
 	
 	public void makeContentPane(){
 		setTitle("Final Project");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 960, 730);
+		setBounds(100, 100, 1276, 783);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-	}
-	
-	public void makeDesktopPane(){
-		desktopPane = new JDesktopPane();
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 934, Short.MAX_VALUE)
-				.addComponent(desktopPane, GroupLayout.DEFAULT_SIZE, 934, Short.MAX_VALUE)
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(7)
-					.addComponent(desktopPane, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
-		);
-		
-		contentPane.setLayout(gl_contentPane);
 	}
 	
 	public void placeMenu(){
@@ -181,24 +123,17 @@ public class TheGUI extends JFrame {
 		toolBar.add(toolBarSearchButton);
 	}
 	
-	public void placePatientInfoArea(){
-		patientPane_1 = new JSplitPane();
-		patientPane_1.setBounds(0, 0, 934, 631);
-		desktopPane.add(patientPane_1);
-		
-		infoArea = new JTextArea();
-		patientPane_1.setRightComponent(infoArea);
-		
-		patientList = new JList<Object>();
-		patientList.setMinimumSize(new Dimension(200, 0));
-		patientPane_1.setLeftComponent(patientList);
-	}
 	
 	public void placeWelcomeMenu(){
-		JSplitPane patientPane = new JSplitPane();
-		patientPane.setBounds(0, 0, 934, 631);
-		desktopPane.add(patientPane);
+		WelcomePane welcomePane = new WelcomePane();
+		contentPane.add(welcomePane);
 	}
+	
+	public void placePatientPane(){
+		PatientPane patientPane = new PatientPane();
+		contentPane.add(patientPane);
+	}
+	
 	
 	public void actionTime(){
 		toolBarSearchButton.addActionListener(new ActionListener() {
