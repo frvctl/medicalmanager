@@ -1,6 +1,7 @@
 package com.medicalmanager.models;
 
 public class Patient {
+	private String ID;
 	private String name;
 	private String age;
 	private String DOB;

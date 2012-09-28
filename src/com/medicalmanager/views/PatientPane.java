@@ -2,6 +2,7 @@ package com.medicalmanager.views;
 
 import java.awt.Dimension;
 
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JList;
@@ -9,11 +10,16 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import com.medicalmanager.models.Patient;
 
 @SuppressWarnings("serial")
 public class PatientPane extends JPanel {
-	private JList<?> patientList;
+	private JList patientList;
 	private JTextArea infoArea;
+	public static DefaultListModel listModel;
 
 	/**
 	 * Create the panel.
@@ -38,8 +44,25 @@ public class PatientPane extends JPanel {
 		
 		infoArea = new JTextArea();
 		patientPane_1.setRightComponent(infoArea);
+		listModel = new DefaultListModel<Object>();
+		patientList = new JList(listModel);
 		
-		patientList = new JList<Object>();
+		int theSize = TheGUI.patientRay.size();
+		
+		for(int i = 0; i < theSize; i++){
+			listModel.addElement(TheGUI.patientRay.get(i).getName());
+		}
+		
+		patientList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				Patient rawr = TheGUI.patientRay.get(patientList.getSelectedIndex());
+				infoArea.setText("AGE: " + rawr.getAge() + "\n" 
+										 + "Name: " + rawr.getName() + "\n"  
+										 + "HEIGHT: " + rawr.getHeight() + "\n" 
+										 + "DOB: " + rawr.getDOB());
+			}
+		});
+		
 		patientList.setMinimumSize(new Dimension(200, 0));
 		patientPane_1.setLeftComponent(patientList);
 		TheGUI.contentPane.setLayout(gl_contentPane);

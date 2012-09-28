@@ -18,7 +18,7 @@ import com.medicalmanager.models.Patient;
 
 @SuppressWarnings("serial")
 public class TheGUI extends JFrame {
-	private ArrayList<Patient> patietRay = new ArrayList<Patient>();
+	public static ArrayList<Patient> patientRay = new ArrayList<Patient>();
 	
 	public static JPanel contentPane;
 	public static JToolBar toolBar;
@@ -53,7 +53,6 @@ public class TheGUI extends JFrame {
 		placeMenu();
 		placeToolBar();
 		placeWelcomeMenu();
-		//placePatientPane();
 		actionTime();
 		Patient rawr = new Patient()
 							.addName("rawr")
@@ -67,8 +66,43 @@ public class TheGUI extends JFrame {
 							.addCurrentMedications("Rawrpills")
 							.addAddress("101 I'm Awesome Ln")
 							.addPhoneNumber("124-555-3432")
-							.addEmailAddress("vestawesome@awesome.com")
+							.addEmailAddress("rawrwesome@awesome.com")
 							.addAdditionalComments("BigDerp");
+		
+		Patient rawr1 = new Patient()
+			.addName("rawr1")
+			.addAge("19")
+			.addDOB("9/5/94")
+			.addHeight("6'1''")
+			.addWeight("215")
+			.addInsuranceCompany("AAA")
+			.addCalculatedBMI("9001")
+			.addMedicalConditions("FatAssery")
+			.addCurrentMedications("Rawrpills")
+			.addAddress("101 I'm Awesome Ln")
+			.addPhoneNumber("124-555-3432")
+			.addEmailAddress("vestawesome@awesome.com")
+			.addAdditionalComments("BigDerp");
+		
+		
+		Patient rawr2 = new Patient()
+			.addName("rawr2")
+			.addAge("20")
+			.addDOB("9/5/94")
+			.addHeight("5'11''")
+			.addWeight("215")
+			.addInsuranceCompany("AAA")
+			.addCalculatedBMI("9001")
+			.addMedicalConditions("FatAssery")
+			.addCurrentMedications("Rawrpills")
+			.addAddress("101 I'm Awesome Ln")
+			.addPhoneNumber("124-555-3432")
+			.addEmailAddress("vestiswesome@awesome.com")
+			.addAdditionalComments("BigDerp");
+		
+		patientRay.add(rawr);
+		patientRay.add(rawr1);
+		patientRay.add(rawr2);
 	}
 	
 	public void makeContentPane(){
@@ -133,10 +167,11 @@ public class TheGUI extends JFrame {
 	}
 	
 	public void placePatientPane(){
+		contentPane.setLayout(getLayout());
+		welcomePane.setVisible(false);
 		patientPane = new PatientPane();
 		contentPane.add(patientPane);
 	}
-	
 	
 	public void actionTime(){
 		toolBarSearchButton.addActionListener(new ActionListener() {
@@ -164,7 +199,6 @@ public class TheGUI extends JFrame {
 		WelcomePane.engageMainApplicationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//FIXME Uh, the welcome pain won't go away. Kill it with fire.
-				
 				placePatientPane();
 			}
 		});
