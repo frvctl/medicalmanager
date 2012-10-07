@@ -1,213 +1,123 @@
 package com.medicalmanager.views;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
+import java.awt.CardLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JSplitPane;
+import javax.swing.JList;
+import java.awt.Dimension;
+import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JToolBar;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
-import com.medicalmanager.models.Patient;
-
-@SuppressWarnings("serial")
 public class TheGUI extends JFrame {
-	public static ArrayList<Patient> patientRay = new ArrayList<Patient>();
-	
-	public static JPanel contentPane;
-	public static JToolBar toolBar;
-	
-	private WelcomePane welcomePane;
-	private PatientPane patientPane;
-	
-	private JMenuBar menuBar;
-	
-	private JMenu menuFileButton;
-	private JMenu menuAboutButton;
-	private JMenu menuHelpButton;
-	
-	private JMenuItem fileSubNewPatient;
-	private JMenuItem fileSubSavePatient;
-	private JMenuItem fileSubSearchPatient;
-	private JMenuItem fileSubClose;
-	private JMenuItem menuSubWhoIAm;
-	private JMenuItem menuSubWelcome;
-	
-	private JButton toolBarNewUserButton;
-	private JButton toolBarSaveUserButton;
-	private JButton toolBarLoadUserButton;
-	private JButton toolBarSearchButton;
 
-	
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TheGUI frame = new TheGUI();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	/**
 	 * Create the frame.
 	 */
 	public TheGUI() {
-		makeContentPane();
-		placeMenu();
-		placeToolBar();
-		placeWelcomeMenu();
-		actionTime();
-		Patient rawr = new Patient()
-							.addName("rawr")
-							.addAge("18")
-							.addDOB("9/5/94")
-							.addHeight("6'2''")
-							.addWeight("215")
-							.addInsuranceCompany("AAA")
-							.addCalculatedBMI("9001")
-							.addMedicalConditions("FatAssery")
-							.addCurrentMedications("Rawrpills")
-							.addAddress("101 I'm Awesome Ln")
-							.addPhoneNumber("124-555-3432")
-							.addEmailAddress("rawrwesome@awesome.com")
-							.addAdditionalComments("BigDerp");
-		
-		Patient rawr1 = new Patient()
-			.addName("rawr1")
-			.addAge("19")
-			.addDOB("9/5/94")
-			.addHeight("6'1''")
-			.addWeight("215")
-			.addInsuranceCompany("AAA")
-			.addCalculatedBMI("9001")
-			.addMedicalConditions("FatAssery")
-			.addCurrentMedications("Rawrpills")
-			.addAddress("101 I'm Awesome Ln")
-			.addPhoneNumber("124-555-3432")
-			.addEmailAddress("vestawesome@awesome.com")
-			.addAdditionalComments("BigDerp");
-		
-		
-		Patient rawr2 = new Patient()
-			.addName("rawr2")
-			.addAge("20")
-			.addDOB("9/5/94")
-			.addHeight("5'11''")
-			.addWeight("215")
-			.addInsuranceCompany("AAA")
-			.addCalculatedBMI("9001")
-			.addMedicalConditions("FatAssery")
-			.addCurrentMedications("Rawrpills")
-			.addAddress("101 I'm Awesome Ln")
-			.addPhoneNumber("124-555-3432")
-			.addEmailAddress("vestiswesome@awesome.com")
-			.addAdditionalComments("BigDerp");
-		
-		patientRay.add(rawr);
-		patientRay.add(rawr1);
-		patientRay.add(rawr2);
-	}
-	
-	public void makeContentPane(){
-		setTitle("Final Project");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1276, 783);
+		setBounds(100, 100, 838, 609);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("New menu");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
+		mnNewMenu.add(mntmNewMenuItem);
+		
+		JMenu mnNewMenu_1 = new JMenu("New menu");
+		menuBar.add(mnNewMenu_1);
+		
+		JMenuItem menuItem = new JMenuItem("New menu item");
+		mnNewMenu_1.add(menuItem);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-	}
-	
-	public void placeMenu(){
-		menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
 		
-		menuFileButton = new JMenu("File");
-		menuAboutButton = new JMenu("About");
-		menuHelpButton = new JMenu("Help");
+		final CardLayout bob = new CardLayout(0,0);
+		contentPane.setLayout(bob);
 		
-		fileSubNewPatient = new JMenuItem("New Patient");
-		fileSubClose = new JMenuItem("Close");
-		fileSubSavePatient = new JMenuItem("Save Patient");
-		fileSubSearchPatient = new JMenuItem("Search Patients");
+		JPanel panel_1 = new JPanel();
+		contentPane.add(panel_1, "name_0");
+
+		JSplitPane splitPane = new JSplitPane();
 		
-		menuSubWhoIAm = new JMenuItem("Who I am");
-		menuSubWelcome = new JMenuItem("Welcome");
+		JToolBar toolBar = new JToolBar();
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addComponent(splitPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE)
+				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE)
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(splitPane, GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE))
+		);
 		
-		fileSubNewPatient.setActionCommand("New Patient");
-		fileSubSavePatient.setActionCommand("Save Patient");
-		fileSubSearchPatient.setActionCommand("Search Patients");
+		JButton btnNewPatient = new JButton("New Patient");
+		toolBar.add(btnNewPatient);
 		
-		menuFileButton.add(fileSubNewPatient);
-		menuFileButton.add(fileSubSavePatient);
-		menuFileButton.add(fileSubSearchPatient);
-		menuFileButton.add(fileSubClose);
-		menuAboutButton.add(menuSubWhoIAm);
-		menuHelpButton.add(menuSubWelcome);		
+		JButton btnSearch = new JButton("Search");
+		toolBar.add(btnSearch);
 		
-		menuBar.add(menuFileButton);
-		menuBar.add(menuAboutButton);
-		menuBar.add(menuHelpButton);
-	}
-	
-	public void placeToolBar(){
-		toolBar = new JToolBar();
+		JList list = new JList();
+		list.setMinimumSize(new Dimension(200, 0));
+		splitPane.setLeftComponent(list);
 		
-		toolBarNewUserButton = new JButton("New User");
-		toolBarSaveUserButton = new JButton("Save");
-		toolBarLoadUserButton = new JButton("Load user");
-		toolBarSearchButton = new JButton("Search");
+		JTextArea textArea = new JTextArea();
+		splitPane.setRightComponent(textArea);
+		panel_1.setLayout(gl_panel_1);
 		
-		toolBar.add(toolBarNewUserButton);
-		toolBar.add(toolBarLoadUserButton);
-		toolBar.add(toolBarSaveUserButton);
-		toolBar.add(toolBarSearchButton);
-	}
-	
-	
-	public void placeWelcomeMenu(){
-		welcomePane = new WelcomePane();
-		contentPane.add(welcomePane);
-	}
-	
-	public void placePatientPane(){
-		contentPane.setLayout(getLayout());
-		welcomePane.setVisible(false);
-		patientPane = new PatientPane();
-		contentPane.add(patientPane);
-	}
-	
-	public void actionTime(){
-		toolBarSearchButton.addActionListener(new ActionListener() {
+		JPanel panel = new JPanel();
+		contentPane.add(panel, "name_1");
+		bob.show(contentPane, "name_1");
+		
+		JLabel lblStuff = new JLabel("Stuff");
+		panel.add(lblStuff);
+		
+		JButton btnClickToContinue = new JButton("Click to continue to good stuff");
+		btnClickToContinue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Search dialog = new Search();
-				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				dialog.setVisible(true);
+				bob.next(contentPane);
 			}
 		});
-		
-		toolBarNewUserButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				NewPatient newUsar = new NewPatient();
-				newUsar.setVisible(true);
-			}
-		});
-		
-		WelcomePane.engageTutorialButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			
-				
-			}
-		});
-		
-		WelcomePane.engageMainApplicationButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//FIXME Uh, the welcome pain won't go away. Kill it with fire.
-				placePatientPane();
-			}
-		});
-		
-		WelcomePane.engageInformationButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		
+		panel.add(btnClickToContinue);
 	}
 }
