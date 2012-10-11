@@ -1,31 +1,38 @@
 package com.medicalmanager.views;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JSplitPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import java.awt.Dimension;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import com.medicalmanager.models.Patient;
 
 public class TheGUI extends JFrame {
 
 	private CardLayout card = new CardLayout(0,0);
+	static ArrayList<Patient> patientArray = new ArrayList<Patient>();
+	private DefaultListModel listModel;
+	private JList patientList;
 	private JPanel contentPane;
 	private JButton mainAppButton;
 	private JButton aboutButton;
@@ -49,8 +56,7 @@ public class TheGUI extends JFrame {
 		placeMenu();
 		makeWelcomePanel();
 		makePatientPanel();
-		actionTime();
-		
+		actionTime();	
 	}
 
 	public void placeMenu(){
@@ -68,7 +74,6 @@ public class TheGUI extends JFrame {
 		
 		JMenuItem menuItem = new JMenuItem("New menu item");
 		helpMenu.add(menuItem);
-		
 	}
 	
 	public void makePatientPanel(){
@@ -99,14 +104,38 @@ public class TheGUI extends JFrame {
 		searchButton = new JButton("Search");
 
 		patientToolBar.add(searchButton);
+
+		final JTextArea patientInfoArea = new JTextArea();
+		splitPane.setRightComponent(patientInfoArea);
+		patientPanel.setLayout(patientLayout);
 		
-		JList patientList = new JList();
+		listModel = new DefaultListModel<Object>();
+		patientList = new JList(listModel);
+		
+		Patient p1 = new Patient();
+		p1.addName("bob");
+		patientArray.add(p1);
+
+		int theSize = patientArray.size();
+		
+		for(int i = 0; i < theSize; i++){
+			listModel.addElement(patientArray.get(i).getName());
+			theSize = patientArray.size();
+		}
+
+		patientList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				Patient rawr = patientArray.get(patientList.getSelectedIndex());
+				patientInfoArea.setText("AGE: " + rawr.getAge() + "\n" 
+										 + "Name: " + rawr.getName() + "\n"  
+										 + "HEIGHT: " + rawr.getHeight() + "\n" 
+										 + "DOB: " + rawr.getDOB());
+			}
+		});
+		
 		patientList.setMinimumSize(new Dimension(200, 0));
 		splitPane.setLeftComponent(patientList);
 		
-		JTextArea patientInfoArea = new JTextArea();
-		splitPane.setRightComponent(patientInfoArea);
-		patientPanel.setLayout(patientLayout);
 	}
 	
 	public void makeWelcomePanel(){

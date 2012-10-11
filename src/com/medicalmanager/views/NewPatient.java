@@ -2,6 +2,8 @@ package com.medicalmanager.views;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +19,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import com.medicalmanager.models.Patient;
 
 @SuppressWarnings("serial")
 public class NewPatient extends JDialog {
@@ -129,9 +132,18 @@ public class NewPatient extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
+				okButton.setActionCommand("OK");				
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
+				
+				okButton.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent arg0){
+						Patient rawr = new Patient();
+						rawr.addAge(10).addName("ben");
+						TheGUI.patientArray.add(rawr);
+						System.out.println(TheGUI.patientArray.get(2));
+					}
+				});
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");

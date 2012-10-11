@@ -1,20 +1,29 @@
 package com.medicalmanager.models;
 
 public class Patient {
-	private String ID;
+	
+	// Basic Patient Information
 	private String name;
-	private String age;
 	private String DOB;
-	private String height;
-	private String weight;
-	private String insuranceCompany;
-	private String calculatedBMI;
-	private String medicalConditions;
-	private String currentMedications;
 	private String address;
 	private String phoneNumber;
 	private String emailAddress;
+	
+	// Medical Information
+	private String insuranceCompany;
+	private String medicalConditions;
+	private String currentMedications;
 	private String additionalComments;
+	
+	// Numerical Values
+	private int ID;
+	private int age;
+	private double height;
+	private double weight;
+	
+	// Calculated
+	private double BMI;
+	private double averageSystolicBP;
 	 
     public Patient() { }
    
@@ -27,7 +36,7 @@ public class Patient {
         return this;
     }
     
-    public Patient addAge(String age) {
+    public Patient addAge(int age) {
     	this.age = age;
         return this;
     }
@@ -37,12 +46,12 @@ public class Patient {
         return this;
     }
     
-    public Patient addHeight(String height) {
+    public Patient addHeight(double height) {
     	this.height = height;
         return this;
     }
     
-    public Patient addWeight(String weight) {
+    public Patient addWeight(double weight) {
     	this.weight = weight;
         return this;
     }
@@ -52,8 +61,8 @@ public class Patient {
         return this;
     }
     
-    public Patient addCalculatedBMI(String calculatedBMI) {
-    	this.calculatedBMI = calculatedBMI;
+    public Patient addCalculatedBMI(double calculatedBMI) {
+    	this.BMI = calculatedBMI;
         return this;
     }
     
@@ -91,15 +100,15 @@ public class Patient {
     	return this.name;
     }
     
-    public String getAge(){
+    public double getAge(){
     	return this.age;
     }
     
-    public String getHeight(){
+    public double getHeight(){
     	return this.height;
     }
      
-    public String getWeight(){
+    public double getWeight(){
     	return this.weight;
     }
     
@@ -127,8 +136,8 @@ public class Patient {
     	return this.medicalConditions;
     }
     
-    public String getCalculatedBMI(){
-    	return this.calculatedBMI;
+    public double getCalculatedBMI(){
+    	return this.BMI;
     }
     
     public String getAddictionalComments(){

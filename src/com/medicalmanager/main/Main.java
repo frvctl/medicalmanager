@@ -1,8 +1,9 @@
 package com.medicalmanager.main;
 
+import com.medicalmanager.views.TheGUI;
+
 import java.awt.EventQueue;
 
-import com.medicalmanager.views.TheGUI;
 
 public class Main {
 	/**
