@@ -129,7 +129,8 @@ public class TheGUI extends JFrame {
 				patientInfoArea.setText("AGE: " + rawr.getAge() + "\n" 
 										 + "Name: " + rawr.getName() + "\n"  
 										 + "HEIGHT: " + rawr.getHeight() + "\n" 
-										 + "DOB: " + rawr.getDOB());
+										 + "DOB: " + rawr.getDOB() + "\n"
+										 + "BMI: " + rawr.getCalculatedBMI());
 			}
 		});
 		

@@ -96,6 +96,11 @@ public class Patient {
         return this;
     }
     
+    public Patient addBMI(double height, double weight){
+    	this.BMI = (weight*703)/(Math.pow(height, 2));
+		return this;
+    }
+    
     public String getName(){
     	return this.name;
     }
@@ -136,8 +141,19 @@ public class Patient {
     	return this.medicalConditions;
     }
     
-    public double getCalculatedBMI(){
-    	return this.BMI;
+    public String getCalculatedBMI(){
+    	String BMIDiagnosis = null;
+    	
+    	if(BMI < 18){
+    		BMIDiagnosis = "Underweight";
+    	}else if(BMI > 18 && BMI < 24.9){
+    		BMIDiagnosis = "Normal Weight";
+    	}else if(BMI > 25 && BMI < 29.9){
+    		BMIDiagnosis = "Over Weight";
+    	}else{
+    		BMIDiagnosis = "Obese";
+    	}
+    	return BMIDiagnosis;
     }
     
     public String getAddictionalComments(){

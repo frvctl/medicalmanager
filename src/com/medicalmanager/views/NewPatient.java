@@ -25,10 +25,10 @@ import com.medicalmanager.models.Patient;
 public class NewPatient extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField nameField;
+	private JTextField ageField;
+	private JTextField weightField;
+	private JTextField ICField;
 	private JTextField textField_4;
 
 	/**
@@ -70,36 +70,36 @@ public class NewPatient extends JDialog {
 			contentPanel.add(lblNewLabel, "2, 2, right, default");
 		}
 		{
-			textField = new JTextField();
-			contentPanel.add(textField, "4, 2, fill, default");
-			textField.setColumns(10);
+			nameField = new JTextField();
+			contentPanel.add(nameField, "4, 2, fill, default");
+			nameField.setColumns(10);
 		}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Age:");
 			contentPanel.add(lblNewLabel_1, "2, 4, right, default");
 		}
 		{
-			textField_1 = new JTextField();
-			contentPanel.add(textField_1, "4, 4, fill, default");
-			textField_1.setColumns(10);
+			ageField = new JTextField();
+			contentPanel.add(ageField, "4, 4, fill, default");
+			ageField.setColumns(10);
 		}
 		{
 			JLabel lblNewLabel_2 = new JLabel("Weight");
 			contentPanel.add(lblNewLabel_2, "2, 6, right, default");
 		}
 		{
-			textField_2 = new JTextField();
-			contentPanel.add(textField_2, "4, 6, fill, default");
-			textField_2.setColumns(10);
+			weightField = new JTextField();
+			contentPanel.add(weightField, "4, 6, fill, default");
+			weightField.setColumns(10);
 		}
 		{
 			JLabel lblNewLabel_3 = new JLabel("Insurance Company:");
 			contentPanel.add(lblNewLabel_3, "2, 8, right, default");
 		}
 		{
-			textField_3 = new JTextField();
-			contentPanel.add(textField_3, "4, 8, fill, default");
-			textField_3.setColumns(10);
+			ICField = new JTextField();
+			contentPanel.add(ICField, "4, 8, fill, default");
+			ICField.setColumns(10);
 		}
 		{
 			JLabel lblDateOfBirth = new JLabel("Date of Birth:");
@@ -138,12 +138,39 @@ public class NewPatient extends JDialog {
 				
 				okButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent arg0){
-						Patient rawr = new Patient();
-						rawr
-						   .addAge(Integer.parseInt(textField_1.getText()))
-						   .addName(textField.getText());
-						TheGUI.patientArray.add(rawr);
-						TheGUI.listModel.addElement(rawr.getName());
+						Patient p = new Patient();
+						p
+						   .addAge(Integer.parseInt(ageField.getText()))
+						   .addName(nameField.getText())
+						   .addWeight(Double.parseDouble(weightField.getText()))
+						   .addHeight(Double.parseDouble(ICField.getText()))
+						   .addBMI(Double.parseDouble(weightField.getText()), Double.parseDouble(ICField.getText()));
+						
+//						// Basic Patient Information
+//						private String name;
+//						private String DOB;
+//						private String address;
+//						private String phoneNumber;
+//						private String emailAddress;
+//						
+//						// Medical Information
+//						private String insuranceCompany;
+//						private String medicalConditions;
+//						private String currentMedications;
+//						private String additionalComments;
+//						
+//						// Numerical Values
+//						private int ID;
+//						private int age;
+//						private double height;
+//						private double weight;
+//						
+//						// Calculated
+//						private double BMI;
+//						private double averageSystolicBP;
+						
+						TheGUI.patientArray.add(p);
+						TheGUI.listModel.addElement(p.getName());
 					}
 				});
 			}
