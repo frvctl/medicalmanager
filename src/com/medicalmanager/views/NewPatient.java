@@ -139,9 +139,11 @@ public class NewPatient extends JDialog {
 				okButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent arg0){
 						Patient rawr = new Patient();
-						rawr.addAge(10).addName("ben");
+						rawr
+						   .addAge(Integer.parseInt(textField_1.getText()))
+						   .addName(textField.getText());
 						TheGUI.patientArray.add(rawr);
-						System.out.println(TheGUI.patientArray.get(2));
+						TheGUI.listModel.addElement(rawr.getName());
 					}
 				});
 			}

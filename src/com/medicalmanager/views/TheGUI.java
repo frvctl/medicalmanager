@@ -30,8 +30,8 @@ import com.medicalmanager.models.Patient;
 public class TheGUI extends JFrame {
 
 	private CardLayout card = new CardLayout(0,0);
-	static ArrayList<Patient> patientArray = new ArrayList<Patient>();
-	private DefaultListModel listModel;
+	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
+	public static DefaultListModel listModel;
 	private JList patientList;
 	private JPanel contentPane;
 	private JButton mainAppButton;
