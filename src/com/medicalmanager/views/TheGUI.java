@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -26,6 +27,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.medicalmanager.models.Patient;
+import com.medicalmanager.models.Persistence;
 
 public class TheGUI extends JFrame {
 
@@ -41,8 +43,9 @@ public class TheGUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws IOException 
 	 */
-	public TheGUI() {
+	public TheGUI() throws IOException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(100, 100, 838, 609);
@@ -76,7 +79,7 @@ public class TheGUI extends JFrame {
 		helpMenu.add(menuItem);
 	}
 	
-	public void makePatientPanel(){
+	public void makePatientPanel() throws IOException{
 		JPanel patientPanel = new JPanel();
 		contentPane.add(patientPanel, "patientPanel");
 
@@ -134,6 +137,8 @@ public class TheGUI extends JFrame {
 			}
 		});
 		
+		Persistence.writeToFile("rawrs");
+		Persistence.readAllPatients();
 		patientList.setMinimumSize(new Dimension(200, 0));
 		splitPane.setLeftComponent(patientList);
 		
