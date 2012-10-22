@@ -60,6 +60,8 @@ public class TheGUI extends JFrame {
 		makeWelcomePanel();
 		makePatientPanel();
 		actionTime();	
+		
+		Persistence.splitPatient("rawr, rawr, rawr, rawr , rawr, rawr, awr, arw");
 	}
 
 	public void placeMenu(){
