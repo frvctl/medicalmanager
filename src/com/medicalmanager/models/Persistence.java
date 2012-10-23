@@ -20,7 +20,31 @@ public class Persistence {
 		// Read everything from the file, parse it,
 		// and then dump it into an array list. Probably
 		// will need array list getters and setters in this
-		// file, maybe. Idk.
+		// file, maybe. I do not know.
+	}
+	
+	public static Patient linSearch(ArrayList<Patient> p, int searchFor){
+		int allIDs[] = new int[p.size()];
+		
+		
+		for(int x = 0; x < p.size(); x++){
+			int anID = p.get(x).getID();
+			allIDs[x] = anID;
+		}
+		
+		for( int i: allIDs ){
+			if(i == searchFor){
+				System.out.println(p.get(i).getName() + "\n"
+									+ p.get(i).getAge() + "\n"
+									+ p.get(i).getWeight() + "\n"
+									+ p.get(i).getHeight() + "\n"
+									+ p.get(i).getCalculatedBMI());
+				return p.get(i);
+			}
+		}
+		
+		
+		return null;
 	}
 	
 	public static String[] splitPatient(String input){
@@ -33,10 +57,11 @@ public class Persistence {
 		
 		String word;
 
-		// Find size of the patients
+		// find size of the patients
 		while(index < finalIndex){
 			index = input.indexOf(",", index + 1);
 			count++;
+			System.out.println(count);
 		}
 		
 		// create an array that is the size of the number of patient fields
@@ -52,12 +77,10 @@ public class Persistence {
 			}else{
 				word = input.substring(finalIndex+1);
 			}
-			
-			words[i] = word.trim();
-			
+			words[i] = word.trim();	
 		}
-		
 		return words;
 	}
+
 }
 

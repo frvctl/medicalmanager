@@ -139,7 +139,7 @@ public class NewPatient extends JDialog {
 				okButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent arg0){
 						Patient p = new Patient();
-						p
+						p	
 						   .addAge(Integer.parseInt(ageField.getText()))
 						   .addName(nameField.getText())
 						   .addWeight(Double.parseDouble(weightField.getText()))

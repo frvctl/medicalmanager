@@ -31,6 +31,11 @@ public class Patient {
         return new Patient();
     }
     
+	public Patient addID(int ID) {
+		this.ID = ID;
+		return this;
+	}
+    
     public Patient addName(String name) {
     	this.name = name;
         return this;
@@ -101,6 +106,10 @@ public class Patient {
 		return this;
     }
     
+    public int getID(){
+    	return this.ID;
+    }
+    
     public String getName(){
     	return this.name;
     }
@@ -163,5 +172,6 @@ public class Patient {
     public String getInsuranceCompany(){
     	return this.insuranceCompany;
     }
+
 
 }

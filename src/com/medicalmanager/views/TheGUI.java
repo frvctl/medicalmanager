@@ -61,7 +61,6 @@ public class TheGUI extends JFrame {
 		makePatientPanel();
 		actionTime();	
 		
-		Persistence.splitPatient("rawr, rawr, rawr, rawr , rawr, rawr, awr, arw");
 	}
 
 	public void placeMenu(){
@@ -119,8 +118,43 @@ public class TheGUI extends JFrame {
 		
 		Patient p1 = new Patient();
 		p1.addName("bob");
+		p1.addAge(15);
+		p1.addWeight(200);
+		p1.addHeight(74);
+		p1.addBMI(p1.getHeight(), p1.getWeight());
+		p1.addID(0);
+		
+		Patient p2 = new Patient();
+		p2.addName("bob1");
+		p2.addID(1);
+		p2.addAge(15);
+		p2.addWeight(200);
+		p2.addHeight(74);
+		p2.addBMI(p1.getHeight(), p1.getWeight());
+		
+		Patient p3 = new Patient();
+		p3.addName("bob2");
+		p3.addID(2);
+		p3.addAge(15);
+		p3.addWeight(200);
+		p3.addHeight(74);
+		p3.addBMI(p1.getHeight(), p1.getWeight());
+		
+		Patient p4 = new Patient();
+		p4.addName("bob3");
+		p4.addID(3);
+		p4.addAge(15);
+		p4.addWeight(200);
+		p4.addHeight(74);
+		p4.addBMI(p1.getHeight(), p1.getWeight());
+		
 		patientArray.add(p1);
-
+		patientArray.add(p2);
+		patientArray.add(p3);
+		patientArray.add(p4);
+		
+		Persistence.linSearch(patientArray, 0);
+		
 		int theSize = patientArray.size();
 		
 		for(int i = 0; i < theSize; i++){
