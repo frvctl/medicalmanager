@@ -56,6 +56,7 @@ public class TheGUI extends JFrame {
 		
 		setContentPane(contentPane);
 		
+		//Persistence.sortPatients(patientArray);
 		placeMenu();
 		makeWelcomePanel();
 		makePatientPanel();
@@ -116,6 +117,15 @@ public class TheGUI extends JFrame {
 		listModel = new DefaultListModel<Object>();
 		patientList = new JList(listModel);
 		
+		Patient p3 = new Patient();
+		p3.addName("bob2");
+		p3.addID(2);
+		p3.addAge(15);
+		p3.addWeight(200);
+		p3.addHeight(74);
+		p3.addBMI(p3.getHeight(), p3.getWeight());
+		
+		
 		Patient p1 = new Patient();
 		p1.addName("bob");
 		p1.addAge(15);
@@ -130,28 +140,23 @@ public class TheGUI extends JFrame {
 		p2.addAge(15);
 		p2.addWeight(200);
 		p2.addHeight(74);
-		p2.addBMI(p1.getHeight(), p1.getWeight());
+		p2.addBMI(p2.getHeight(), p2.getWeight());
 		
-		Patient p3 = new Patient();
-		p3.addName("bob2");
-		p3.addID(2);
-		p3.addAge(15);
-		p3.addWeight(200);
-		p3.addHeight(74);
-		p3.addBMI(p1.getHeight(), p1.getWeight());
-		
+
 		Patient p4 = new Patient();
 		p4.addName("bob3");
 		p4.addID(3);
 		p4.addAge(15);
 		p4.addWeight(200);
 		p4.addHeight(74);
-		p4.addBMI(p1.getHeight(), p1.getWeight());
+		p4.addBMI(p4.getHeight(), p4.getWeight());
 		
+		patientArray.add(p3);
 		patientArray.add(p1);
 		patientArray.add(p2);
-		patientArray.add(p3);
 		patientArray.add(p4);
+		
+		Persistence.sortPatients(patientArray);
 		
 		Persistence.linSearch(patientArray, 0);
 		

@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Persistence {
+	public static int[] allIDs;
+	public static ArrayList<Patient> sortedList = new ArrayList<Patient>();
+	
 	static File file = new File(System.getProperty("user.dir") + "/lib/test.txt");
 	
 	public static void prepareFile() throws FileNotFoundException{
@@ -24,13 +27,7 @@ public class Persistence {
 	}
 	
 	public static Patient linSearch(ArrayList<Patient> p, int searchFor){
-		int allIDs[] = new int[p.size()];
-		
-		
-		for(int x = 0; x < p.size(); x++){
-			int anID = p.get(x).getID();
-			allIDs[x] = anID;
-		}
+		getAllIDs(p);
 		
 		for( int i: allIDs ){
 			if(i == searchFor){
@@ -45,6 +42,55 @@ public class Persistence {
 		
 		
 		return null;
+	}
+	
+	public static ArrayList<Patient> sortPatients(ArrayList<Patient> p){
+		int n = p.size();
+		boolean isTrue = true;
+		int z = 0;
+		getAllIDs(p);
+		
+		for(int i = 0; i < n; i++){
+			for(int x = 1; x < n-i; x++){
+				if(allIDs[x-1] > allIDs[x]){
+					swap(x, allIDs);
+				}
+			}
+		}
+		
+		while(isTrue){
+			for(int i: allIDs){
+				if(p.get(z).getID() == i){
+					sortedList.add(p.get(i));
+					allIDs[i].
+				}else if(p.get(z).getID() == i && i == allIDs[n]){
+					isTrue = false;
+				}else if(p.get(z).getID() != i && z > n-1){
+				   z--;
+				}else{
+					z++;
+				}
+			}
+		}
+		
+		System.out.println(sortedList.get(0).getName());
+
+		return sortedList;
+	}
+	
+	private static void swap(int index, int[] theArray){
+		int replace = theArray[index - 1];
+		theArray[index - 1] = theArray[index];
+		theArray[index] = replace;
+	}
+	
+	public static void getAllIDs(ArrayList<Patient> p){
+		allIDs = new int[p.size()];
+		
+		for(int x = 0; x < p.size(); x++){
+			int anID = p.get(x).getID();
+			allIDs[x] = anID;
+		}
 	}
 	
 	public static String[] splitPatient(String input){
