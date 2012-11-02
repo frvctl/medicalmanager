@@ -30,12 +30,12 @@ public class Persistence {
 		getAllIDs(p);
 		
 		for( int i: allIDs ){
-			if(i == searchFor){
-				System.out.println(p.get(i).getName() + "\n"
-									+ p.get(i).getAge() + "\n"
-									+ p.get(i).getWeight() + "\n"
-									+ p.get(i).getHeight() + "\n"
-									+ p.get(i).getCalculatedBMI());
+			if(p.get(i).getID() == searchFor){
+//				System.out.println(p.get(i).getName() + "\n"
+//									+ p.get(i).getAge() + "\n"
+//									+ p.get(i).getWeight() + "\n"
+//									+ p.get(i).getHeight() + "\n"
+//									+ p.get(i).getCalculatedBMI());
 				return p.get(i);
 			}
 		}
@@ -44,10 +44,10 @@ public class Persistence {
 		return null;
 	}
 	
+	
+	
 	public static ArrayList<Patient> sortPatients(ArrayList<Patient> p){
 		int n = p.size();
-		int z = 1;
-		int t = 0;
 		getAllIDs(p);
 		
 		for(int i = 0; i < n; i++){
@@ -58,28 +58,11 @@ public class Persistence {
 			}
 		}
 		
-		
-		while(sortedList.size() < n){
-			if(p.get(allIDs[t]).getID() == t){
-				System.out.println("A PERSON: " + p.get(allIDs[t]).getName());
-			    sortedList.add(p.get(allIDs[t]));
-				t++;
-			}else if(p.get(allIDs[z]).getID() == t){
-				System.out.println("A PERSON: " + p.get(allIDs[z]).getName());
-				sortedList.add(p.get(allIDs[z]));
-				t++;
-			}else if(p.get(allIDs[z]).getID() != t && z < n-1){
-				z++;
-			}else if(z > n-1){
-				z--;
-			}
+		for(int z: allIDs){
+			sortedList.add(linSearch(p, allIDs[z]));
+			System.out.println(sortedList.get(z).getName() + "NAME ");
 		}
-	
 		
-		
-		
-		System.out.println(sortedList.get(0).getName());
-
 		return sortedList;
 	}
 	
