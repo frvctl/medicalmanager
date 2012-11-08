@@ -27,15 +27,10 @@ public class Persistence {
 	}
 	
 	public static Patient linSearch(ArrayList<Patient> p, int searchFor){
-		getAllIDs(p);
+		int sizeP = p.size();
 		
-		for( int i: allIDs ){
+		for( int i = 0; i < sizeP; i++ ){
 			if(p.get(i).getID() == searchFor){
-//				System.out.println(p.get(i).getName() + "\n"
-//									+ p.get(i).getAge() + "\n"
-//									+ p.get(i).getWeight() + "\n"
-//									+ p.get(i).getHeight() + "\n"
-//									+ p.get(i).getCalculatedBMI());
 				return p.get(i);
 			}
 		}
@@ -43,7 +38,6 @@ public class Persistence {
 		
 		return null;
 	}
-	
 	
 	
 	public static ArrayList<Patient> sortPatients(ArrayList<Patient> p){
@@ -59,8 +53,7 @@ public class Persistence {
 		}
 		
 		for(int z: allIDs){
-			sortedList.add(linSearch(p, allIDs[z]));
-			System.out.println(sortedList.get(z).getName() + "NAME ");
+			sortedList.add(linSearch(p, z));
 		}
 		
 		return sortedList;
@@ -118,3 +111,9 @@ public class Persistence {
 
 }
 
+
+//System.out.println(p.get(i).getName() + "\n"
+//+ p.get(i).getAge() + "\n"
+//+ p.get(i).getWeight() + "\n"
+//+ p.get(i).getHeight() + "\n"
+//+ p.get(i).getCalculatedBMI());
