@@ -122,7 +122,7 @@ public class TheGUI extends JFrame {
 		
 		Patient p3 = new Patient();
 		p3.addName("bob2");
-		p3.addID(3);
+		p3.addID(20);
 		p3.addAge(15);
 		p3.addWeight(200);
 		p3.addHeight(74);
@@ -135,11 +135,11 @@ public class TheGUI extends JFrame {
 		p1.addWeight(200);
 		p1.addHeight(74);
 		p1.addBMI(p1.getHeight(), p1.getWeight());
-		p1.addID(2);
+		p1.addID(144);
 		
 		Patient p2 = new Patient();
 		p2.addName("bob1");
-		p2.addID(1);
+		p2.addID(0);
 		p2.addAge(15);
 		p2.addWeight(200);
 		p2.addHeight(74);
@@ -148,7 +148,7 @@ public class TheGUI extends JFrame {
 
 		Patient p4 = new Patient();
 		p4.addName("bob3");
-		p4.addID(0);
+		p4.addID(56);
 		p4.addAge(15);
 		p4.addWeight(200);
 		p4.addHeight(74);
