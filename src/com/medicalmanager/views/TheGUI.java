@@ -33,6 +33,7 @@ public class TheGUI extends JFrame {
 
 	private CardLayout card = new CardLayout(0,0);
 	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
+	public ArrayList<Patient> sortedArray = new ArrayList<Patient>();
 	public static DefaultListModel listModel;
 	private JList patientList;
 	private JPanel contentPane;
@@ -40,6 +41,7 @@ public class TheGUI extends JFrame {
 	private JButton aboutButton;
 	private JButton newPatientButton;
 	private JButton searchButton;
+	private JButton sortByIDButton;
 
 	/**
 	 * Create the frame.
@@ -106,8 +108,10 @@ public class TheGUI extends JFrame {
 		patientToolBar.add(newPatientButton);
 		
 		searchButton = new JButton("Search");
+		sortByIDButton = new JButton("Sort By ID");
 
 		patientToolBar.add(searchButton);
+		patientToolBar.add(sortByIDButton);
 
 		final JTextArea patientInfoArea = new JTextArea();
 		splitPane.setRightComponent(patientInfoArea);
@@ -156,7 +160,6 @@ public class TheGUI extends JFrame {
 		patientArray.add(p3);
 		patientArray.add(p4);
 		
-		Persistence.sortPatients(patientArray);
 		
 		Persistence.linSearch(patientArray, 3);
 		
@@ -250,6 +253,22 @@ public class TheGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Search dialog = new Search();
 				dialog.setVisible(true);
+			}
+		});
+		
+		sortByIDButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {		
+				sortedArray = Persistence.sortPatients(patientArray);
+				int theSize = sortedArray.size();
+			
+				listModel.clear();
+				System.out.println(listModel);
+				
+				for(int i = 0; i < theSize; i++){
+					listModel.addElement(sortedArray.get(i).getName());
+				}
+				
+				sortedArray.clear();
 			}
 		});
 	}
