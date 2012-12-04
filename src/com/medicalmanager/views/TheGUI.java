@@ -29,19 +29,40 @@ import javax.swing.event.ListSelectionListener;
 import com.medicalmanager.models.Patient;
 import com.medicalmanager.models.Persistence;
 
+/* 
+ * Docs --->
+ *	  A1 "Integrated Patient Information Management System"
+ *	 	  -- Clinical environment has poor record keeping and management
+ *	 	  		-- Get rid of paper
+ *	 	  			-- Paper can be lost, stolen, copied, etc
+ *	 	  -- What does the user need
+ *	 
+ *	  A2 Criterion for success
+ *	  	  -- Capabilities etc.. 'will be able...'
+ *
+ * ToDo ---> 
+ * 		
+ * 	  
+ * 
+ */
 public class TheGUI extends JFrame {
 
 	private CardLayout card = new CardLayout(0,0);
-	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
-	public ArrayList<Patient> sortedArray = new ArrayList<Patient>();
-	public static DefaultListModel listModel;
-	private JList patientList;
+	
 	private JPanel contentPane;
+	
 	private JButton mainAppButton;
 	private JButton aboutButton;
 	private JButton newPatientButton;
 	private JButton searchButton;
 	private JButton sortByIDButton;
+	
+	private JTextArea patientInfoArea;
+
+	private JList patientList;
+	public static DefaultListModel listModel;
+	public ArrayList<Patient> sortedArray = new ArrayList<Patient>();
+	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
 
 	/**
 	 * Create the frame.
@@ -113,61 +134,15 @@ public class TheGUI extends JFrame {
 		patientToolBar.add(searchButton);
 		patientToolBar.add(sortByIDButton);
 
-		final JTextArea patientInfoArea = new JTextArea();
+		patientInfoArea = new JTextArea();
 		splitPane.setRightComponent(patientInfoArea);
 		patientPanel.setLayout(patientLayout);
 		
 		listModel = new DefaultListModel<Object>();
 		patientList = new JList(listModel);
 		
-		Patient p3 = new Patient();
-		p3.addName("bob2");
-		p3.addID(20);
-		p3.addAge(15);
-		p3.addWeight(200);
-		p3.addHeight(74);
-		p3.addBMI(p3.getHeight(), p3.getWeight());
-		
-		
-		Patient p1 = new Patient();
-		p1.addName("bob");
-		p1.addAge(15);
-		p1.addWeight(200);
-		p1.addHeight(74);
-		p1.addBMI(p1.getHeight(), p1.getWeight());
-		p1.addID(144);
-		
-		Patient p2 = new Patient();
-		p2.addName("bob1");
-		p2.addID(0);
-		p2.addAge(15);
-		p2.addWeight(200);
-		p2.addHeight(74);
-		p2.addBMI(p2.getHeight(), p2.getWeight());
-		
-
-		Patient p4 = new Patient();
-		p4.addName("bob3");
-		p4.addID(56);
-		p4.addAge(15);
-		p4.addWeight(200);
-		p4.addHeight(74);
-		p4.addBMI(p4.getHeight(), p4.getWeight());
-		
-	
-		patientArray.add(p1);
-		patientArray.add(p2);
-		patientArray.add(p3);
-		patientArray.add(p4);
-		
-		
-		Persistence.linSearch(patientArray, 3);
-		
-		int theSize = patientArray.size();
-		
-		for(int i = 0; i < theSize; i++){
-			listModel.addElement(patientArray.get(i).getName());
-			theSize = patientArray.size();
+		for(Patient p: patientArray){
+			listModel.addElement(p.getName());
 		}
 
 		patientList.addListSelectionListener(new ListSelectionListener() {
@@ -187,7 +162,13 @@ public class TheGUI extends JFrame {
 		splitPane.setLeftComponent(patientList);
 		
 	}
-	
+
+	public static void updateList(Patient p){
+		int theSize = patientArray.size();
+		patientArray.add(p);
+		listModel.addElement(p.getName());
+	}
+		
 	public void makeWelcomePanel(){
 		JPanel welcomePanel = new JPanel();
 		contentPane.add(welcomePanel, "welcomePanel");
@@ -196,7 +177,6 @@ public class TheGUI extends JFrame {
 		JLabel welcomeLabel = new JLabel("Welcome to the application");
 		
 		mainAppButton = new JButton("Main App");
-
 		
 		aboutButton = new JButton("About");
 		
