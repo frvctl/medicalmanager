@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -40,6 +41,7 @@ public class TheGUI extends JFrame {
 	private JButton aboutButton;
 	private JButton newPatientButton;
 	private JButton searchButton;
+	private JTextArea patientInfoArea;
 
 	/**
 	 * Create the frame.
@@ -109,7 +111,7 @@ public class TheGUI extends JFrame {
 
 		patientToolBar.add(searchButton);
 
-		final JTextArea patientInfoArea = new JTextArea();
+		patientInfoArea = new JTextArea();
 		splitPane.setRightComponent(patientInfoArea);
 		patientPanel.setLayout(patientLayout);
 		
@@ -160,11 +162,8 @@ public class TheGUI extends JFrame {
 		
 		Persistence.linSearch(patientArray, 3);
 		
-		int theSize = patientArray.size();
-		
-		for(int i = 0; i < theSize; i++){
-			listModel.addElement(patientArray.get(i).getName());
-			theSize = patientArray.size();
+		for(Patient p: patientArray){
+			listModel.addElement(p.getName());
 		}
 
 		patientList.addListSelectionListener(new ListSelectionListener() {
@@ -184,7 +183,13 @@ public class TheGUI extends JFrame {
 		splitPane.setLeftComponent(patientList);
 		
 	}
-	
+
+	public static void updateList(Patient p){
+		int theSize = patientArray.size();
+		patientArray.add(p);
+		listModel.addElement(p.getName());
+	}
+		
 	public void makeWelcomePanel(){
 		JPanel welcomePanel = new JPanel();
 		contentPane.add(welcomePanel, "welcomePanel");
@@ -193,7 +198,6 @@ public class TheGUI extends JFrame {
 		JLabel welcomeLabel = new JLabel("Welcome to the application");
 		
 		mainAppButton = new JButton("Main App");
-
 		
 		aboutButton = new JButton("About");
 		

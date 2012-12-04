@@ -1,70 +1,220 @@
 package com.medicalmanager.views;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.CardLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import com.jgoodies.forms.factories.FormFactory;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JToggleButton;
-import javax.swing.JTextArea;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+import com.medicalmanager.models.Patient;
 
 public class NewPatient extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			NewPatient dialog = new NewPatient();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private JTextField ageField;
+	private JTextField heightField;
+	private JTextField weightField;
+	private JTextField medicationField;
+	private JTextField firstNameField;
+	private JTextField middleNameField;
+	private JTextField lastNameField;
+	private JTextField calculatedBMIField;
+	private JTextField textField_8;
+	private JTextField textField_9;
+	CardLayout cl = new CardLayout(0, 0);
+	private JPanel testDataPanel;
+	private JButton nextButton;
+	private JButton okButton;
+	private JButton backButton;  
+	private JPanel buttonPane;
+	private JButton cancelButton;
+	private JButton gotoTestData;
+	private JButton gotoInsuranceInfo;
+	private JButton gotoGeneralInfo;
+	private JButton gotoBasicHealthInfo;
+	private JFormattedTextField dobField;
+	private JComboBox raceBox;
+	private JComboBox genderBox;
+	private JFormattedTextField homeAddressField;
+	private JFormattedTextField emailAddressField;
+	private JFormattedTextField homePhoneField;
+	private JFormattedTextField cellPhoneField;
 
 	/**
 	 * Create the dialog.
 	 */
 	public NewPatient() {
-		setBounds(100, 100, 531, 357);
+		setBounds(100, 100, 545, 378);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new CardLayout(0, 0));
+		contentPanel.setLayout(cl);
+		{
+			JPanel welcomePanel = new JPanel();
+			contentPanel.add(welcomePanel, "welcome");
+			
+			JLabel infoLabel = new JLabel("This is used to add a new patient to the database");
+			
+			gotoGeneralInfo = new JButton("Click to Add General Info");
+			gotoGeneralInfo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					cl.show(contentPanel, "personalInfo");
+				}
+			});
+			
+			gotoInsuranceInfo = new JButton("Insurance Information");
+			gotoInsuranceInfo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cl.show(contentPanel, "insuranceInfo");
+				}
+			});
+			
+			gotoBasicHealthInfo = new JButton("Basic Health Information");
+			gotoBasicHealthInfo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					cl.show(contentPanel, "healthInfo");
+				}
+			});
+			
+			gotoTestData = new JButton("Test Data for Interpretation");
+			GroupLayout gl_welcomePanel = new GroupLayout(welcomePanel);
+			gl_welcomePanel.setHorizontalGroup(
+				gl_welcomePanel.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_welcomePanel.createSequentialGroup()
+						.addContainerGap(182, Short.MAX_VALUE)
+						.addGroup(gl_welcomePanel.createParallelGroup(Alignment.LEADING)
+							.addComponent(gotoTestData)
+							.addComponent(gotoInsuranceInfo)
+							.addComponent(gotoGeneralInfo)
+							.addComponent(gotoBasicHealthInfo)
+							.addComponent(infoLabel))
+						.addGap(134))
+			);
+			gl_welcomePanel.setVerticalGroup(
+				gl_welcomePanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_welcomePanel.createSequentialGroup()
+						.addContainerGap()
+						.addComponent(infoLabel)
+						.addGap(18)
+						.addComponent(gotoBasicHealthInfo)
+						.addGap(11)
+						.addComponent(gotoGeneralInfo)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(gotoInsuranceInfo)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(gotoTestData)
+						.addContainerGap(113, Short.MAX_VALUE))
+			);
+			welcomePanel.setLayout(gl_welcomePanel);
+		}
 		
-		JPanel panel_3 = new JPanel();
-		contentPanel.add(panel_3, "name_213855493630117");
+		JPanel healthInfoPanel = new JPanel();
+		contentPanel.add(healthInfoPanel, "healthInfo");
+		healthInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		
-		JPanel panel_2 = new JPanel();
-		contentPanel.add(panel_2, "name_213505969736000");
-		panel_2.setLayout(new FormLayout(new ColumnSpec[] {
+		JLabel ageLabel = new JLabel("Age");
+		healthInfoPanel.add(ageLabel, "2, 2, right, default");
+		
+		ageField = new JTextField();
+		healthInfoPanel.add(ageField, "4, 2, fill, default");
+		ageField.setColumns(10);
+		
+		JLabel heightLabel = new JLabel("Height");
+		healthInfoPanel.add(heightLabel, "2, 4, right, default");
+		
+		heightField = new JTextField();
+		healthInfoPanel.add(heightField, "4, 4, fill, default");
+		heightField.setColumns(10);
+		
+		JLabel weightLabel = new JLabel("Weight");
+		healthInfoPanel.add(weightLabel, "2, 6, right, default");
+		
+		weightField = new JTextField();
+		healthInfoPanel.add(weightField, "4, 6, fill, default");
+		weightField.setColumns(10);
+		
+		JLabel medicationLabel = new JLabel("Current Medications");
+		healthInfoPanel.add(medicationLabel, "2, 8, right, default");
+		
+		medicationField = new JTextField();
+		healthInfoPanel.add(medicationField, "4, 8, fill, default");
+		medicationField.setColumns(10);
+		
+		JLabel tobaccoLabel = new JLabel("Tobacco Usage");
+		healthInfoPanel.add(tobaccoLabel, "2, 10, right, default");
+		
+		JComboBox tobaccoBox = new JComboBox();
+		tobaccoBox.setModel(new DefaultComboBoxModel(new String[] {"No - Never", "Yes - Previously, now does not", "Yes - Rarely", "Yes - Frequently", "Yes - Chain Smoker or heavy chewer"}));
+		healthInfoPanel.add(tobaccoBox, "4, 10, fill, default");
+		
+		JLabel alcoholLabel = new JLabel("Alcohol Consumption");
+		healthInfoPanel.add(alcoholLabel, "2, 12, right, default");
+		
+		JComboBox alcoholBox = new JComboBox();
+		alcoholBox.setModel(new DefaultComboBoxModel(new String[] {"No - Never", "Yes - Now has quit", "Yes - Moderate amounts", "Yes - Heavy drinker", "Yes - Very heavy drinker ", "Yes - Alcoholic / Alcoholism"}));
+		healthInfoPanel.add(alcoholBox, "4, 12, fill, default");
+		
+		JLabel sexLabel = new JLabel("Sexually Active");
+		healthInfoPanel.add(sexLabel, "2, 14, right, default");
+		
+		JComboBox sexBox = new JComboBox();
+		sexBox.setModel(new DefaultComboBoxModel(new String[] {"No", "Yes"}));
+		healthInfoPanel.add(sexBox, "4, 14, fill, default");
+		
+		JLabel commentsLabel = new JLabel("Additional Comments");
+		healthInfoPanel.add(commentsLabel, "2, 16");
+		
+		JTextArea commentsArea = new JTextArea();
+		healthInfoPanel.add(commentsArea, "4, 16, fill, fill");
+		
+		JPanel personalInfoPanel = new JPanel();
+		contentPanel.add(personalInfoPanel, "personalInfo");
+		personalInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -91,217 +241,241 @@ public class NewPatient extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblName = new JLabel("First Name");
-		panel_2.add(lblName, "2, 2, right, default");
+		JLabel nameLabel = new JLabel("First Name");
+		personalInfoPanel.add(nameLabel, "2, 2, right, default");
 		
-		textField_4 = new JTextField();
-		panel_2.add(textField_4, "4, 2, fill, default");
-		textField_4.setColumns(10);
+		firstNameField = new JTextField();
+		personalInfoPanel.add(firstNameField, "4, 2, fill, default");
+		firstNameField.setColumns(10);
 		
-		JLabel lblMiddleName = new JLabel("Middle Name");
-		panel_2.add(lblMiddleName, "2, 4, right, default");
+		JLabel middleNameLabel = new JLabel("Middle Name");
+		personalInfoPanel.add(middleNameLabel, "2, 4, right, default");
 		
-		textField_5 = new JTextField();
-		panel_2.add(textField_5, "4, 4, fill, default");
-		textField_5.setColumns(10);
+		middleNameField = new JTextField();
+		personalInfoPanel.add(middleNameField, "4, 4, fill, default");
+		middleNameField.setColumns(10);
 		
-		JLabel lblNewLabel_5 = new JLabel("Last Name");
-		panel_2.add(lblNewLabel_5, "2, 6, right, default");
+		JLabel lastNameLabel = new JLabel("Last Name");
+		personalInfoPanel.add(lastNameLabel, "2, 6, right, default");
 		
-		textField_6 = new JTextField();
-		panel_2.add(textField_6, "4, 6, fill, default");
-		textField_6.setColumns(10);
+		lastNameField = new JTextField();
+		personalInfoPanel.add(lastNameField, "4, 6, fill, default");
+		lastNameField.setColumns(10);
 		
-		JLabel lblDateOfBirth = new JLabel("Date of Birth");
-		panel_2.add(lblDateOfBirth, "2, 8, right, default");
+		JLabel dobLabel = new JLabel("Date of Birth");
+		personalInfoPanel.add(dobLabel, "2, 8, right, default");
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		panel_2.add(formattedTextField, "4, 8, fill, default");
+		dobField = new JFormattedTextField();
+		personalInfoPanel.add(dobField, "4, 8, fill, default");
 		
-		JLabel lblRace = new JLabel("Race");
-		panel_2.add(lblRace, "2, 10, right, default");
+		JLabel raceLabel = new JLabel("Race");
+		personalInfoPanel.add(raceLabel, "2, 10, right, default");
 		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Caucasian", "Black", "Asian", "Native American", "Latino", "Other"}));
-		panel_2.add(comboBox_3, "4, 10, fill, default");
+		raceBox = new JComboBox();
+		raceBox.setModel(new DefaultComboBoxModel(new String[] {"Caucasian", "Black", "Asian", "Native American", "Latino", "Other"}));
+		personalInfoPanel.add(raceBox, "4, 10, fill, default");
 		
-		JLabel lblGender = new JLabel("Gender");
-		panel_2.add(lblGender, "2, 12, right, default");
+		JLabel genderLabel = new JLabel("Gender");
+		personalInfoPanel.add(genderLabel, "2, 12, right, default");
 		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female"}));
-		panel_2.add(comboBox_4, "4, 12, fill, default");
+		genderBox = new JComboBox();
+		genderBox.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female"}));
+		personalInfoPanel.add(genderBox, "4, 12, fill, default");
 		
-		JLabel lblHomeAddress = new JLabel("Home Address");
-		panel_2.add(lblHomeAddress, "2, 14, right, default");
+		JLabel homeAddressLabel = new JLabel("Home Address");
+		personalInfoPanel.add(homeAddressLabel, "2, 14, right, default");
 		
-		JFormattedTextField formattedTextField_1 = new JFormattedTextField();
-		panel_2.add(formattedTextField_1, "4, 14, fill, default");
+		homeAddressField = new JFormattedTextField();
+		personalInfoPanel.add(homeAddressField, "4, 14, fill, default");
 		
-		JLabel lblEmailAddress = new JLabel("Email Address");
-		panel_2.add(lblEmailAddress, "2, 16, right, default");
+		JLabel emailAddressLabel = new JLabel("Email Address");
+		personalInfoPanel.add(emailAddressLabel, "2, 16, right, default");
 		
-		JFormattedTextField formattedTextField_4 = new JFormattedTextField();
-		panel_2.add(formattedTextField_4, "4, 16, fill, default");
+		emailAddressField = new JFormattedTextField();
+		personalInfoPanel.add(emailAddressField, "4, 16, fill, default");
 		
-		JLabel lblHomePhone = new JLabel("Home Phone");
-		panel_2.add(lblHomePhone, "2, 18, right, default");
+		JLabel homePhoneLabel = new JLabel("Home Phone");
+		personalInfoPanel.add(homePhoneLabel, "2, 18, right, default");
 		
-		JFormattedTextField formattedTextField_2 = new JFormattedTextField();
-		panel_2.add(formattedTextField_2, "4, 18, fill, default");
+		homePhoneField = new JFormattedTextField();
+		personalInfoPanel.add(homePhoneField, "4, 18, fill, default");
 		
-		JLabel lblCellPhone = new JLabel("Cell Phone");
-		panel_2.add(lblCellPhone, "2, 20, right, default");
+		JLabel callPhoneLabel = new JLabel("Cell Phone");
+		personalInfoPanel.add(callPhoneLabel, "2, 20, right, default");
 		
-		JFormattedTextField formattedTextField_3 = new JFormattedTextField();
-		panel_2.add(formattedTextField_3, "4, 20, fill, default");
+		cellPhoneField = new JFormattedTextField();
+		personalInfoPanel.add(cellPhoneField, "4, 20, fill, default");
 		
-		JPanel panel_1 = new JPanel();
-		contentPanel.add(panel_1, "name_212546842882753");
-		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+		JPanel insuranceInfoPanel = new JPanel();
+		contentPanel.add(insuranceInfoPanel, "insuranceInfo");
+		insuranceInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
+				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),}));
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblNewLabel = new JLabel("Age");
-		panel_1.add(lblNewLabel, "2, 2, right, default");
+		JLabel lblInsuranceCompany = new JLabel("Insurance Company");
+		insuranceInfoPanel.add(lblInsuranceCompany, "2, 2");
 		
-		textField = new JTextField();
-		panel_1.add(textField, "4, 2, fill, default");
-		textField.setColumns(10);
+		testDataPanel = new JPanel();
+		contentPanel.add(testDataPanel, "testData");
 		
-		JLabel lblNewLabel_1 = new JLabel("Height");
-		panel_1.add(lblNewLabel_1, "2, 4, right, default");
+		JLabel dataInfo = new JLabel("Based on data previously entered");
 		
-		textField_1 = new JTextField();
-		panel_1.add(textField_1, "4, 4, fill, default");
-		textField_1.setColumns(10);
+		JLabel calculatedBMILabel = new JLabel("This patients BMI is");
 		
-		JLabel lblNewLabel_2 = new JLabel("Weight");
-		panel_1.add(lblNewLabel_2, "2, 6, right, default");
+		calculatedBMIField = new JTextField();
+		calculatedBMIField.setEditable(false);
+		calculatedBMIField.setColumns(10);
 		
-		textField_2 = new JTextField();
-		panel_1.add(textField_2, "4, 6, fill, default");
-		textField_2.setColumns(10);
+		JLabel enterDataInfoLabel = new JLabel("In order to calculate this patients risk for liver problems enter the following values");
 		
-		JLabel lblNewLabel_3 = new JLabel("Current Medications");
-		panel_1.add(lblNewLabel_3, "2, 8, right, default");
+		JLabel lblBlah = new JLabel("Blah");
 		
-		textField_3 = new JTextField();
-		panel_1.add(textField_3, "4, 8, fill, default");
-		textField_3.setColumns(10);
+		textField_8 = new JTextField();
+		textField_8.setColumns(10);
 		
-		JLabel lblNewLabel_4 = new JLabel("Tobacco Usage");
-		panel_1.add(lblNewLabel_4, "2, 10, right, default");
+		JLabel lblYah = new JLabel("Yah");
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"No - Never", "Yes - Previously, now does not", "Yes - Rarely", "Yes - Frequently", "Yes - Chain Smoker or heavy chewer"}));
-		panel_1.add(comboBox, "4, 10, fill, default");
+		textField_9 = new JTextField();
+		textField_9.setColumns(10);
+		GroupLayout gl_testDataPanel = new GroupLayout(testDataPanel);
+		gl_testDataPanel.setHorizontalGroup(
+			gl_testDataPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_testDataPanel.createSequentialGroup()
+					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_testDataPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(dataInfo))
+						.addGroup(gl_testDataPanel.createSequentialGroup()
+							.addGap(37)
+							.addComponent(calculatedBMILabel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(calculatedBMIField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_testDataPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(enterDataInfoLabel))
+						.addGroup(gl_testDataPanel.createSequentialGroup()
+							.addGap(36)
+							.addGroup(gl_testDataPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_testDataPanel.createSequentialGroup()
+									.addComponent(lblYah)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_testDataPanel.createSequentialGroup()
+									.addComponent(lblBlah)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+					.addContainerGap(104, Short.MAX_VALUE))
+		);
+		gl_testDataPanel.setVerticalGroup(
+			gl_testDataPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_testDataPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(dataInfo)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(calculatedBMILabel)
+						.addComponent(calculatedBMIField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(33)
+					.addComponent(enterDataInfoLabel)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblBlah)
+						.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblYah) 
+						.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(132, Short.MAX_VALUE))
+		);
 		
-		JLabel lblAlcohol = new JLabel("Alcohol Consumption");
-		panel_1.add(lblAlcohol, "2, 12, right, default");
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"No - Never", "Yes - Now has quit", "Yes - Moderate amounts", "Yes - Heavy drinker", "Yes - Very heavy drinker ", "Yes - Alcoholic / Alcoholism"}));
-		panel_1.add(comboBox_1, "4, 12, fill, default");
-		
-		JLabel lblSexuallyActive = new JLabel("Sexually Active");
-		panel_1.add(lblSexuallyActive, "2, 14, right, default");
-		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"No", "Yes"}));
-		panel_1.add(comboBox_2, "4, 14, fill, default");
-		
-		JLabel lblAdditionalComments = new JLabel("Additional Comments");
-		panel_1.add(lblAdditionalComments, "2, 16");
-		
-		JTextArea textArea = new JTextArea();
-		panel_1.add(textArea, "4, 16, fill, fill");
+		testDataPanel.setLayout(gl_testDataPanel);
 		{
-			JPanel panel = new JPanel();
-			contentPanel.add(panel, "name_212470646027739");
-			
-			JLabel infoLabel = new JLabel("This is used to add a new patient to the database");
-			
-			JButton gotoGeneralInfo = new JButton("Click to Add General Info");
-			gotoGeneralInfo.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-				}
-			});
-			
-			JButton gotoInsuranceInfo = new JButton("Insurance Information");
-			
-			JButton gotoBasicHealthInfo = new JButton("Basic Health Information");
-			
-			JButton gotoTestData = new JButton("Test Data for Interpretation");
-			GroupLayout gl_panel = new GroupLayout(panel);
-			gl_panel.setHorizontalGroup(
-				gl_panel.createParallelGroup(Alignment.TRAILING)
-					.addGroup(gl_panel.createSequentialGroup()
-						.addContainerGap(101, Short.MAX_VALUE)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_panel.createSequentialGroup()
-								.addComponent(infoLabel)
-								.addGap(85))
-							.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-								.addGap(16)
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-									.addComponent(gotoInsuranceInfo)
-									.addComponent(gotoGeneralInfo)
-									.addComponent(gotoTestData)
-									.addComponent(gotoBasicHealthInfo))
-								.addGap(134))))
-			);
-			gl_panel.setVerticalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_panel.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(infoLabel)
-						.addGap(18)
-						.addComponent(gotoBasicHealthInfo)
-						.addGap(11)
-						.addComponent(gotoGeneralInfo)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(gotoInsuranceInfo)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(gotoTestData)
-						.addContainerGap(51, Short.MAX_VALUE))
-			);
-			panel.setLayout(gl_panel);
-		}
-		{
-			JPanel buttonPane = new JPanel();
+			buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+	
+				nextButton = new JButton("NEXT");
+				nextButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						cl.next(contentPanel);
+						if(testDataPanel.isVisible()){
+							switchToOkay();
+						}
+					}
+				});
+				nextButton.setActionCommand("NEXT");
+				buttonPane.add(nextButton);
+				getRootPane().setDefaultButton(nextButton);
+			
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						NewPatient.this.setVisible(false);
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 	}
+	
+	public void switchToOkay(){
+		okButton = new JButton("OK");
+		backButton = new JButton("BACK");
+		buttonPane.remove(cancelButton);
+		buttonPane.remove(nextButton);
+		buttonPane.add(okButton);
+		buttonPane.add(backButton);
+		buttonPane.add(cancelButton);
+		
+		
+
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0){
+				Patient newPatient = new Patient()
+					.addName(firstNameField.getText())
+					.addAge(Integer.parseInt(ageField.getText()))
+					.addDOB(dobField.getText())
+					.addAddress(homeAddressField.getText())
+					.addPhoneNumber(homePhoneField.getText())
+					.addInsuranceCompany(null)
+					.addMedicalConditions(null)
+					.addCurrentMedications(medicationField.getText())
+					.addAdditionalComments(null)
+					.addID(4)
+					.addHeight(Double.parseDouble(heightField.getText()))
+					.addWeight(Double.parseDouble(weightField.getText()));
+				
+
+				TheGUI.updateList(newPatient);
+				NewPatient.this.setVisible(false);
+				System.out.println("worked");
+				System.out.println(TheGUI.patientArray.size());
+			}
+		});
+	
+
+	}
+	
+//	public int getNextID() throws IOException{
+//		// read file
+//		// readturn highest id
+//		// increment by one and return
+//		File f = new File(System.getProperty("user.dir") + "/lib/test.txt");
+//		FileReader fr = new FileReader(f);
+//		BufferedReader br = new BufferedReader(fr);
+//		
+//		String s = null;
+//				
+//		while ( br.readLine() != null){
+//			
+//		}
+//		return 1;
+//	}
 }
