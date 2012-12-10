@@ -41,11 +41,12 @@ import com.medicalmanager.models.Persistence;
  *	  	  -- Capabilities etc.. 'will be able...'
  *
  * ToDo ---> 
- * 		
+ * 		MAKE PATIENT VIEW PAGE
+ * 			-> http://www.informationweek.com/healthcare/admin-systems/10-top-medical-practice-management-softw/232602435?pgno=1
  * 	  
  * 
  */
-public class TheGUI extends JFrame {
+public class MainView extends JFrame {
 
 	private CardLayout card = new CardLayout(0,0);
 	
@@ -68,7 +69,7 @@ public class TheGUI extends JFrame {
 	 * Create the frame.
 	 * @throws IOException 
 	 */
-	public TheGUI() throws IOException {
+	public MainView() throws IOException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(100, 100, 838, 609);

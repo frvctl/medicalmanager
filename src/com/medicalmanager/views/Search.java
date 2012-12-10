@@ -61,7 +61,7 @@ public class Search extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 				okButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent arg0){
-						System.out.println(Persistence.linSearch(TheGUI.patientArray, Integer.parseInt(textField.getText())));
+						System.out.println(Persistence.linSearch(MainView.patientArray, Integer.parseInt(textField.getText())));
 					}
 				});
 			}

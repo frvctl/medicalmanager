@@ -27,7 +27,6 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.medicalmanager.models.Patient;
 
 public class NewPatient extends JDialog {
-
 	private final JPanel contentPanel = new JPanel();
 	private JTextField ageField;
 	private JTextField heightField;
@@ -69,6 +68,7 @@ public class NewPatient extends JDialog {
 
 		createWelcomePane();
 		createHealthInfoPane();
+		createPersonalInfoPane();
 		createInsuranceInfoPane();
 		createTestDataPane();
 	}
@@ -99,10 +99,10 @@ public class NewPatient extends JDialog {
 					.addWeight(Double.parseDouble(weightField.getText()));
 				
 
-				TheGUI.updateList(newPatient);
+				MainView.updateList(newPatient);
 				NewPatient.this.setVisible(false);
 				System.out.println("worked");
-				System.out.println(TheGUI.patientArray.size());
+				System.out.println(MainView.patientArray.size());
 			}
 		});
 	}
