@@ -172,6 +172,14 @@ public class Patient {
     public String getInsuranceCompany(){
     	return this.insuranceCompany;
     }
+    
+    public static String stringify (Patient patient){
+    	String patientString = "";
+    			
+    	patientString = patient.getName() + ", " + "rawr" + "\r\n";
+    	
+		return patientString;
+    }
 
 
 }

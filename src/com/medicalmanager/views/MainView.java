@@ -97,6 +97,7 @@ public class MainView extends JFrame {
 						
 			System.out.println("boom");
 			updateList(newPatient);
+			Persistence.writeToFile(Patient.stringify(newPatient));
 		}
 		
 		
@@ -178,7 +179,6 @@ public class MainView extends JFrame {
 			}
 		});
 		
-		Persistence.writeToFile("rawrs");
 		Persistence.readAllPatients();
 		
 	}
