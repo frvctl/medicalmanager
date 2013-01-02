@@ -1,9 +1,11 @@
-package com.medicalmanager.models;
+package com.medicalmanager.controllers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.medicalmanager.models.Patient;
 
 public class Persistence {
 	public static int[] allIDs;

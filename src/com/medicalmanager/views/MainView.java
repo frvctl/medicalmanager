@@ -26,8 +26,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.medicalmanager.controllers.Persistence;
 import com.medicalmanager.models.Patient;
-import com.medicalmanager.models.Persistence;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;

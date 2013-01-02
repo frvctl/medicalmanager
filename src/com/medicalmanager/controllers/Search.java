@@ -1,4 +1,4 @@
-package com.medicalmanager.models;
+package com.medicalmanager.controllers;
 
 public class Search {
 

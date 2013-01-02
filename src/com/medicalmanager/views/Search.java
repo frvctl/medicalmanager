@@ -16,8 +16,8 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import com.medicalmanager.controllers.Persistence;
 import com.medicalmanager.models.Patient;
-import com.medicalmanager.models.Persistence;
 
 @SuppressWarnings("serial")
 public class Search extends JDialog {
