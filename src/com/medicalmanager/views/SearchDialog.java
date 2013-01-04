@@ -16,11 +16,11 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import com.medicalmanager.controllers.Persistence;
+import com.medicalmanager.helpers.DataHelper;
 import com.medicalmanager.models.Patient;
 
 @SuppressWarnings("serial")
-public class Search extends JDialog {
+public class SearchDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
@@ -28,7 +28,7 @@ public class Search extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Search() {
+	public SearchDialog() {
 		setBounds(100, 100, 451, 122);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -61,7 +61,7 @@ public class Search extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 				okButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent arg0){
-						System.out.println(Persistence.linSearch(MainView.patientArray, Integer.parseInt(textField.getText())));
+						System.out.println(DataHelper.linSearch(PatientView.patientArray, Integer.parseInt(textField.getText())));
 					}
 				});
 			}

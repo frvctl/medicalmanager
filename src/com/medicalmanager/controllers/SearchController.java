@@ -1,6 +1,9 @@
 package com.medicalmanager.controllers;
 
-public class Search {
+/*
+ * Controller for SearchDialog
+ */
+public class SearchController {
 
 	//TODO Fancay searching/indexing/magical magicness algorithms
 }

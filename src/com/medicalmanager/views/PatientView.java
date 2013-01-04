@@ -26,7 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.medicalmanager.controllers.Persistence;
+import com.medicalmanager.helpers.DataHelper;
 import com.medicalmanager.models.Patient;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -49,7 +49,7 @@ import java.awt.Font;
  * 	  
  * 
  */
-public class MainView extends JFrame {
+public class PatientView extends JFrame {
 
 	private CardLayout card = new CardLayout(0,0);
 	
@@ -71,7 +71,7 @@ public class MainView extends JFrame {
 	 * Create the frame.
 	 * @throws IOException 
 	 */
-	public MainView() throws IOException {
+	public PatientView() throws IOException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(100, 100, 838, 609);
@@ -87,19 +87,20 @@ public class MainView extends JFrame {
 		makePatientPanel();
 		actionTime();	
 		
-		for(int i = 0; i < 100; i++){
-			Patient newPatient = new Patient()
-				.addName("Example Patient " + (i+1))
-				.addAge(18)
-				.addHeight(72.4)
-				.addDOB("9/5/94")
-				.addWeight(200);
-						
-			System.out.println("boom");
-			updateList(newPatient);
-			Persistence.writeToFile(Patient.stringify(newPatient));
-		}
+//		for(int i = 0; i < 100; i++){
+//			Patient newPatient = new Patient()
+//				.addName("Example Patient " + (i+1))
+//				.addAge(18)
+//				.addHeight(72.4)
+//				.addDOB("9/5/94")
+//				.addWeight(200);
+//						
+//			System.out.println("boom");
+//			updateList(newPatient);
+//			DataHelper.writeToFile(Patient.stringify(newPatient));
+//		}
 		
+		DataHelper.readAllPatients();
 		
 	}
 
@@ -179,7 +180,7 @@ public class MainView extends JFrame {
 			}
 		});
 		
-		Persistence.readAllPatients();
+		DataHelper.readAllPatients();
 		
 	}
 
@@ -252,21 +253,21 @@ public class MainView extends JFrame {
 		
 		newPatientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				NewPatient newUsar = new NewPatient();
+				PatientDialog newUsar = new PatientDialog();
 				newUsar.setVisible(true);
 			}
 		});
 		
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Search dialog = new Search();
+				SearchDialog dialog = new SearchDialog();
 				dialog.setVisible(true);
 			}
 		});
 		
 		sortByIDButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
-				sortedArray = Persistence.sortPatients(patientArray);
+				sortedArray = DataHelper.sortPatients(patientArray);
 				int theSize = sortedArray.size();
 			
 				listModel.clear();

@@ -1,4 +1,4 @@
-package com.medicalmanager.controllers;
+package com.medicalmanager.helpers;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -13,8 +13,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import com.medicalmanager.models.Patient;
+import com.medicalmanager.views.PatientView;
 
-public class Persistence {
+public class DataHelper {
 	public static int[] allIDs;
 	public static ArrayList<Patient> sortedList = new ArrayList<Patient>();
 	public static FileOutputStream fop;
@@ -22,10 +23,6 @@ public class Persistence {
 	public static final String FILE_LOCATION = System.getProperty("user.dir") + "/lib/test.txt";
 
 	static File file = new File(FILE_LOCATION);
-
-	public static void prepareFile() throws FileNotFoundException{
-		// Create a file if there is not one
-	}
 
 	public static void writeToFile(String input) throws IOException{
 		try {
@@ -41,8 +38,7 @@ public class Persistence {
 			System.out.println(size);
 			String[] ids = new String[size];
 			ids = getAllIDInFile(file, size);
-			System.out.println(ids[1]);
-			
+
 			out.write(input);
 			out.flush();
 			out.close();
@@ -101,10 +97,36 @@ public class Persistence {
 	}
 
 	public static void readAllPatients() throws IOException{
-		// Read everything from the file, parse it,
-		// and then dump it into an array list. Probably
-		// will need array list getters and setters in this
-		// file, maybe. I do not know.
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/lib/test.txt"));
+			String line = null;
+			String[] stringray = new String[20];
+			while ((line = br.readLine()) != null) {
+				stringray = splitPatient(line);
+				Patient readPatient = new Patient()
+					.addName(stringray[1])
+					.addAge(18)
+					.addDOB(null)
+					.addAddress(null)
+					.addPhoneNumber(null)
+					.addInsuranceCompany(null)
+					.addMedicalConditions(null)
+					.addCurrentMedications(null)
+					.addAdditionalComments(null)
+					.addID(10)
+					.addHeight(10)
+					.addWeight(10)
+					.addBMI(10,10);
+		
+				PatientView.updateList(readPatient);
+				
+			}
+			
+			
+		}catch (Exception e) {
+		    e.printStackTrace();
+		}
+			
 	}
 
 	public static Patient linSearch(ArrayList<Patient> p, int searchFor){

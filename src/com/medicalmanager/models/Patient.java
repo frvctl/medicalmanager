@@ -102,7 +102,7 @@ public class Patient {
     }
     
     public Patient addBMI(double height, double weight){
-    	this.BMI = (weight*703)/(Math.pow(height, 2));
+    	this.BMI = ((weight)/(Math.pow(height, 2))) * 703;
 		return this;
     }
     

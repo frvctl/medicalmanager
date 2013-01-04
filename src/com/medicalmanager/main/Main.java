@@ -1,6 +1,6 @@
 package com.medicalmanager.main;
 
-import com.medicalmanager.views.MainView;
+import com.medicalmanager.views.PatientView;
 
 import java.awt.EventQueue;
 
@@ -13,7 +13,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainView frame = new MainView();
+					PatientView frame = new PatientView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -26,7 +26,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import com.medicalmanager.models.Patient;
 
-public class NewPatient extends JDialog {
+public class PatientDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField ageField;
 	private JTextField heightField;
@@ -60,7 +60,7 @@ public class NewPatient extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public NewPatient() {
+	public PatientDialog() {
 		setBounds(100, 100, 545, 378);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -96,13 +96,14 @@ public class NewPatient extends JDialog {
 					.addAdditionalComments(null)
 					.addID(4)
 					.addHeight(Double.parseDouble(heightField.getText()))
-					.addWeight(Double.parseDouble(weightField.getText()));
+					.addWeight(Double.parseDouble(weightField.getText()))
+					.addBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()));
 				
 
-				MainView.updateList(newPatient);
-				NewPatient.this.setVisible(false);
+				PatientView.updateList(newPatient);
+				PatientDialog.this.setVisible(false);
 				System.out.println("worked");
-				System.out.println(MainView.patientArray.size());
+				System.out.println(PatientView.patientArray.size());
 			}
 		});
 	}
@@ -373,6 +374,7 @@ public class NewPatient extends JDialog {
 		calculatedBMIField = new JTextField();
 		calculatedBMIField.setEditable(false);
 		calculatedBMIField.setColumns(10);
+//		calculatedBMIField.setText(Diagnosis.calculateBMI(heightField.getText(), weightField.getText());
 		
 		JLabel enterDataInfoLabel = new JLabel("In order to calculate this patients risk for liver problems enter the following values");
 		
@@ -461,7 +463,7 @@ public class NewPatient extends JDialog {
 				cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						NewPatient.this.setVisible(false);
+						PatientDialog.this.setVisible(false);
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
