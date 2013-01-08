@@ -33,12 +33,7 @@ public class DataHelper {
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			
-			int size = count();
-			System.out.println(size);
-			String[] ids = new String[size];
-			ids = getAllIDInFile(file, size);
-
+						
 			out.write(input);
 			out.flush();
 			out.close();
@@ -52,29 +47,29 @@ public class DataHelper {
 		}
 	}	
 	
-	public static String[] getAllIDInFile(File file, int count){
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/lib/test.txt"));
-			String line = null;
-			String id = null;
-			String iDsInFile[] = new String[count];
-			int x = 0;
-			String[] stringray = new String[20];
-			while ((line = br.readLine()) != null) {
-				stringray = splitPatient(line);
-				id = stringray[1];
-				iDsInFile[x] = id;
-				x++;
-			}
-			
-			return iDsInFile;
-			
-		}catch (Exception e) {
-		    e.printStackTrace();
-		}
-		
-		return null;
-	}
+//	public static int nextID(){
+//		try {
+//			BufferedReader br = new BufferedReader(new FileReader(FILE_LOCATION));
+//			String line = null;
+//			String id = null;
+//			String lastid = null;
+//			int x = 0;
+//			String[] stringray = new String[5000];
+//			while ((line = br.readLine()) != null) {
+//				stringray = splitPatient(line);
+//				id = stringray[0];
+//				lastid = id;
+//				x++;
+//			}
+//			
+//			return Integer.parseInt(lastid);
+//			
+//		}catch (Exception e) {
+//		    e.printStackTrace();
+//		}
+//		
+//		return -999;
+//	}
 	
 	public static int count() throws IOException {
 	    InputStream is = new BufferedInputStream(new FileInputStream(System.getProperty("user.dir") + "/lib/test.txt"));
@@ -119,7 +114,6 @@ public class DataHelper {
 					.addBMI(10,10);
 		
 				PatientView.updateList(readPatient);
-				
 			}
 			
 			

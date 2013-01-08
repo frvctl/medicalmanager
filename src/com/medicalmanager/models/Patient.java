@@ -175,11 +175,22 @@ public class Patient {
     
     public static String stringify (Patient patient){
     	String patientString = "";
+    	String comma = ", ";
     			
-    	patientString = patient.getName() + ", " + "rawr" + "\r\n";
+    	patientString = patient.getID() + comma +
+    					patient.getName()
+    					+ comma + patient.getDOB() 
+    					+ comma + patient.getAddress()
+    					+ comma + patient.getPhoneNumber()
+    					+ comma + patient.getEmailAddress()
+    					+ comma + patient.getInsuranceCompany()
+    					+ comma + patient.getMedicalConditions()
+    					+ comma + patient.getAddictionalComments()
+    					+ comma + patient.getAge()
+    					+ comma + patient.getHeight()
+    					+ comma + patient.getWeight()
+    					+ comma + patient.getCalculatedBMI() + "\r\n";
     	
 		return patientString;
     }
-
-
 }

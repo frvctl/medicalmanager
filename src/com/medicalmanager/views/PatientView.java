@@ -97,7 +97,7 @@ public class PatientView extends JFrame {
 //						
 //			System.out.println("boom");
 //			updateList(newPatient);
-//			DataHelper.writeToFile(Patient.stringify(newPatient));
+//			
 //		}
 		
 		DataHelper.readAllPatients();

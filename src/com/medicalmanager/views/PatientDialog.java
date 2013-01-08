@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -24,6 +25,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import com.medicalmanager.helpers.DataHelper;
 import com.medicalmanager.models.Patient;
 
 public class PatientDialog extends JDialog {
@@ -84,26 +86,34 @@ public class PatientDialog extends JDialog {
 		
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0){
-				Patient newPatient = new Patient()
-					.addName(firstNameField.getText())
-					.addAge(Integer.parseInt(ageField.getText()))
-					.addDOB(dobField.getText())
-					.addAddress(homeAddressField.getText())
-					.addPhoneNumber(homePhoneField.getText())
-					.addInsuranceCompany(null)
-					.addMedicalConditions(null)
-					.addCurrentMedications(medicationField.getText())
-					.addAdditionalComments(null)
-					.addID(4)
-					.addHeight(Double.parseDouble(heightField.getText()))
-					.addWeight(Double.parseDouble(weightField.getText()))
-					.addBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()));
+				Patient newPatient;
+				try {
+					newPatient = new Patient()
+						.addName(firstNameField.getText())
+						.addAge(Integer.parseInt(ageField.getText()))
+						.addDOB(dobField.getText())
+						.addAddress(homeAddressField.getText())
+						.addPhoneNumber(homePhoneField.getText())
+						.addInsuranceCompany(null)
+						.addMedicalConditions(null)
+						.addCurrentMedications(medicationField.getText())
+						.addAdditionalComments(null)
+						.addID(DataHelper.count())
+						.addHeight(Double.parseDouble(heightField.getText()))
+						.addWeight(Double.parseDouble(weightField.getText()))
+						.addBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()));
+					
+					DataHelper.writeToFile(Patient.stringify(newPatient));
+					PatientView.updateList(newPatient);
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
-
-				PatientView.updateList(newPatient);
 				PatientDialog.this.setVisible(false);
-				System.out.println("worked");
-				System.out.println(PatientView.patientArray.size());
 			}
 		});
 	}
