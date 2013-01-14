@@ -1,7 +1,7 @@
 package com.medicalmanager.views;
 
 import java.awt.CardLayout;
-import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -18,37 +18,20 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.medicalmanager.controllers.OutputController;
 import com.medicalmanager.helpers.DataHelper;
 import com.medicalmanager.models.Patient;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import java.awt.Font;
 
-/* 
- * Docs --->
- *	  A1 "Integrated Patient Information Management System"
- *	 	  -- Clinical environment has poor record keeping and management
- *	 	  		-- Get rid of paper
- *	 	  			-- Paper can be lost, stolen, copied, etc
- *	 	  -- What does the user need
- *	 
- *	  A2 Criterion for success
- *	  	  -- Capabilities etc.. 'will be able...'
- *
- * ToDo ---> 
- * 		MAKE PATIENT VIEW PAGE
- * 			-> http://www.informationweek.com/healthcare/admin-systems/10-top-medical-practice-management-softw/232602435?pgno=1
- * 	  
- * 
- */
 public class PatientView extends JFrame {
 
 	private CardLayout card = new CardLayout(0,0);
@@ -60,8 +43,9 @@ public class PatientView extends JFrame {
 	private JButton newPatientButton;
 	private JButton searchButton;
 	private JButton sortByIDButton;
+	private JButton printOutOptionButton;
 	
-	private JTextArea patientInfoArea;
+	public static JTextArea patientInfoArea;
 	public static DefaultListModel listModel;
 	public ArrayList<Patient> sortedArray = new ArrayList<Patient>();
 	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
@@ -86,22 +70,7 @@ public class PatientView extends JFrame {
 		makeWelcomePanel();
 		makePatientPanel();
 		actionTime();	
-		
-//		for(int i = 0; i < 100; i++){
-//			Patient newPatient = new Patient()
-//				.addName("Example Patient " + (i+1))
-//				.addAge(18)
-//				.addHeight(72.4)
-//				.addDOB("9/5/94")
-//				.addWeight(200);
-//						
-//			System.out.println("boom");
-//			updateList(newPatient);
-//			
-//		}
-		
 		DataHelper.readAllPatients();
-		
 	}
 
 	public void placeMenu(){
@@ -143,17 +112,20 @@ public class PatientView extends JFrame {
 		);
 		
 		newPatientButton = new JButton("New Patient");
-
-		patientToolBar.add(newPatientButton);
-		
 		searchButton = new JButton("Search");
 		sortByIDButton = new JButton("Sort By ID");
-
+		printOutOptionButton = new JButton("Print out patient data");
+		
 		patientToolBar.add(searchButton);
 		patientToolBar.add(sortByIDButton);
-
+		patientToolBar.add(newPatientButton);
+		patientToolBar.add(printOutOptionButton);
+		
 		patientInfoArea = new JTextArea();
-		splitPane.setRightComponent(patientInfoArea);
+		JScrollPane infoScrollPane = new JScrollPane();
+		splitPane.setRightComponent(infoScrollPane);
+		infoScrollPane.setViewportView(patientInfoArea);
+		
 		
 		JScrollPane scrollPane = new JScrollPane();
 		splitPane.setLeftComponent(scrollPane);
@@ -163,25 +135,9 @@ public class PatientView extends JFrame {
 		scrollPane.setViewportView(patientList);
 		patientPanel.setLayout(patientLayout);
 		
-		
-		
 		for(Patient p: patientArray){
 			listModel.addElement(p.getName());
-		}
-		
-		patientList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent arg0) {
-				Patient rawr = patientArray.get(patientList.getSelectedIndex());
-				patientInfoArea.setText("AGE: " + rawr.getAge() + "\n" 
-										 + "Name: " + rawr.getName() + "\n"  
-										 + "HEIGHT: " + rawr.getHeight() + "\n" 
-										 + "DOB: " + rawr.getDOB() + "\n"
-										 + "BMI: " + rawr.getCalculatedBMI());
-			}
-		});
-		
-		DataHelper.readAllPatients();
-		
+		}		
 	}
 
 	public static void updateList(Patient p){
@@ -278,6 +234,23 @@ public class PatientView extends JFrame {
 				}
 				
 				sortedArray.clear();
+			}
+		});
+		
+		printOutOptionButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OutputController.displayAllPatients(patientArray);
+			}
+		});
+		
+		patientList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				Patient rawr = patientArray.get(patientList.getSelectedIndex());
+				patientInfoArea.setText("AGE: " + rawr.getAge() + "\n" 
+										 + "Name: " + rawr.getName() + "\n"  
+										 + "HEIGHT: " + rawr.getHeight() + "\n" 
+										 + "DOB: " + rawr.getDOB() + "\n"
+										 + "BMI: " + rawr.getCalculatedBMI());
 			}
 		});
 	}

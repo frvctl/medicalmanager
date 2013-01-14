@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,9 +23,12 @@ public class DataHelper {
 
 	static File file = new File(FILE_LOCATION);
 
-	public static void writeToFile(String input) throws IOException{
+	public static void writeToFile(String input, String filename) throws IOException{
+		if(filename == null){
+			filename = "test.txt";
+		}
 		try {
-			file = new File(System.getProperty("user.dir") + "/lib/test.txt");
+			file = new File(System.getProperty("user.dir") + "/lib/" + filename);
 			fop = new FileOutputStream(file, true);
 			out = new PrintWriter(fop, true);
 			
@@ -47,30 +49,14 @@ public class DataHelper {
 		}
 	}	
 	
-//	public static int nextID(){
-//		try {
-//			BufferedReader br = new BufferedReader(new FileReader(FILE_LOCATION));
-//			String line = null;
-//			String id = null;
-//			String lastid = null;
-//			int x = 0;
-//			String[] stringray = new String[5000];
-//			while ((line = br.readLine()) != null) {
-//				stringray = splitPatient(line);
-//				id = stringray[0];
-//				lastid = id;
-//				x++;
-//			}
-//			
-//			return Integer.parseInt(lastid);
-//			
-//		}catch (Exception e) {
-//		    e.printStackTrace();
-//		}
-//		
-//		return -999;
-//	}
+	public static void printAllToFile() throws IOException{
+		for(Patient p: PatientView.patientArray){
+			writeToFile(p.getName(), "blah.txt");
+		}
+	}
 	
+	// Reads the file and counts the lines
+	// This is used for PatientID among other things
 	public static int count() throws IOException {
 	    InputStream is = new BufferedInputStream(new FileInputStream(System.getProperty("user.dir") + "/lib/test.txt"));
 	    try {
@@ -98,6 +84,7 @@ public class DataHelper {
 			String[] stringray = new String[20];
 			while ((line = br.readLine()) != null) {
 				stringray = splitPatient(line);
+				System.out.println(line);
 				Patient readPatient = new Patient()
 					.addName(stringray[1])
 					.addAge(18)
@@ -131,8 +118,7 @@ public class DataHelper {
 				return p.get(i);
 			}
 		}
-
-
+		
 		return null;
 	}
 
@@ -194,6 +180,7 @@ public class DataHelper {
 		index = startIndex; //reset backs to the start
 
 		// actually split the words
+		// return an array of them
 		for(int i = 0; i < count; i++){
 			if(index == finalIndex && count == 2 && i == 1){
 				word = input.substring(start+1, finalIndex);

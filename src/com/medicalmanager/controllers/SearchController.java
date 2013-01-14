@@ -4,6 +4,9 @@ package com.medicalmanager.controllers;
  * Controller for SearchDialog
  */
 public class SearchController {
-
-	//TODO Fancay searching/indexing/magical magicness algorithms
+	private static void dostuff(){
+		/*
+		 * This will allow you to search all your peoples
+		 */
+	}
 }
