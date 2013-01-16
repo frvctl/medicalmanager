@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -47,7 +48,7 @@ public class PatientView extends JFrame {
 	
 	public static JTextArea patientInfoArea;
 	public static DefaultListModel listModel;
-	public ArrayList<Patient> sortedArray = new ArrayList<Patient>();
+	public static ArrayList<Patient> sortedArray = new ArrayList<Patient>();
 	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
 	private JList patientList;
 
@@ -71,6 +72,7 @@ public class PatientView extends JFrame {
 		makePatientPanel();
 		actionTime();	
 		DataHelper.readAllPatients();
+	
 	}
 
 	public void placeMenu(){
@@ -137,7 +139,7 @@ public class PatientView extends JFrame {
 		
 		for(Patient p: patientArray){
 			listModel.addElement(p.getName());
-		}		
+		}	
 	}
 
 	public static void updateList(Patient p){
@@ -223,23 +225,18 @@ public class PatientView extends JFrame {
 		
 		sortByIDButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
-				sortedArray = DataHelper.sortPatients(patientArray);
-				int theSize = sortedArray.size();
-			
+				DataHelper.sortPatients(patientArray);
 				listModel.clear();
-				System.out.println(listModel);
-				
-				for(int i = 0; i < theSize; i++){
-					listModel.addElement(sortedArray.get(i).getName());
+				for(Patient p: patientArray){
+					listModel.addElement(p.getName());
 				}
-				
-				sortedArray.clear();
 			}
 		});
 		
 		printOutOptionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				OutputController.displayAllPatients(patientArray);
+				
 			}
 		});
 		
@@ -255,3 +252,16 @@ public class PatientView extends JFrame {
 		});
 	}
 }
+
+//sortedArray = DataHelper.sortPatients(patientArray);
+//int theSize = sortedArray.size();
+//
+//listModel.clear();
+//System.out.println(listModel);
+//
+//for(int i = 0; i < theSize; i++){
+//	listModel.addElement(sortedArray.get(i).getName());
+//}
+//
+//sortedArray.clear();
+//}

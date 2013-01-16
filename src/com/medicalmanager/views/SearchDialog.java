@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -61,7 +62,14 @@ public class SearchDialog extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 				okButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent arg0){
-						System.out.println(DataHelper.linSearch(PatientView.patientArray, Integer.parseInt(textField.getText())));
+						int searchArray[] = new int[5000];
+						int x=0;
+						for(Patient p: PatientView.patientArray){
+							searchArray[x] = p.getID();
+							x++;
+						}
+//						Arrays.sort(searchArray);
+//						System.out.println(DataHelper.search(searchArray, Integer.parseInt(textField.getText())));
 					}
 				});
 			}
