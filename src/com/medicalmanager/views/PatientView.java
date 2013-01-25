@@ -234,8 +234,7 @@ public class PatientView extends JFrame {
 		
 		printOutOptionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				OutputController.displayAllPatients(patientArray);
-				
+//				OutputController.displayAllPatients(patientArray);	
 			}
 		});
 		
