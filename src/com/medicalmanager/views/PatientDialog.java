@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
@@ -26,7 +27,10 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import com.medicalmanager.helpers.DataHelper;
+import com.medicalmanager.helpers.DiagnosisHelper;
 import com.medicalmanager.models.Patient;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class PatientDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
@@ -37,9 +41,6 @@ public class PatientDialog extends JDialog {
 	private JTextField firstNameField;
 	private JTextField middleNameField;
 	private JTextField lastNameField;
-	private JTextField calculatedBMIField;
-	private JTextField textField_8;
-	private JTextField textField_9;
 	CardLayout cl = new CardLayout(0, 0);
 	private JPanel testDataPanel;
 	private JButton nextButton;
@@ -48,7 +49,6 @@ public class PatientDialog extends JDialog {
 	private JPanel buttonPane;
 	private JButton cancelButton;
 	private JButton gotoTestData;
-	private JButton gotoInsuranceInfo;
 	private JButton gotoGeneralInfo;
 	private JButton gotoBasicHealthInfo;
 	private JFormattedTextField dobField;
@@ -58,12 +58,21 @@ public class PatientDialog extends JDialog {
 	private JFormattedTextField emailAddressField;
 	private JFormattedTextField homePhoneField;
 	private JFormattedTextField cellPhoneField;
+	private JTextArea explanationBMIField;
+	private JTextArea textArea;
+	private JTextField meanArterialField;
+	private JTextField systolicField;
+	private JTextField diastolicField;
+	private JTextField MAPLabel;
+	private JTextArea bmiExplanationField;
+	private JTextArea finalAnalysisField;
+	private JTextField calculatedBMIField;
 
 	/**
 	 * Create the dialog.
 	 */
 	public PatientDialog() {
-		setBounds(100, 100, 545, 378);
+		setBounds(100, 100, 742, 475);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -128,17 +137,10 @@ public class PatientDialog extends JDialog {
 			
 			JLabel infoLabel = new JLabel("This is used to add a new patient to the database");
 			
-			gotoGeneralInfo = new JButton("Click to Add General Info");
+			gotoGeneralInfo = new JButton("General Information");
 			gotoGeneralInfo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					cl.show(contentPanel, "personalInfo");
-				}
-			});
-			
-			gotoInsuranceInfo = new JButton("Insurance Information");
-			gotoInsuranceInfo.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					cl.show(contentPanel, "insuranceInfo");
 				}
 			});
 			
@@ -149,19 +151,22 @@ public class PatientDialog extends JDialog {
 				}
 			});
 			
-			gotoTestData = new JButton("Test Data for Interpretation");
+			gotoTestData = new JButton("Test Data");
 			GroupLayout gl_welcomePanel = new GroupLayout(welcomePanel);
 			gl_welcomePanel.setHorizontalGroup(
 				gl_welcomePanel.createParallelGroup(Alignment.TRAILING)
 					.addGroup(gl_welcomePanel.createSequentialGroup()
-						.addContainerGap(182, Short.MAX_VALUE)
 						.addGroup(gl_welcomePanel.createParallelGroup(Alignment.LEADING)
-							.addComponent(gotoTestData)
-							.addComponent(gotoInsuranceInfo)
-							.addComponent(gotoGeneralInfo)
-							.addComponent(gotoBasicHealthInfo)
-							.addComponent(infoLabel))
-						.addGap(134))
+							.addGroup(gl_welcomePanel.createSequentialGroup()
+								.addGap(230)
+								.addComponent(infoLabel))
+							.addGroup(gl_welcomePanel.createSequentialGroup()
+								.addGap(184)
+								.addGroup(gl_welcomePanel.createParallelGroup(Alignment.LEADING)
+									.addComponent(gotoTestData, GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+									.addComponent(gotoGeneralInfo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(gotoBasicHealthInfo, GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE))))
+						.addGap(195))
 			);
 			gl_welcomePanel.setVerticalGroup(
 				gl_welcomePanel.createParallelGroup(Alignment.LEADING)
@@ -169,14 +174,12 @@ public class PatientDialog extends JDialog {
 						.addContainerGap()
 						.addComponent(infoLabel)
 						.addGap(18)
-						.addComponent(gotoBasicHealthInfo)
-						.addGap(11)
-						.addComponent(gotoGeneralInfo)
+						.addComponent(gotoBasicHealthInfo, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
 						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(gotoInsuranceInfo)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(gotoTestData)
-						.addContainerGap(113, Short.MAX_VALUE))
+						.addComponent(gotoGeneralInfo, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(gotoTestData, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+						.addGap(38))
 			);
 			welcomePanel.setLayout(gl_welcomePanel);
 		}
@@ -250,32 +253,14 @@ public class PatientDialog extends JDialog {
 		alcoholBox.setModel(new DefaultComboBoxModel(new String[] {"No - Never", "Yes - Now has quit", "Yes - Moderate amounts", "Yes - Heavy drinker", "Yes - Very heavy drinker ", "Yes - Alcoholic / Alcoholism"}));
 		healthInfoPanel.add(alcoholBox, "4, 12, fill, default");
 		
-		JLabel sexLabel = new JLabel("Sexually Active");
-		healthInfoPanel.add(sexLabel, "2, 14, right, default");
-		
-		JComboBox sexBox = new JComboBox();
-		sexBox.setModel(new DefaultComboBoxModel(new String[] {"No", "Yes"}));
-		healthInfoPanel.add(sexBox, "4, 14, fill, default");
-		
 		JLabel commentsLabel = new JLabel("Additional Comments");
-		healthInfoPanel.add(commentsLabel, "2, 16");
+		healthInfoPanel.add(commentsLabel, "2, 14, 1, 3");
 		
 		JTextArea commentsArea = new JTextArea();
-		healthInfoPanel.add(commentsArea, "4, 16, fill, fill");
+		healthInfoPanel.add(commentsArea, "4, 14, 1, 3, fill, fill");
 	}
 	
 	public void createInsuranceInfoPane(){
-		JPanel insuranceInfoPanel = new JPanel();
-		contentPanel.add(insuranceInfoPanel, "insuranceInfo");
-		insuranceInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
-		
-		JLabel lblInsuranceCompany = new JLabel("Insurance Company");
-		insuranceInfoPanel.add(lblInsuranceCompany, "2, 2");
 	}
 	
 	public void createPersonalInfoPane(){
@@ -306,7 +291,9 @@ public class PatientDialog extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		
 		JLabel nameLabel = new JLabel("First Name");
 		personalInfoPanel.add(nameLabel, "2, 2, right, default");
@@ -372,84 +359,154 @@ public class PatientDialog extends JDialog {
 		
 		cellPhoneField = new JFormattedTextField();
 		personalInfoPanel.add(cellPhoneField, "4, 20, fill, default");
+		
+		JLabel lblAdditionalNotes = new JLabel("Additional Notes");
+		personalInfoPanel.add(lblAdditionalNotes, "2, 22");
+		
+		JTextArea textArea_1 = new JTextArea();
+		personalInfoPanel.add(textArea_1, "4, 22, fill, fill");
 	}
 	
 	public void createTestDataPane(){	
 		testDataPanel = new JPanel();
 		contentPanel.add(testDataPanel, "testData");
 		
-		JLabel dataInfo = new JLabel("Based on data previously entered");
+		JLabel lblNewLabel = new JLabel("Based on data previously entered:");
 		
-		JLabel calculatedBMILabel = new JLabel("This patients BMI is");
+		JLabel lblNewLabel_1 = new JLabel("This Patients BMI is:");
 		
 		calculatedBMIField = new JTextField();
 		calculatedBMIField.setEditable(false);
 		calculatedBMIField.setColumns(10);
-//		calculatedBMIField.setText(Diagnosis.calculateBMI(heightField.getText(), weightField.getText());
 		
-		JLabel enterDataInfoLabel = new JLabel("In order to calculate this patients risk for liver problems enter the following values");
+		JLabel lblExplanation = new JLabel("Explanation:");
 		
-		JLabel lblBlah = new JLabel("Blah");
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
+		JLabel lblBloodPressure = new JLabel("Blood Pressure:");
 		
-		JLabel lblYah = new JLabel("Yah");
+		JLabel lblSystolicBloodPressure = new JLabel("Systolic Blood Pressure:");
 		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
+		JLabel lblNewLabel_2 = new JLabel("Diastolic Blood Pressure:");
+		
+		JLabel lblMeanArterialBlood = new JLabel("Mean Arterial Blood Pressure:");
+		
+		systolicField = new JTextField();
+		systolicField.setColumns(10);
+		
+		diastolicField = new JTextField();
+		diastolicField.setColumns(10);
+		
+		MAPLabel = new JTextField();
+		MAPLabel.setEditable(false);
+		MAPLabel.setColumns(10);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		
+		JLabel lblPatientAnalysis = new JLabel("Patient Analysis:");
+		
+		JButton btnNewButton = new JButton("Final Calculations");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (diastolicField.getText().length() > 0 && systolicField.getText().length() > 0){
+					MAPLabel.setText(String.valueOf(DiagnosisHelper.calculateMAP(Double.parseDouble(diastolicField.getText()), Double.parseDouble(systolicField.getText()))));
+				}
+			}
+		});
 		GroupLayout gl_testDataPanel = new GroupLayout(testDataPanel);
 		gl_testDataPanel.setHorizontalGroup(
-			gl_testDataPanel.createParallelGroup(Alignment.LEADING)
+			gl_testDataPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_testDataPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblPatientAnalysis)
+					.addContainerGap(429, Short.MAX_VALUE))
 				.addGroup(gl_testDataPanel.createSequentialGroup()
-					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_testDataPanel.createSequentialGroup()
+					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, gl_testDataPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(dataInfo))
-						.addGroup(gl_testDataPanel.createSequentialGroup()
-							.addGap(37)
-							.addComponent(calculatedBMILabel)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(calculatedBMIField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_testDataPanel.createSequentialGroup()
+							.addComponent(lblNewLabel))
+						.addGroup(Alignment.LEADING, gl_testDataPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(enterDataInfoLabel))
-						.addGroup(gl_testDataPanel.createSequentialGroup()
-							.addGap(36)
+							.addComponent(lblBloodPressure))
+						.addGroup(Alignment.LEADING, gl_testDataPanel.createSequentialGroup()
+							.addGap(40)
 							.addGroup(gl_testDataPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
 								.addGroup(gl_testDataPanel.createSequentialGroup()
-									.addComponent(lblYah)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addGroup(gl_testDataPanel.createParallelGroup(Alignment.TRAILING, false)
+										.addGroup(gl_testDataPanel.createSequentialGroup()
+											.addComponent(lblMeanArterialBlood)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(MAPLabel))
+										.addGroup(gl_testDataPanel.createSequentialGroup()
+											.addComponent(lblNewLabel_2)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(diastolicField))
+										.addGroup(Alignment.LEADING, gl_testDataPanel.createSequentialGroup()
+											.addComponent(lblSystolicBloodPressure)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(systolicField, GroupLayout.PREFERRED_SIZE, 422, GroupLayout.PREFERRED_SIZE)))
+									.addGap(18)
+									.addComponent(btnNewButton))))
+						.addGroup(Alignment.LEADING, gl_testDataPanel.createSequentialGroup()
+							.addGap(42)
+							.addGroup(gl_testDataPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+								.addComponent(lblExplanation)
 								.addGroup(gl_testDataPanel.createSequentialGroup()
-									.addComponent(lblBlah)
+									.addComponent(lblNewLabel_1)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap(104, Short.MAX_VALUE))
+									.addComponent(calculatedBMIField, GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)))))
+					.addGap(29))
 		);
 		gl_testDataPanel.setVerticalGroup(
 			gl_testDataPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_testDataPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(dataInfo)
+					.addComponent(lblNewLabel)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(calculatedBMILabel)
+						.addComponent(lblNewLabel_1)
 						.addComponent(calculatedBMIField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(33)
-					.addComponent(enterDataInfoLabel)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblBlah)
-						.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addComponent(lblExplanation)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblYah) 
-						.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(132, Short.MAX_VALUE))
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_testDataPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_testDataPanel.createSequentialGroup()
+							.addComponent(lblBloodPressure)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_testDataPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblSystolicBloodPressure)
+								.addComponent(systolicField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_testDataPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel_2)
+								.addComponent(diastolicField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_testDataPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblMeanArterialBlood)
+								.addComponent(MAPLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblPatientAnalysis))
+						.addComponent(btnNewButton))
+					.addGap(4)
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		
+		finalAnalysisField = new JTextArea();
+		scrollPane_1.setViewportView(finalAnalysisField);
+		
+		bmiExplanationField = new JTextArea();
+		bmiExplanationField.setLineWrap(true);
+		bmiExplanationField.setEditable(false);
+		scrollPane.setViewportView(bmiExplanationField);
 		testDataPanel.setLayout(gl_testDataPanel);
+	
 		{
 			buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -460,6 +517,10 @@ public class PatientDialog extends JDialog {
 				nextButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						cl.next(contentPanel);
+						if(heightField.getText().length() > 0 && weightField.getText().length() > 0){
+							calculatedBMIField.setText(String.valueOf(DiagnosisHelper.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()))));
+							bmiExplanationField.setText(DiagnosisHelper.analyizeBMI(DiagnosisHelper.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())), Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())));
+						}
 						if(testDataPanel.isVisible()){
 							switchToOkay();
 						}

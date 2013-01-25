@@ -21,23 +21,41 @@ public class DataHelper {
 	public static ArrayList<Patient> sortedList = new ArrayList<Patient>();
 	public static FileOutputStream fop;
 	public static PrintWriter out;
-	public static final String FILE_LOCATION = System.getProperty("user.dir") + "/lib/test.txt";
-
-	static File file = new File(FILE_LOCATION);
+	public static final String FILE_LOCATION = 	System.getProperty("user.home") + "\\My Documents\\Medical Manager\\";
+	static File mmDir = new File(FILE_LOCATION);
+	static File patientFile = new File(FILE_LOCATION + "test.txt");
+	
+	public static void prepareFile(){
+		try{
+			if(mmDir.mkdir()){
+				System.out.println("Directory Created");
+			}else{
+				System.out.println("Directory not created");
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		if (!patientFile.exists()) {
+			try {
+				patientFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+				
+	}
 
 	public static void writeToFile(String input, String filename) throws IOException{
 		if(filename == null){
 			filename = "test.txt";
 		}
+		
 		try {
-			file = new File(System.getProperty("user.dir") + "/lib/" + filename);
-			fop = new FileOutputStream(file, true);
+			fop = new FileOutputStream(patientFile, true);
 			out = new PrintWriter(fop, true);
 			
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-						
+	
 			out.write(input);
 			out.flush();
 			out.close();
@@ -60,7 +78,7 @@ public class DataHelper {
 	// Reads the file and counts the lines
 	// This is used for PatientID among other things
 	public static int count() throws IOException {
-	    InputStream is = new BufferedInputStream(new FileInputStream(System.getProperty("user.dir") + "/lib/test.txt"));
+	    InputStream is = new BufferedInputStream(new FileInputStream(patientFile));
 	    try {
 	        byte[] c = new byte[1024];
 	        int count = 0;
@@ -81,7 +99,7 @@ public class DataHelper {
 
 	public static void readAllPatients() throws IOException{
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/lib/test.txt"));
+			BufferedReader br = new BufferedReader(new FileReader(patientFile));
 			String line = null;
 			String[] stringray = new String[20];
 			while ((line = br.readLine()) != null) {

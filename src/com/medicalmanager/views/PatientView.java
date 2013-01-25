@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -29,7 +28,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.medicalmanager.controllers.OutputController;
 import com.medicalmanager.helpers.DataHelper;
 import com.medicalmanager.models.Patient;
 
@@ -71,6 +69,7 @@ public class PatientView extends JFrame {
 		makeWelcomePanel();
 		makePatientPanel();
 		actionTime();	
+		DataHelper.prepareFile();
 		DataHelper.readAllPatients();
 	
 	}
@@ -235,7 +234,7 @@ public class PatientView extends JFrame {
 		
 		printOutOptionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OutputController.displayAllPatients(patientArray);
+//				OutputController.displayAllPatients(patientArray);
 				
 			}
 		});
