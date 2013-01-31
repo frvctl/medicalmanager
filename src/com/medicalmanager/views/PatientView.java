@@ -30,6 +30,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.medicalmanager.helpers.DataHelper;
 import com.medicalmanager.models.Patient;
+import java.awt.Dimension;
 
 public class PatientView extends JFrame {
 
@@ -42,7 +43,6 @@ public class PatientView extends JFrame {
 	private JButton newPatientButton;
 	private JButton searchButton;
 	private JButton sortByIDButton;
-	private JButton printOutOptionButton;
 	
 	public static JTextArea patientInfoArea;
 	public static DefaultListModel listModel;
@@ -81,7 +81,12 @@ public class PatientView extends JFrame {
 		JMenu fileMenu = new JMenu("File");
 		menuBar.add(fileMenu);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
+		JMenuItem mntmNewMenuItem = new JMenuItem("Save Patients");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// startup dat savepatientdialog
+			}
+		});
 		fileMenu.add(mntmNewMenuItem);
 		
 		JMenu helpMenu = new JMenu("Patient");
@@ -115,12 +120,10 @@ public class PatientView extends JFrame {
 		newPatientButton = new JButton("New Patient");
 		searchButton = new JButton("Search");
 		sortByIDButton = new JButton("Sort By ID");
-		printOutOptionButton = new JButton("Print out patient data");
 		
 		patientToolBar.add(searchButton);
 		patientToolBar.add(sortByIDButton);
 		patientToolBar.add(newPatientButton);
-		patientToolBar.add(printOutOptionButton);
 		
 		patientInfoArea = new JTextArea();
 		JScrollPane infoScrollPane = new JScrollPane();
@@ -129,10 +132,13 @@ public class PatientView extends JFrame {
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setMinimumSize(new Dimension(100, 23));
 		splitPane.setLeftComponent(scrollPane);
 		
 		listModel = new DefaultListModel<Object>();
 		patientList = new JList(listModel);
+		patientList.setSize(new Dimension(200, 0));
+		patientList.setMinimumSize(new Dimension(200, 0));
 		scrollPane.setViewportView(patientList);
 		patientPanel.setLayout(patientLayout);
 		
@@ -229,13 +235,6 @@ public class PatientView extends JFrame {
 				for(Patient p: patientArray){
 					listModel.addElement(p.getName());
 				}
-			}
-		});
-		
-		printOutOptionButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				OutputController.displayAllPatients(patientArray);
-				
 			}
 		});
 		
