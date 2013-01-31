@@ -1,6 +1,7 @@
 package com.medicalmanager.views;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,12 +26,9 @@ import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import com.medicalmanager.helpers.DataHelper;
 import com.medicalmanager.models.Patient;
-import java.awt.Dimension;
 
 public class PatientView extends JFrame {
 
@@ -238,6 +236,15 @@ public class PatientView extends JFrame {
 			}
 		});
 		
+<<<<<<< HEAD
+=======
+		printOutOptionButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				OutputController.displayAllPatients(patientArray);	
+			}
+		});
+		
+>>>>>>> 2565d6fdf926962808946af4e4b737490382ad3f
 		patientList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
 				Patient rawr = patientArray.get(patientList.getSelectedIndex());
