@@ -40,6 +40,8 @@ public class SavePatientDialog extends JDialog {
 			e.printStackTrace();
 		}
 	}
+	
+	// test
 
 	/**
 	 * Create the dialog.
