@@ -14,6 +14,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import java.awt.CardLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JToggleButton;
@@ -41,17 +44,81 @@ public class SavePatientDialog extends JDialog {
 		}
 	}
 	
-	// test
 
 	/**
 	 * Create the dialog.
 	 */
 	public SavePatientDialog() {
-		setBounds(100, 100, 581, 347);
+		setModal(true);
+		setBounds(100, 100, 584, 355);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new CardLayout(0, 0));
+		
+		
+		
+		JPanel panel = new JPanel();
+		contentPanel.add(panel, "name_1114084869189");
+		
+		JButton pickLocationButton = new JButton("Pick File Location");
+		
+		JLabel lblNewLabel = new JLabel("All Patients:");
+		
+		JButton saveToFileButton = new JButton("Save to File");
+		
+		JLabel lblNewLabel_1 = new JLabel("Filter and Save:");
+		
+		JButton filterButton = new JButton("Filter");
+		
+		JLabel lblNewLabel_2 = new JLabel("Advanced Search and Save:");
+		
+		JButton advancedSearchButton = new JButton("Advanced Search");
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(pickLocationButton, GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
+								.addComponent(lblNewLabel))
+							.addContainerGap())
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblNewLabel_1)
+							.addContainerGap(469, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+							.addGap(23)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(advancedSearchButton, GroupLayout.PREFERRED_SIZE, 310, GroupLayout.PREFERRED_SIZE)
+								.addComponent(filterButton, GroupLayout.PREFERRED_SIZE, 312, GroupLayout.PREFERRED_SIZE)
+								.addComponent(saveToFileButton, GroupLayout.PREFERRED_SIZE, 313, GroupLayout.PREFERRED_SIZE))
+							.addGap(209))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblNewLabel_2)
+							.addContainerGap(499, Short.MAX_VALUE))))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(pickLocationButton, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(saveToFileButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblNewLabel_1)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(filterButton, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblNewLabel_2)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(advancedSearchButton, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		panel.setLayout(gl_panel);
 		
 		JPanel panel_1 = new JPanel();
 		contentPanel.add(panel_1, "name_3283134617744");
@@ -261,76 +328,17 @@ public class SavePatientDialog extends JDialog {
 					.addGap(8))
 		);
 		panel_2.setLayout(gl_panel_2);
-		
-		
-		
-		JPanel panel = new JPanel();
-		contentPanel.add(panel, "name_3276893543254");
-		
-		JButton pickLocationButton = new JButton("Pick File Location");
-		
-		JLabel lblNewLabel = new JLabel("All Patients:");
-		
-		JButton saveToFileButton = new JButton("Save to File");
-		
-		JLabel lblNewLabel_1 = new JLabel("Filter and Save:");
-		
-		JButton filterButton = new JButton("Filter");
-		
-		JLabel lblNewLabel_2 = new JLabel("Advanced Search and Save:");
-		
-		JButton advancedSearchButton = new JButton("Advanced Search");
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(pickLocationButton, GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
-								.addComponent(lblNewLabel))
-							.addContainerGap())
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblNewLabel_1)
-							.addContainerGap(469, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addGap(23)
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(advancedSearchButton, GroupLayout.PREFERRED_SIZE, 310, GroupLayout.PREFERRED_SIZE)
-								.addComponent(filterButton, GroupLayout.PREFERRED_SIZE, 312, GroupLayout.PREFERRED_SIZE)
-								.addComponent(saveToFileButton, GroupLayout.PREFERRED_SIZE, 313, GroupLayout.PREFERRED_SIZE))
-							.addGap(209))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblNewLabel_2)
-							.addContainerGap(499, Short.MAX_VALUE))))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(pickLocationButton, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(lblNewLabel)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(saveToFileButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblNewLabel_1)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(filterButton, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblNewLabel_2)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(advancedSearchButton, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		panel.setLayout(gl_panel);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						SavePatientDialog.this.setVisible(false);
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

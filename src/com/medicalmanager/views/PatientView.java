@@ -84,7 +84,8 @@ public class PatientView extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Save Patients");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// startup dat savepatientdialog
+				SavePatientDialog dialog = new SavePatientDialog();
+				dialog.setVisible(true);
 			}
 		});
 		fileMenu.add(mntmNewMenuItem);
