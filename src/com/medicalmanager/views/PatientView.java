@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -89,6 +90,17 @@ public class PatientView extends JFrame {
 		actionTime();
 		DataHelper.prepareFile();
 		DataHelper.readAllPatients();
+		String[] arr = new String[1];
+		arr[0] = "Ben";
+		Patient derp = new Patient();
+		derp.addName("Ben");
+		ArrayList<Patient> listToSort = PatientView.patientArray;
+		DataHelper.sortPatients(listToSort, "ben");
+		int[] merp = DataHelper.recursivePatientSearch(listToSort, derp);
+		for(int i: merp){
+			System.out.println(i);
+		}
+		//DataHelper.advancedPatientSearch(null, arr);
 
 	}
 
@@ -313,7 +325,7 @@ public class PatientView extends JFrame {
 
 		sortPatientList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DataHelper.sortPatients(patientArray);
+				DataHelper.sortPatients(patientArray, "ID");
 				listModel.clear();
 				for (Patient p : patientArray) {
 					listModel.addElement(p.getName());

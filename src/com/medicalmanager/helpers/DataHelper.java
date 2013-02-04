@@ -130,7 +130,7 @@ public class DataHelper {
 			
 	}
 	
-	public static class CompareTime implements Comparator<Patient> {
+	public static class CompareName implements Comparator<Patient> {
 		  @Override
 		  public int compare(Patient p1, Patient p2) {
 		    String rank1 = p1.getName();
@@ -149,6 +149,15 @@ public class DataHelper {
 		    return rank1.compareTo(rank2);
 		  }    
 	}
+	
+	public static class CompareID implements Comparator<Patient> {
+		  @Override
+		  public int compare(Patient p1, Patient p2) {
+			  int ID1 = p1.getID();
+			  int ID2 = p2.getID();
+			  return (ID1 > ID2 ? -1 : (ID1 == ID2 ? 0 : 1));
+		  }   
+	}
 
 	public static Patient linSearch(ArrayList<Patient> p, int searchFor){
 		int sizeP = p.size();
@@ -162,7 +171,45 @@ public class DataHelper {
 		return null;
 	}
 	
-
+	/*
+	 * Note: This is a single item lookup type of search, what I need to do from here is take the
+	 * index that I find from the search and use it to do another binary search of the names.
+	 *  Options are the search meta data
+	 *  0 -> Search Query: Name or ID
+	 *  1 -> minage-maxage
+	 *  2 -> minheight-maxheight
+	 *  3 -> minweight-maxweight
+	 *  4 -> gender
+	 *  5 -> bmiclass
+	 *  If any option is not filled in by the user it will come in as "n/a"
+	 */
+	public static Patient advancedPatientSearch(File file, String[] options){
+		ArrayList<Patient> listToSort = PatientView.patientArray;
+		sortPatients(listToSort, options[0]);
+		int index;
+		Patient toFind = new Patient();
+		
+		try{
+			Integer.parseInt(options[0]); // If this passes then it's a number else it goes to the catch block
+			toFind.addID(Integer.parseInt(options[0]));
+			index = Collections.binarySearch(listToSort, toFind, new CompareID());
+		} catch (NumberFormatException se){
+			toFind.addName(options[0]);
+			index =  Collections.binarySearch(listToSort, toFind, new CompareName());
+		}
+		
+		return PatientView.patientArray.get(index);
+		
+	}
+	
+	public static int[] recursivePatientSearch(ArrayList<Patient> sortedp, Patient toFind){
+		int[] allItems = new int[sortedp.size()];
+		
+		String[] derp = getAllAttr(0);
+			
+		return allItems;
+	}
+	
 	public static int search(ArrayList<Patient> p, int searchValue) {
 			int left = 0;
 			int right = p.size() - 1;
@@ -183,10 +230,18 @@ public class DataHelper {
 			return mid;
 		}               
 	} 
-
-	public static void sortPatients(ArrayList<Patient> p){
-			Collections.sort(p, new CompareTime());
-		}
+	/*
+	 * options meta data
+	 * if its a string use the name if its a number use the id
+	 */
+	public static void sortPatients(ArrayList<Patient> p, String option){
+			try{
+				Integer.parseInt(option); // If this passes then it's a number else it goes to the catch block
+				Collections.sort(p, new CompareID());
+			} catch (NumberFormatException se){
+				Collections.sort(p, new CompareName());
+			}
+	}
 
 	private static void swap(int index, int[] theArray){
 		int replace = theArray[index - 1];
