@@ -54,8 +54,6 @@ public class DataHelper {
 		try {
 			fop = new FileOutputStream(patientFile, true);
 			out = new PrintWriter(fop, true);
-			
-	
 			out.write(input);
 			out.flush();
 			out.close();
@@ -105,22 +103,24 @@ public class DataHelper {
 			while ((line = br.readLine()) != null) {
 				stringray = splitPatient(line);
 				System.out.println(line);
-				Patient readPatient = new Patient()
-					.addName(stringray[1])
-					.addAge(18)
-					.addDOB(null)
-					.addAddress(null)
-					.addPhoneNumber(null)
-					.addInsuranceCompany(null)
-					.addMedicalConditions(null)
-					.addCurrentMedications(null)
-					.addAdditionalComments(null)
-					.addID(10)
-					.addHeight(10)
-					.addWeight(10)
-					.addBMI(10,10);
-		
-				PatientView.updateList(readPatient);
+				if(stringray != null) {
+					Patient readPatient = new Patient()
+						.addName(stringray[1])
+						.addAge(18)
+						.addDOB(null)
+						.addAddress(null)
+						.addPhoneNumber(null)
+						.addInsuranceCompany(null)
+						.addMedicalConditions(null)
+						.addCurrentMedications(null)
+						.addAdditionalComments(null)
+						.addID(10)
+						.addHeight(10)
+						.addWeight(10)
+						.addBMI(10,10);
+			
+					PatientView.updateList(readPatient);
+			}
 			}
 			
 			
@@ -205,41 +205,44 @@ public class DataHelper {
 
 
 	public static String[] splitPatient(String input){
-		int startIndex = input.indexOf(",");
-		int finalIndex = input.lastIndexOf(",");
-		int index = startIndex;
-
-		int start = -1;
-		int count = 2; // accounts for the first and last word
-
-		String word;
-		String word2 = null;
-
-		// find size of the patients
-		while(index < finalIndex){
-			index = input.indexOf(",", index + 1);
-			count++;
-		}
-		
-		// create an array that is the size of the number of patient fields
-		String[] words = new String[count]; 
-		index = startIndex; //reset backs to the start
-
-		// actually split the words
-		// return an array of them
-		for(int i = 0; i < count; i++){
-			if(index == finalIndex && count == 2 && i == 1){
-				word = input.substring(start+1, finalIndex);
-			}else if(index < finalIndex){
-				word = input.substring(start+1, index);
-				start = input.indexOf(",", index);
-				index = input.indexOf(",", index+1);
-			}else{
-				word = input.substring(finalIndex + 1);
+		if(input.length() > 0){
+			int startIndex = input.indexOf(",");
+			int finalIndex = input.lastIndexOf(",");
+			int index = startIndex;
+	
+			int start = -1;
+			int count = 2; // accounts for the first and last word
+	
+			String word;
+			String word2 = null;
+	
+			// find size of the patients
+			while(index < finalIndex){
+				index = input.indexOf(",", index + 1);
+				count++;
 			}
-			words[i] = word.trim();
+			
+			// create an array that is the size of the number of patient fields
+			String[] words = new String[count]; 
+			index = startIndex; //reset backs to the start
+	
+			// actually split the words
+			// return an array of them
+			for(int i = 0; i < count; i++){
+				if(index == finalIndex && count == 2 && i == 1){
+					word = input.substring(start+1, finalIndex);
+				}else if(index < finalIndex){
+					word = input.substring(start+1, index);
+					start = input.indexOf(",", index);
+					index = input.indexOf(",", index+1);
+				}else{
+					word = input.substring(finalIndex + 1);
+				}
+				words[i] = word.trim();
+			}
+			return words;
+		} else {
+			return null;
 		}
-		return words;
 	}
-
 }

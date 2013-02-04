@@ -112,7 +112,6 @@ public class PatientDialog extends JDialog {
 						.addBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()));
 					
 					DataHelper.writeToFile(Patient.stringify(newPatient), null);
-					DataHelper.printAllToFile();
 					PatientView.updateList(newPatient);
 				} catch (NumberFormatException e1) {
 					// TODO Auto-generated catch block
