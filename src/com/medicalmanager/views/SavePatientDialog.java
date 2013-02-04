@@ -1,46 +1,47 @@
 package com.medicalmanager.views;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
 import java.awt.CardLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
-import javax.swing.JComboBox;
-import javax.swing.JSpinner;
-import javax.swing.JToggleButton;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
 public class SavePatientDialog extends JDialog {
-
+	private CardLayout card = new CardLayout(0,0);
 	private final JPanel contentPanel = new JPanel();
 	private JTextField maxRangeField;
 	private JTextField searchField;
 	private JTextField ageAdvancedField;
 	private JTextField advancedMaxRangeField;
-	private JButton pickLocationButton;
+	private JTextField minRangeField;
+	private JButton saveFilteredToFile;
 	private JButton advancedSearchButton;
 	private JButton filterButton;
 	private JButton saveToFileButton;
-	private JTextField minRangeField;
-	private JComboBox genderPicker;
-	private JButton saveFilteredToFile;
-	private JComboBox bmiPicker;
 	private JButton saveAdvancedSearchToFile;
 	private JButton viewSearchResultsLabel;
+	private JComboBox genderPicker;
+	private JComboBox bmiPicker;
 	private JComboBox genderAdvancedPicker;
 	private JComboBox advancedbmiPicker;
+	private JPanel saveMenuPane;
+	private JPanel filterSavePane;
+	private JPanel searchSavePane;
 
 	/**
 	 * Launch the application.
@@ -65,74 +66,86 @@ public class SavePatientDialog extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new CardLayout(0, 0));
+		contentPanel.setLayout(card);
 		
-		
-		
-		JPanel saveMenuPane = new JPanel();
-		contentPanel.add(saveMenuPane, "name_1114084869189");
-		
-		pickLocationButton = new JButton("Pick File Location");
+		saveMenuPane = new JPanel();
+		contentPanel.add(saveMenuPane, "menu");
 		
 		JLabel allPatientLabel = new JLabel("All Patients:");
 		
 		saveToFileButton = new JButton("Save to File");
+		saveToFileButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				final JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showSaveDialog(contentPanel);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					//DataHelper.saveToFile(file, options);
+				}
+			}
+		});
 		
 		JLabel filterSaveLabel = new JLabel("Filter and Save:");
 		
 		filterButton = new JButton("Filter");
+		filterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				card.show(contentPanel, "filterSave");
+			}
+		});
 		
 		JLabel searchSaveLabel = new JLabel("Advanced Search and Save:");
 		
 		advancedSearchButton = new JButton("Advanced Search");
+		advancedSearchButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				card.show(contentPanel, "searchSave");
+			}
+		});
 		GroupLayout gl_saveMenuPane = new GroupLayout(saveMenuPane);
 		gl_saveMenuPane.setHorizontalGroup(
 			gl_saveMenuPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_saveMenuPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_saveMenuPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_saveMenuPane.createSequentialGroup()
-							.addGroup(gl_saveMenuPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(pickLocationButton, GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
-								.addComponent(allPatientLabel))
-							.addContainerGap())
-						.addGroup(gl_saveMenuPane.createSequentialGroup()
-							.addComponent(filterSaveLabel)
-							.addContainerGap(469, Short.MAX_VALUE))
 						.addGroup(Alignment.TRAILING, gl_saveMenuPane.createSequentialGroup()
 							.addGap(23)
 							.addGroup(gl_saveMenuPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(advancedSearchButton, GroupLayout.PREFERRED_SIZE, 310, GroupLayout.PREFERRED_SIZE)
+								.addComponent(saveToFileButton, GroupLayout.PREFERRED_SIZE, 313, GroupLayout.PREFERRED_SIZE)
 								.addComponent(filterButton, GroupLayout.PREFERRED_SIZE, 312, GroupLayout.PREFERRED_SIZE)
-								.addComponent(saveToFileButton, GroupLayout.PREFERRED_SIZE, 313, GroupLayout.PREFERRED_SIZE))
+								.addComponent(advancedSearchButton, GroupLayout.PREFERRED_SIZE, 310, GroupLayout.PREFERRED_SIZE))
 							.addGap(209))
+						.addGroup(Alignment.TRAILING, gl_saveMenuPane.createSequentialGroup()
+							.addComponent(allPatientLabel)
+							.addContainerGap(491, Short.MAX_VALUE))
+						.addGroup(gl_saveMenuPane.createSequentialGroup()
+							.addComponent(filterSaveLabel)
+							.addContainerGap(472, Short.MAX_VALUE))
 						.addGroup(gl_saveMenuPane.createSequentialGroup()
 							.addComponent(searchSaveLabel)
-							.addContainerGap(499, Short.MAX_VALUE))))
+							.addContainerGap(412, Short.MAX_VALUE))))
 		);
 		gl_saveMenuPane.setVerticalGroup(
 			gl_saveMenuPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_saveMenuPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(pickLocationButton, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
 					.addComponent(allPatientLabel)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(11)
 					.addComponent(saveToFileButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(18)
 					.addComponent(filterSaveLabel)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(filterButton, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(searchSaveLabel)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(advancedSearchButton, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-					.addContainerGap())
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(advancedSearchButton, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(61, Short.MAX_VALUE))
 		);
 		saveMenuPane.setLayout(gl_saveMenuPane);
 		
-		JPanel filterSavePane = new JPanel();
-		contentPanel.add(filterSavePane, "name_3283134617744");
+		filterSavePane = new JPanel();
+		contentPanel.add(filterSavePane, "filterSave");
 		
 		JLabel savePatientLabel = new JLabel("Filter and Save Patients");
 		savePatientLabel.setFont(new Font("Tahoma", Font.PLAIN, 26));
@@ -162,6 +175,16 @@ public class SavePatientDialog extends JDialog {
 		bmiPicker.setModel(new DefaultComboBoxModel(new String[] {"All", "Severely Underweight", "Underweight", "Normal", "Overweight", "Obese", "Morbidly Obese"}));
 		
 		saveFilteredToFile = new JButton("Save to File");
+		saveFilteredToFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				final JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showSaveDialog(contentPanel);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					//DataHelper.saveToFile(file, searchandfilteroptions);
+				}
+			}
+		});
 		GroupLayout gl_filterSavePane = new GroupLayout(filterSavePane);
 		gl_filterSavePane.setHorizontalGroup(
 			gl_filterSavePane.createParallelGroup(Alignment.LEADING)
@@ -229,8 +252,8 @@ public class SavePatientDialog extends JDialog {
 		);
 		filterSavePane.setLayout(gl_filterSavePane);
 		
-		JPanel searchSavePane = new JPanel();
-		contentPanel.add(searchSavePane, "name_3289717583433");
+		searchSavePane = new JPanel();
+		contentPanel.add(searchSavePane, "searchSave");
 		
 		JLabel searchAndSaveLabel = new JLabel("Advanced Search and Save");
 		searchAndSaveLabel.setFont(new Font("Tahoma", Font.PLAIN, 26));
@@ -241,6 +264,12 @@ public class SavePatientDialog extends JDialog {
 		searchField.setColumns(10);
 		
 		viewSearchResultsLabel = new JButton("View Results");
+		viewSearchResultsLabel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SearchResultsDialog dialog = new SearchResultsDialog();
+				dialog.setVisible(true); 
+			}
+		});
 		
 		JLabel filterAdvancedLabel = new JLabel("Filter:");
 		
@@ -265,6 +294,16 @@ public class SavePatientDialog extends JDialog {
 		advancedbmiPicker.setModel(new DefaultComboBoxModel(new String[] {"Any", "Severely Underweight", "Underweight", "Normal", "Overweight", "Obese", "Morbidly Obese"}));
 		
 		saveAdvancedSearchToFile = new JButton("Save To File");
+		saveAdvancedSearchToFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				final JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showSaveDialog(contentPanel);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					//DataHelper.saveToFile(file, options);
+				}
+			}
+		});
 		GroupLayout gl_searchSavePane = new GroupLayout(searchSavePane);
 		gl_searchSavePane.setHorizontalGroup(
 			gl_searchSavePane.createParallelGroup(Alignment.LEADING)

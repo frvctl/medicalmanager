@@ -49,6 +49,14 @@ public class PatientView extends JFrame {
 	public static ArrayList<Patient> sortedArray = new ArrayList<Patient>();
 	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
 	private JList patientList;
+	private JMenuItem helpMenuPreferencesItem;
+	private JMenuItem helpMenuTutorialItem;
+	private JMenuItem helpMenuFAQItem;
+	private JMenuItem fileMenuPrintItem;
+	private JMenuItem fileMenuSaveAsItem;
+	private JMenuItem fileMenuOpenItem;
+	private JMenu fileMenu;
+	private JMenu helpMenu;
 
 	/**
 	 * Create the frame.
@@ -78,23 +86,35 @@ public class PatientView extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu fileMenu = new JMenu("File");
+		fileMenu = new JMenu("File");
 		menuBar.add(fileMenu);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Save Patients");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
+		fileMenuSaveAsItem = new JMenuItem("Save As");
+		fileMenuSaveAsItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				SavePatientDialog dialog = new SavePatientDialog();
 				dialog.setVisible(true);
 			}
 		});
-		fileMenu.add(mntmNewMenuItem);
+		fileMenu.add(fileMenuSaveAsItem);
 		
-		JMenu helpMenu = new JMenu("Patient");
+		fileMenuOpenItem = new JMenuItem("Open File");
+		fileMenu.add(fileMenuOpenItem);
+		
+		fileMenuPrintItem = new JMenuItem("Print");
+		fileMenu.add(fileMenuPrintItem);
+		
+		helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
 		
-		JMenuItem menuItem = new JMenuItem("New menu item");
-		helpMenu.add(menuItem);
+		helpMenuTutorialItem = new JMenuItem("Tutorial");
+		helpMenu.add(helpMenuTutorialItem);
+		
+		helpMenuFAQItem = new JMenuItem("FAQ");
+		helpMenu.add(helpMenuFAQItem);
+		
+		helpMenuPreferencesItem = new JMenuItem("Preferences");
+		helpMenu.add(helpMenuPreferencesItem);
 	}
 	
 	public void makePatientPanel() throws IOException{
@@ -131,7 +151,6 @@ public class PatientView extends JFrame {
 		splitPane.setRightComponent(infoScrollPane);
 		infoScrollPane.setViewportView(patientInfoArea);
 		
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setMinimumSize(new Dimension(100, 23));
 		splitPane.setLeftComponent(scrollPane);
@@ -163,45 +182,40 @@ public class PatientView extends JFrame {
 		welcomeLabel.setFont(new Font("Tahoma", Font.PLAIN, 36));
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		mainAppButton = new JButton("Go To The Patient Area");
+		mainAppButton = new JButton("Manage Patients");
 		
-		aboutButton = new JButton("Go To The About Area");
+		aboutButton = new JButton("About Medical Manager");
 		
 		JLabel createdByLabel = new JLabel("Created By: Ben Vest");
 		createdByLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JButton btnNewButton = new JButton("Go To The User Area");
 		GroupLayout welcomeLayout = new GroupLayout(welcomePanel);
 		welcomeLayout.setHorizontalGroup(
-			welcomeLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, welcomeLayout.createSequentialGroup()
-					.addGap(140)
-					.addComponent(welcomeLabel, GroupLayout.PREFERRED_SIZE, 580, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(92, Short.MAX_VALUE))
+			welcomeLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(welcomeLayout.createSequentialGroup()
-					.addGap(250)
+					.addContainerGap()
+					.addComponent(createdByLabel, GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(welcomeLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(welcomeLabel, GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(Alignment.TRAILING, welcomeLayout.createSequentialGroup()
+					.addGap(62)
 					.addGroup(welcomeLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
-						.addComponent(aboutButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
-						.addComponent(mainAppButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
-					.addGap(234))
-				.addGroup(welcomeLayout.createSequentialGroup()
-					.addContainerGap(337, Short.MAX_VALUE)
-					.addComponent(createdByLabel, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
-					.addGap(330))
+						.addComponent(aboutButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
+						.addComponent(mainAppButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE))
+					.addGap(88))
 		);
 		welcomeLayout.setVerticalGroup(
 			welcomeLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(welcomeLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(welcomeLabel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(mainAppButton, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+					.addGap(40)
+					.addComponent(mainAppButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(aboutButton, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-					.addGap(202)
+					.addComponent(aboutButton, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+					.addGap(146)
 					.addComponent(createdByLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);

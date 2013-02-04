@@ -96,7 +96,7 @@ public class DataHelper {
 	        is.close();
 	    }
 	}
-
+	
 	public static void readAllPatients() throws IOException{
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(patientFile));
@@ -183,24 +183,6 @@ public class DataHelper {
 			return mid;
 		}               
 	} 
-	
-	
-//	int n = p.size();
-//	getAllIDs(p);
-//
-//	for(int i = 0; i < n; i++){
-//		for(int x = 1; x < n-i; x++){
-//			if(allIDs[x-1] > allIDs[x]){
-//				swap(x, allIDs);
-//			}
-//		}
-//	}
-//	
-//	sortedList.clear();
-//	for(int z: allIDs){
-//		sortedList.add(linSearch(p, z));
-//	}
-//	return sortedList;
 
 	public static void sortPatients(ArrayList<Patient> p){
 			Collections.sort(p, new CompareTime());
