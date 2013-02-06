@@ -90,18 +90,6 @@ public class PatientView extends JFrame {
 		actionTime();
 		DataHelper.prepareFile();
 		DataHelper.readAllPatients();
-		String[] arr = new String[1];
-		arr[0] = "Ben";
-		Patient derp = new Patient();
-		derp.addName("Ben");
-		ArrayList<Patient> listToSort = PatientView.patientArray;
-		DataHelper.sortPatients(listToSort, "ben");
-		int[] merp = DataHelper.recursivePatientSearch(listToSort, derp);
-		for(int i: merp){
-			System.out.println(i);
-		}
-		//DataHelper.advancedPatientSearch(null, arr);
-
 	}
 
 	public void placeMenu() {
@@ -325,6 +313,12 @@ public class PatientView extends JFrame {
 
 		sortPatientList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String[] arr = new String[1];
+				Patient derp = new Patient();
+				arr[0] = "Ben";
+				derp.addName("Ben");
+				ArrayList<Patient> listToSort = PatientView.patientArray;
+				DataHelper.advancedPatientSearch(null, arr);
 				DataHelper.sortPatients(patientArray, "ID");
 				listModel.clear();
 				for (Patient p : patientArray) {

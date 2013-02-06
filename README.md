@@ -47,3 +47,11 @@ a testament to the nature of SWING than the structure of the app though.
 		* Basically the Database
 	* DiagnosisHelper
 		* Anything related to calculations for the patient such as BMI and MAP
+		
+		
+		
+# Due Dates:
+
+		| Requirment | Decription | Pass | Fail | Test Case # |
+		| ---------- | ---------- | ---- | ---- | ----------- |
+		| Split Fn	 | split dat  | yes  | no   | case 5	  |

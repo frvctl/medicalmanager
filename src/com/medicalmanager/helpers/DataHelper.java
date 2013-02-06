@@ -100,13 +100,14 @@ public class DataHelper {
 			BufferedReader br = new BufferedReader(new FileReader(patientFile));
 			String line = null;
 			String[] stringray = new String[20];
+			int x = count();
 			while ((line = br.readLine()) != null) {
 				stringray = splitPatient(line);
 				System.out.println(line);
 				if(stringray != null) {
 					Patient readPatient = new Patient()
 						.addName(stringray[1])
-						.addAge(18)
+						.addAge(Double.parseDouble(stringray[9]))
 						.addDOB(null)
 						.addAddress(null)
 						.addPhoneNumber(null)
@@ -114,13 +115,14 @@ public class DataHelper {
 						.addMedicalConditions(null)
 						.addCurrentMedications(null)
 						.addAdditionalComments(null)
-						.addID(10)
+						.addID(count() - x)
 						.addHeight(10)
-						.addWeight(10)
+						.addWeight(Double.parseDouble(stringray[10]))
 						.addBMI(10,10);
-			
+				
 					PatientView.updateList(readPatient);
-			}
+					x--;
+				}
 			}
 			
 			
@@ -158,7 +160,13 @@ public class DataHelper {
 			  return (ID1 > ID2 ? -1 : (ID1 == ID2 ? 0 : 1));
 		  }   
 	}
-
+	
+	private static void swap(int index, int[] theArray){
+		int replace = theArray[index - 1];
+		theArray[index - 1] = theArray[index];
+		theArray[index] = replace;
+	}
+	
 	public static Patient linSearch(ArrayList<Patient> p, int searchFor){
 		int sizeP = p.size();
 
@@ -196,18 +204,19 @@ public class DataHelper {
 		} catch (NumberFormatException se){
 			toFind.addName(options[0]);
 			index =  Collections.binarySearch(listToSort, toFind, new CompareName());
+			findMultiples(index, options[0], listToSort);
 		}
 		
 		return PatientView.patientArray.get(index);
 		
 	}
 	
-	public static int[] recursivePatientSearch(ArrayList<Patient> sortedp, Patient toFind){
-		int[] allItems = new int[sortedp.size()];
+	public static void findMultiples(int index, String key, ArrayList<Patient> p){
+		ArrayList<Patient> listToSort = PatientView.patientArray;
+		sortPatients(listToSort, "ben");
+		getAllIDs(listToSort);
+		System.out.println(search(p, 2));
 		
-		String[] derp = getAllAttr(0);
-			
-		return allItems;
 	}
 	
 	public static int search(ArrayList<Patient> p, int searchValue) {
@@ -243,12 +252,6 @@ public class DataHelper {
 			}
 	}
 
-	private static void swap(int index, int[] theArray){
-		int replace = theArray[index - 1];
-		theArray[index - 1] = theArray[index];
-		theArray[index] = replace;
-	}
-
 	public static void getAllIDs(ArrayList<Patient> p){
 		allIDs = new int[p.size()];
 
@@ -257,7 +260,6 @@ public class DataHelper {
 			allIDs[x] = anID;
 		}
 	}
-
 
 	public static String[] splitPatient(String input){
 		if(input.length() > 0){

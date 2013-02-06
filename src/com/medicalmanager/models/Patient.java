@@ -17,7 +17,7 @@ public class Patient {
 	
 	// Numerical Values
 	private int ID;
-	private int age;
+	private double age;
 	private double height;
 	private double weight;
 	
@@ -41,8 +41,8 @@ public class Patient {
         return this;
     }
     
-    public Patient addAge(int age) {
-    	this.age = age;
+    public Patient addAge(double d) {
+    	this.age = d;
         return this;
     }
     
