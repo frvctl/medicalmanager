@@ -30,8 +30,10 @@ really controllers in the sense that the apps controllers are embedded within th
 a testament to the nature of SWING than the structure of the app though. 
 
 * Models
+	* Person
+		* All of the basic stuff a person does
 	* Patient
-		* This is the Patient Class file with setters and getters galore
+		* Extends person, probably need a serialize function or something
 * Views
 	* PatientView
 		* Main view of the application, has all the patients listed as well as the ability to add more and manipulate things in a bunch of ways.
@@ -39,15 +41,26 @@ a testament to the nature of SWING than the structure of the app though.
 		* For creating new patients
 	* SearchDialog
 		* For searching for patients
-	* OutputDialog
-		* For configuring output options.
-* Helpers
-	* DataHelper
+	* SavePatientDialog
+		* For saving patients to a file
+	* SearchDialog
+		* For searching for patients
+	* SearchResultsDialog
+		* For showing a table of search results if there are multiple occurances
+		 
+* Controllers
+	* Database
 		* File IO
 		* Basically the Database
-	* DiagnosisHelper
+	* Diagnosis
 		* Anything related to calculations for the patient such as BMI and MAP
-		
+	* Output
+		* Pick where to save stuff
+		* Make new folders/files
+		* Print directly
+		* Upload presaved patient files
+	* Index
+		* Create an index of patients instead of realing on the arraylist for searching and sorting
 		
 		
 # Due Dates:
