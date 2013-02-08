@@ -21,24 +21,41 @@ public class Database {
 	public static ArrayList<Patient> sortedList = new ArrayList<Patient>();
 	public static FileOutputStream fop;
 	public static PrintWriter out;
-	public static final String FILE_LOCATION = 	System.getProperty("user.home") + "\\My Documents\\Medical Manager\\";
-	static File mmDir = new File(FILE_LOCATION);
-	static File patientFile = new File(FILE_LOCATION + "test.txt");
+	private static File writeDirectory;
+	private static File writeFile;
+	
+	public Database() { }
+	   
+	public static File getWriteDirectory() {
+		return writeDirectory;
+	}
+
+	public static void setWriteDirectory(String writeDirectory) {
+		Database.writeDirectory = new File(writeDirectory);
+	}
+	
+	public static File getFile() {
+		return writeFile;
+	}
+
+	public static void setFile(String fileName) {
+		Database.writeFile = new File(Database.writeDirectory.getPath() + fileName);
+	}
 	
 	public static void prepareFile(){
 		try{
-			if(mmDir.mkdir()){
-				System.out.println("Directory Created");
+			if(Database.getWriteDirectory().mkdir()){
+				System.out.println("Directory Created Name: " + getWriteDirectory());
 			}else{
-				System.out.println("Directory not created");
+				System.out.println("Directory not created - already exists; Name: " + getWriteDirectory());
 			}
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 		
-		if (!patientFile.exists()) {
+		if (!Database.writeFile.exists()) {
 			try {
-				patientFile.createNewFile();
+				Database.writeFile.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -46,13 +63,9 @@ public class Database {
 				
 	}
 
-	public static void writeToFile(String input, String filename) throws IOException{
-		if(filename == null){
-			filename = "test.txt";
-		}
-		
+	public static void writeToFile(String input) throws IOException{
 		try {
-			fop = new FileOutputStream(patientFile, true);
+			fop = new FileOutputStream(Database.writeFile, true);
 			out = new PrintWriter(fop, true);
 			out.write(input);
 			out.flush();
@@ -69,14 +82,14 @@ public class Database {
 	
 	public static void writeAllPatientsToFile() throws IOException{
 		for(Patient p: PatientView.patientArray){
-			writeToFile(p.getName(), "blah.txt");
+			writeToFile(p.getName());
 		}
 	}
 	
 	// Reads the file and counts the lines
 	// This is used for PatientID among other things
 	public static int countLines() throws IOException {
-	    InputStream is = new BufferedInputStream(new FileInputStream(patientFile));
+	    InputStream is = new BufferedInputStream(new FileInputStream(writeFile));
 	    try {
 	        byte[] c = new byte[1024];
 	        int count = 0;
@@ -97,7 +110,7 @@ public class Database {
 	
 	public static void readAllPatientsFromFile() throws IOException{
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(patientFile));
+			BufferedReader br = new BufferedReader(new FileReader(writeFile));
 			String line = null;
 			String[] stringray = new String[20];
 			int x = countLines();
@@ -207,7 +220,6 @@ public class Database {
 		}
 		
 		return PatientView.patientArray.get(index);
-		
 	}
 	
 	public static int search(ArrayList<Patient> p, int searchValue) {

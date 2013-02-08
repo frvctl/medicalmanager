@@ -21,7 +21,7 @@
 	* Just some basics of what you can do with the app and such.
 * GUI
 	* Need to make it pretty with pictures and stuff
-	
+* Get rid of the menu component of the new patient dialog, it serves no purpose
 	
 # Organization
  
@@ -62,9 +62,22 @@ a testament to the nature of SWING than the structure of the app though.
 	* Index
 		* Create an index of patients instead of realing on the arraylist for searching and sorting
 		
-		
 # Due Dates:
 
 		| Requirment | Decription | Pass | Fail | Test Case # |
 		| ---------- | ---------- | ---- | ---- | ----------- |
 		| Split Fn	 | split dat  | yes  | no   | case 5	  |
+		
+
+# OCD CODEZ
+		
+		# Search for 1 patient by name only
+		# Need to be able to return all patients
+		# with whatever name
+		String[] arr = new String[1];
+		Patient derp = new Patient();
+		arr[0] = "Ben";
+		derp.addName("Ben");
+		ArrayList<Patient> listToSort = PatientView.patientArray;
+		System.out.println("SEARCH");
+		System.out.println(Database.advancedPatientSearch(null, arr).getName());

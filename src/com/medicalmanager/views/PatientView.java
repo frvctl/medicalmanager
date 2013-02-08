@@ -74,21 +74,41 @@ public class PatientView extends JFrame {
 	 * @throws IOException
 	 */
 	public PatientView() throws IOException {
+		// Ensures the panel closes when you press the close button
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
+		// Opening size
 		setBounds(100, 100, 838, 609);
-
+		
+		// Base panel of the application
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(card);
+		contentPane.setLayout(card); // Card layout to access the other components such as Patient or About
 
 		setContentPane(contentPane);
-
+		
+		// Place the menu on the content pane
 		placeMenu();
+		
+		// Instantiate the welcome panel
 		makeWelcomePanel();
+		
+		// Instantiate the patient panel
 		makePatientPanel();
+		
+		// Bootstrap the event handlers
 		actionTime();
+		
+		// Set the standard write directory - possibly add settings to change where this is
+		Database.setWriteDirectory(System.getProperty("user.home") + "\\My Documents\\Medical Manager\\");
+		
+		// Set the standard file that is written to
+		Database.setFile("patients.txt");
+		
+		// Create the directory and file if it isn't already there
 		Database.prepareFile();
+		
+		// Read all the patients from the file dumping them into an array list for use later
 		Database.readAllPatientsFromFile();
 	}
 
@@ -205,7 +225,10 @@ public class PatientView extends JFrame {
 			listModel.addElement(p.getName());
 		}
 	}
-
+	
+	/*
+	 * Update's the PatientList by adding the patient to the listModel
+	 */
 	public static void updateList(Patient p) {
 		int theSize = patientArray.size();
 		patientArray.add(p);
@@ -313,12 +336,6 @@ public class PatientView extends JFrame {
 
 		sortPatientList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] arr = new String[1];
-				Patient derp = new Patient();
-				arr[0] = "Ben";
-				derp.addName("Ben");
-				ArrayList<Patient> listToSort = PatientView.patientArray;
-				Database.advancedPatientSearch(null, arr);
 				Database.sortPatients(patientArray, "ID");
 				listModel.clear();
 				for (Patient p : patientArray) {
