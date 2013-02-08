@@ -17,7 +17,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import com.medicalmanager.helpers.DataHelper;
+import com.medicalmanager.controllers.Database;
 import com.medicalmanager.models.Patient;
 import javax.swing.SwingConstants;
 import javax.swing.JSpinner;

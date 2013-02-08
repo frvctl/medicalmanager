@@ -26,8 +26,8 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import com.medicalmanager.helpers.DataHelper;
-import com.medicalmanager.helpers.DiagnosisHelper;
+import com.medicalmanager.controllers.Database;
+import com.medicalmanager.controllers.Diagnosis;
 import com.medicalmanager.models.Patient;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -106,12 +106,12 @@ public class PatientDialog extends JDialog {
 						.addMedicalConditions(null)
 						.addCurrentMedications(medicationField.getText())
 						.addAdditionalComments(null)
-						.addID(DataHelper.count())
+						.addID(Database.countLines())
 						.addHeight(Double.parseDouble(heightField.getText()))
 						.addWeight(Double.parseDouble(weightField.getText()))
 						.addBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()));
 					
-					DataHelper.writeToFile(Patient.stringify(newPatient), null);
+					Database.writeToFile(Patient.stringify(newPatient), null);
 					PatientView.updateList(newPatient);
 				} catch (NumberFormatException e1) {
 					// TODO Auto-generated catch block
@@ -418,7 +418,7 @@ public class PatientDialog extends JDialog {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (diastolicField.getText().length() > 0 && systolicField.getText().length() > 0){
-					MAPLabel.setText(String.valueOf(DiagnosisHelper.calculateMAP(Double.parseDouble(diastolicField.getText()), Double.parseDouble(systolicField.getText()))));
+					MAPLabel.setText(String.valueOf(Diagnosis.calculateMAP(Double.parseDouble(diastolicField.getText()), Double.parseDouble(systolicField.getText()))));
 				}
 			}
 		});
@@ -532,8 +532,8 @@ public class PatientDialog extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						cl.next(contentPanel);
 						if(heightField.getText().length() > 0 && weightField.getText().length() > 0){
-							calculatedBMIField.setText(String.valueOf(DiagnosisHelper.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()))));
-							bmiExplanationField.setText(DiagnosisHelper.analyizeBMI(DiagnosisHelper.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())), Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())));
+							calculatedBMIField.setText(String.valueOf(Diagnosis.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()))));
+							bmiExplanationField.setText(Diagnosis.analyizeBMI(Diagnosis.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())), Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())));
 						}
 						if(testDataPanel.isVisible()){
 							switchToOkay();

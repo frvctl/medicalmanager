@@ -1,6 +1,6 @@
-package com.medicalmanager.helpers;
+package com.medicalmanager.controllers;
 
-public class DiagnosisHelper {
+public class Diagnosis {
 	
 	
 	public static double calculateBMI(double height, double weight){

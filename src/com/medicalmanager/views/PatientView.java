@@ -32,7 +32,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import com.medicalmanager.helpers.DataHelper;
+import com.medicalmanager.controllers.Database;
 import com.medicalmanager.models.Patient;
 
 public class PatientView extends JFrame {
@@ -88,8 +88,8 @@ public class PatientView extends JFrame {
 		makeWelcomePanel();
 		makePatientPanel();
 		actionTime();
-		DataHelper.prepareFile();
-		DataHelper.readAllPatients();
+		Database.prepareFile();
+		Database.readAllPatientsFromFile();
 	}
 
 	public void placeMenu() {
@@ -318,8 +318,8 @@ public class PatientView extends JFrame {
 				arr[0] = "Ben";
 				derp.addName("Ben");
 				ArrayList<Patient> listToSort = PatientView.patientArray;
-				DataHelper.advancedPatientSearch(null, arr);
-				DataHelper.sortPatients(patientArray, "ID");
+				Database.advancedPatientSearch(null, arr);
+				Database.sortPatients(patientArray, "ID");
 				listModel.clear();
 				for (Patient p : patientArray) {
 					listModel.addElement(p.getName());

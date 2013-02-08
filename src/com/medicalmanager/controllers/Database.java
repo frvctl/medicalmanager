@@ -1,4 +1,4 @@
-package com.medicalmanager.helpers;
+package com.medicalmanager.controllers;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -16,7 +16,7 @@ import java.util.Comparator;
 import com.medicalmanager.models.Patient;
 import com.medicalmanager.views.PatientView;
 
-public class DataHelper {
+public class Database {
 	public static int[] allIDs;
 	public static ArrayList<Patient> sortedList = new ArrayList<Patient>();
 	public static FileOutputStream fop;
@@ -67,7 +67,7 @@ public class DataHelper {
 		}
 	}	
 	
-	public static void printAllToFile() throws IOException{
+	public static void writeAllPatientsToFile() throws IOException{
 		for(Patient p: PatientView.patientArray){
 			writeToFile(p.getName(), "blah.txt");
 		}
@@ -75,7 +75,7 @@ public class DataHelper {
 	
 	// Reads the file and counts the lines
 	// This is used for PatientID among other things
-	public static int count() throws IOException {
+	public static int countLines() throws IOException {
 	    InputStream is = new BufferedInputStream(new FileInputStream(patientFile));
 	    try {
 	        byte[] c = new byte[1024];
@@ -95,12 +95,12 @@ public class DataHelper {
 	    }
 	}
 	
-	public static void readAllPatients() throws IOException{
+	public static void readAllPatientsFromFile() throws IOException{
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(patientFile));
 			String line = null;
 			String[] stringray = new String[20];
-			int x = count();
+			int x = countLines();
 			while ((line = br.readLine()) != null) {
 				stringray = splitPatient(line);
 				System.out.println(line);
@@ -115,7 +115,7 @@ public class DataHelper {
 						.addMedicalConditions(null)
 						.addCurrentMedications(null)
 						.addAdditionalComments(null)
-						.addID(count() - x)
+						.addID(countLines() - x)
 						.addHeight(10)
 						.addWeight(Double.parseDouble(stringray[10]))
 						.addBMI(10,10);
@@ -140,14 +140,14 @@ public class DataHelper {
 		    if (rank1 == null && rank2 == null) {
 		      return 0;
 		    }
-		    // invert 1 and -1 if nulls should appear first
+
 		    if (rank1 == null) {
 		      return 1;
 		    }
 		    if (rank2 == null) {
 		      return -1;
 		    }
-		    // nothing can be null at this point
+
 		    return rank1.compareTo(rank2);
 		  }    
 	}
@@ -204,18 +204,9 @@ public class DataHelper {
 		} catch (NumberFormatException se){
 			toFind.addName(options[0]);
 			index =  Collections.binarySearch(listToSort, toFind, new CompareName());
-			findMultiples(index, options[0], listToSort);
 		}
 		
 		return PatientView.patientArray.get(index);
-		
-	}
-	
-	public static void findMultiples(int index, String key, ArrayList<Patient> p){
-		ArrayList<Patient> listToSort = PatientView.patientArray;
-		sortPatients(listToSort, "ben");
-		getAllIDs(listToSort);
-		System.out.println(search(p, 2));
 		
 	}
 	
@@ -239,6 +230,7 @@ public class DataHelper {
 			return mid;
 		}               
 	} 
+	
 	/*
 	 * options meta data
 	 * if its a string use the name if its a number use the id
