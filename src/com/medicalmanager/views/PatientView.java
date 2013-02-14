@@ -40,36 +40,44 @@ public class PatientView extends JFrame {
 	private CardLayout card = new CardLayout(0, 0);
 
 	private JPanel contentPane;
-
-	private JButton mainAppButton;
-	private JButton aboutButton;
-	private JButton newPatientButton;
-	private JButton searchButton;
-	private JButton sortPatientList;
-	public static DefaultListModel listModel;
-	public static ArrayList<Patient> sortedArray = new ArrayList<Patient>();
-	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
-	private JList patientList;
+	private JPanel patientInfoEditPanel;
+	
+	private JMenu fileMenu;
+	private JMenu helpMenu;
+	
 	private JMenuItem helpMenuPreferencesItem;
 	private JMenuItem helpMenuTutorialItem;
 	private JMenuItem helpMenuFAQItem;
 	private JMenuItem fileMenuPrintItem;
 	private JMenuItem fileMenuSaveAsItem;
 	private JMenuItem fileMenuOpenItem;
-	private JMenu fileMenu;
-	private JMenu helpMenu;
+	
+	private JButton mainAppButton;
+	private JButton aboutButton;
+	private JButton newPatientButton;
+	private JButton searchButton;
+	private JButton sortPatientList;
 	private JButton editPatientButton;
 	private JButton adjustSeverityButton;
 	private JButton prescribeMedicationButton;
 	private JButton setDiagnosisButton;
-	private JPanel panel;
+
+	private JList patientList;
+	public static DefaultListModel listModel;
 	private JScrollPane infoScollPane;
+	
 	private JTextArea patientInfoArea;
-	private JScrollPane editScrollPane;
-	private JTable editPatientTable;
+	
+	private static Patient selected;
+	
+	private static boolean isSelected = false;
+
+	public static ArrayList<Patient> sortedArray = new ArrayList<Patient>();
+	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
+
 
 	/**
-	 * Create the frame.
+	 * Bootstrap the entire GUI
 	 * 
 	 * @throws IOException
 	 */
@@ -197,28 +205,16 @@ public class PatientView extends JFrame {
 		patientList.setMinimumSize(new Dimension(200, 0));
 		scrollPane.setViewportView(patientList);
 		
-		panel = new JPanel();
-		splitPane.setRightComponent(panel);
-		panel.setLayout(new CardLayout(0, 0));
+		patientInfoEditPanel = new JPanel();
+		splitPane.setRightComponent(patientInfoEditPanel);
+		patientInfoEditPanel.setLayout(new CardLayout());
 		
 		infoScollPane = new JScrollPane();
-		panel.add(infoScollPane, "infoPane");
+		patientInfoEditPanel.add(infoScollPane, "infoPane");
 		
 		patientInfoArea = new JTextArea();
 		infoScollPane.setViewportView(patientInfoArea);
 		
-		editScrollPane = new JScrollPane();
-		panel.add(editScrollPane, "editPane");
-		
-		editPatientTable = new JTable();
-		editPatientTable.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Field", "Value"
-			}
-		));
-		editScrollPane.setViewportView(editPatientTable);
 		patientPanel.setLayout(patientLayout);
 
 		for (Patient p : patientArray) {
@@ -359,6 +355,10 @@ public class PatientView extends JFrame {
 		
 		editPatientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(PatientView.isSelected){
+					EditPatientDialog dialog = new EditPatientDialog();
+					dialog.setVisible(true);	
+				}
 			}
 		});
 		
@@ -379,13 +379,22 @@ public class PatientView extends JFrame {
 
 		patientList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
-				System.out.println(patientList.getSelectedIndex());
+				PatientView.isSelected = true;
 				Patient rawr = patientArray.get(patientList.getSelectedIndex());
+				PatientView.setSelected(rawr);
 				patientInfoArea.setText("AGE: " + rawr.getAge() + "\n"
 						+ "Name: " + rawr.getName() + "\n" + "HEIGHT: "
 						+ rawr.getHeight() + "\n" + "DOB: " + rawr.getDOB()
 						+ "\n" + "BMI: " + rawr.getCalculatedBMI());
 			}
 		});
+	}
+
+	public static Patient getSelected() {
+		return selected;
+	}
+
+	public static void setSelected(Patient selected) {
+		PatientView.selected = selected;
 	}
 }

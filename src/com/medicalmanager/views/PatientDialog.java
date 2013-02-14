@@ -48,9 +48,6 @@ public class PatientDialog extends JDialog {
 	private JButton backButton;  
 	private JPanel buttonPane;
 	private JButton cancelButton;
-	private JButton gotoTestData;
-	private JButton gotoGeneralInfo;
-	private JButton gotoBasicHealthInfo;
 	private JFormattedTextField dobField;
 	private JComboBox raceBox;
 	private JComboBox genderBox;
@@ -127,58 +124,6 @@ public class PatientDialog extends JDialog {
 	
 	public void createWelcomePane(){
 		contentPanel.setLayout(cl);
-		{
-			JPanel welcomePanel = new JPanel();
-			contentPanel.add(welcomePanel, "welcome");
-			
-			JLabel infoLabel = new JLabel("This is used to add a new patient to the database");
-			
-			gotoGeneralInfo = new JButton("General Information");
-			gotoGeneralInfo.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					cl.show(contentPanel, "personalInfo");
-				}
-			});
-			
-			gotoBasicHealthInfo = new JButton("Basic Health Information");
-			gotoBasicHealthInfo.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					cl.show(contentPanel, "healthInfo");
-				}
-			});
-			
-			gotoTestData = new JButton("Test Data");
-			GroupLayout gl_welcomePanel = new GroupLayout(welcomePanel);
-			gl_welcomePanel.setHorizontalGroup(
-				gl_welcomePanel.createParallelGroup(Alignment.TRAILING)
-					.addGroup(gl_welcomePanel.createSequentialGroup()
-						.addGroup(gl_welcomePanel.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_welcomePanel.createSequentialGroup()
-								.addGap(230)
-								.addComponent(infoLabel))
-							.addGroup(gl_welcomePanel.createSequentialGroup()
-								.addGap(184)
-								.addGroup(gl_welcomePanel.createParallelGroup(Alignment.LEADING)
-									.addComponent(gotoTestData, GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
-									.addComponent(gotoGeneralInfo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(gotoBasicHealthInfo, GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE))))
-						.addGap(195))
-			);
-			gl_welcomePanel.setVerticalGroup(
-				gl_welcomePanel.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_welcomePanel.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(infoLabel)
-						.addGap(18)
-						.addComponent(gotoBasicHealthInfo, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(gotoGeneralInfo, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(gotoTestData, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-						.addGap(38))
-			);
-			welcomePanel.setLayout(gl_welcomePanel);
-		}
 	}
 	
 	public void createHealthInfoPane(){
