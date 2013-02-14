@@ -76,7 +76,7 @@ public class SearchDialog extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		{
-			JLabel lblNewLabel = new JLabel("Search By Name or PatientID");
+			JLabel lblNewLabel = new JLabel("Search By Name or PatientID - Leave Blank to Filter Only");
 			contentPanel.add(lblNewLabel, "4, 4, 5, 1, center, default");
 		}
 		

@@ -13,7 +13,12 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 public class EditPatientDialog extends JDialog {
@@ -82,10 +87,38 @@ public class EditPatientDialog extends JDialog {
 			tableModel.addRow(new Object[]{"BMI", PatientView.getSelected().getCalculatedBMI()});
 		
 		}
-		
-		
-
-		
+		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+		tableModel.addTableModelListener(new TableModelListener(){
+			@Override
+			public void tableChanged(TableModelEvent arg0) {
+				int row = arg0.getFirstRow();
+				int column = arg0.getColumn();
+				Object data = tableModel.getValueAt(0, 1);
+				System.out.println(data);
+			}
+		});
+	
+//		  table.setCellSelectionEnabled(true);
+//		  ListSelectionModel cellSelectionModel = table.getSelectionModel();
+//		  cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//			
+//		  cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
+//			  public void valueChanged(ListSelectionEvent e) {
+//				  tableModel.fireTableDataChanged();
+//				  String selectedData = null;
+//			
+//				  int[] selectedRow = table.getSelectedRows();
+//				  int[] selectedColumns = table.getSelectedColumns();
+//			
+//				  for (int i = 0; i < selectedRow.length; i++) {
+//					  for (int j = 0; j < selectedColumns.length; j++) {
+//						  selectedData = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
+//					  }
+//				  }
+//				  System.out.println("Selected: " + selectedData);
+//			  }
+//			});
+				
 		scrollPane.setViewportView(table);
 		panel.setLayout(gl_panel);
 		contentPanel.setLayout(gl_contentPanel);
@@ -97,7 +130,6 @@ public class EditPatientDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						tableModel.fireTableDataChanged();
 						Vector data = tableModel.getDataVector();
 						System.out.println(table.getValueAt(0, 1));
 						System.out.println(data);
