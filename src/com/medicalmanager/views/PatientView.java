@@ -231,9 +231,11 @@ public class PatientView extends JFrame {
 	}
 	
 	public static void updateListAfterPatientEdit(int index, Patient p){
+		System.out.println("PATIENTAFTEREDITTHING: " + p.getName());
 		patientArray.remove(p);
 		patientArray.add(index, p);
 		patientList.clearSelection();
+		patientList.setSelectedIndex(index);
 		listModel.remove(index);
 		listModel.add(index, p.getName());
 	}

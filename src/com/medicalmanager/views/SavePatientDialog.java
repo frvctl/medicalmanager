@@ -43,19 +43,6 @@ public class SavePatientDialog extends JDialog {
 	private JPanel filterSavePane;
 	private JPanel searchSavePane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			SavePatientDialog dialog = new SavePatientDialog();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 
 	/**
 	 * Create the dialog.

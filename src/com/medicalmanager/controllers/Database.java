@@ -6,13 +6,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Vector;
 
 import com.medicalmanager.models.Patient;
 import com.medicalmanager.views.PatientView;
@@ -20,8 +19,7 @@ import com.medicalmanager.views.PatientView;
 public class Database {
 	public static int[] allIDs;
 	public static ArrayList<Patient> sortedList = new ArrayList<Patient>();
-	public static FileOutputStream fop;
-	public static PrintWriter out;
+	public static FileWriter fw;
 	private static File writeDirectory;
 	private static File writeFile;
 	
@@ -40,7 +38,7 @@ public class Database {
 	}
 
 	public static void setFile(String fileName) {
-		Database.writeFile = new File(Database.writeDirectory.getPath() + fileName);
+		Database.writeFile = new File(Database.writeDirectory.getPath() + "/" + fileName);
 	}
 	
 	public static void prepareFile(){
@@ -54,9 +52,11 @@ public class Database {
 			e.printStackTrace();
 		}
 		
-		if (!Database.writeFile.exists()) {
+		System.out.println(Database.getFile());
+		
+		if (!Database.getFile().exists()) {
 			try {
-				Database.writeFile.createNewFile();
+				Database.getFile().createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -64,28 +64,22 @@ public class Database {
 				
 	}
 
-	public static void writeToFile(String input) throws IOException{
+	public static void writeToFile(String input, boolean append) throws IOException{
 		try {
-			fop = new FileOutputStream(Database.writeFile, true);
-			out = new PrintWriter(fop, true);
-			out.write(input);
-			out.flush();
-			out.close();
+			fw = new FileWriter(Database.getFile(), append);
+			fw.write(input);
+			fw.flush();
+			fw.close();
  
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if (out != null) {
-				out.close();
+			if (fw != null) {
+				fw.close();
 			}
 		}
 	}	
-	
-	public static void writeAllPatientsToFile() throws IOException{
-		for(Patient p: PatientView.patientArray){
-			writeToFile(p.getName());
-		}
-	}
+
 	
 	// Reads the file and counts the lines
 	// This is used for PatientID among other things
@@ -143,7 +137,14 @@ public class Database {
 		}catch (Exception e) {
 		    e.printStackTrace();
 		}
-			
+	}
+
+	public static void writeAllPatientsToFile() throws IOException{
+		boolean append = false;
+		for(Patient p: PatientView.patientArray){
+			writeToFile(Patient.stringify(p), append);
+			append = true;
+		}
 	}
 	
 	public static class CompareName implements Comparator<Patient> {
@@ -268,8 +269,13 @@ public class Database {
 	
 	public static void updatePatient(Patient p, String[] data, ArrayList<Patient> pRay){
 		int editIndex = pRay.indexOf(p);
-		Patient rawr = new Patient().addName(data[0]);
-		PatientView.updateListAfterPatientEdit(editIndex, rawr);
+		p.addName(data[0]);
+		PatientView.updateListAfterPatientEdit(editIndex, p);
+		try {
+			Database.writeAllPatientsToFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static String[] splitPatient(String input){

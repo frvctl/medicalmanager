@@ -26,20 +26,6 @@ public class EditPatientDialog extends JDialog {
 	private JTable table;
 	private static DefaultTableModel tableModel = new DefaultTableModel();
 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			EditPatientDialog dialog = new EditPatientDialog();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Create the dialog.
 	 */
@@ -74,6 +60,9 @@ public class EditPatientDialog extends JDialog {
 		);
 		
 		table = new JTable(tableModel);
+
+		// Allows you to get updated values without changing the focus of the cell via button event
+		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		
 		if(tableModel.getRowCount() > 0){
 			updateTable();
@@ -92,6 +81,7 @@ public class EditPatientDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						System.out.println("OK PRESSED: " + PatientView.getSelected().getName());
 						Database.updatePatient(PatientView.getSelected(), compileEditedData(), PatientView.patientArray);
 					}
 				});
@@ -113,6 +103,7 @@ public class EditPatientDialog extends JDialog {
 		tableModel.setValueAt(PatientView.getSelected().getHeight(), 2, 1);
 		tableModel.setValueAt(PatientView.getSelected().getWeight(), 3, 1);
 		tableModel.setValueAt(PatientView.getSelected().getCalculatedBMI(), 4, 1);
+		tableModel.fireTableDataChanged();
 	}
 	
 	public void instantiateTable(){
@@ -126,9 +117,6 @@ public class EditPatientDialog extends JDialog {
 			tableModel.addRow(new Object[]{"Weight", PatientView.getSelected().getWeight()});
 			tableModel.addRow(new Object[]{"BMI", PatientView.getSelected().getCalculatedBMI()});
 		}
-		
-		// Allows you to get updated values without changing the focus of the cell via button event
-		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 	}
 	
 	public String[] compileEditedData(){

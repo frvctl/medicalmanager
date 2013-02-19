@@ -22,19 +22,6 @@ public class SearchResultsDialog extends JDialog {
 	//private JTable resultsTable;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			SearchResultsDialog dialog = new SearchResultsDialog();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public SearchResultsDialog() {

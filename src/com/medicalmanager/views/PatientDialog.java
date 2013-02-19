@@ -76,7 +76,6 @@ public class PatientDialog extends JDialog {
 		createWelcomePane();
 		createHealthInfoPane();
 		createPersonalInfoPane();
-		createInsuranceInfoPane();
 		createTestDataPane();
 	}
 	
@@ -108,7 +107,7 @@ public class PatientDialog extends JDialog {
 						.addWeight(Double.parseDouble(weightField.getText()))
 						.addBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()));
 					
-					Database.writeToFile(Patient.stringify(newPatient));
+					Database.writeToFile(Patient.stringify(newPatient), true);
 					PatientView.updateList(newPatient);
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
@@ -206,8 +205,6 @@ public class PatientDialog extends JDialog {
 		scrollPane.setViewportView(textArea_1);
 	}
 	
-	public void createInsuranceInfoPane(){
-	}
 	
 	public void createPersonalInfoPane(){
 		JPanel personalInfoPanel = new JPanel();
