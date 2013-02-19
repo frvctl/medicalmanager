@@ -60,8 +60,7 @@ public class Database {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-				
+		}	
 	}
 
 	public static void writeToFile(String input, boolean append) throws IOException{
@@ -132,8 +131,6 @@ public class Database {
 					x--;
 				}
 			}
-			
-			
 		}catch (Exception e) {
 		    e.printStackTrace();
 		}

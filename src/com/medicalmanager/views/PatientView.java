@@ -63,7 +63,7 @@ public class PatientView extends JFrame {
 	private JButton setDiagnosisButton;
 
 	private static JList patientList;
-	public static DefaultListModel listModel;
+	public static DefaultListModel<String> listModel;
 	private JScrollPane infoScollPane;
 	
 	private JTextArea patientInfoArea;
@@ -199,8 +199,8 @@ public class PatientView extends JFrame {
 		scrollPane.setMinimumSize(new Dimension(100, 23));
 		splitPane.setLeftComponent(scrollPane);
 
-		listModel = new DefaultListModel<Object>();
-		patientList = new JList(listModel);
+		listModel = new DefaultListModel<String>();
+		patientList = new JList<String>(listModel);
 		patientList.setSize(new Dimension(200, 0));
 		patientList.setMinimumSize(new Dimension(200, 0));
 		scrollPane.setViewportView(patientList);
@@ -231,11 +231,12 @@ public class PatientView extends JFrame {
 	}
 	
 	public static void updateListAfterPatientEdit(int index, Patient p){
-		System.out.println("PATIENTAFTEREDITTHING: " + p.getName());
 		patientArray.remove(p);
 		patientArray.add(index, p);
+		
 		patientList.clearSelection();
 		patientList.setSelectedIndex(index);
+		
 		listModel.remove(index);
 		listModel.add(index, p.getName());
 	}

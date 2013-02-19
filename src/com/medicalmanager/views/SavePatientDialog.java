@@ -35,10 +35,10 @@ public class SavePatientDialog extends JDialog {
 	private JButton saveToFileButton;
 	private JButton saveAdvancedSearchToFile;
 	private JButton viewSearchResultsLabel;
-	private JComboBox genderPicker;
-	private JComboBox bmiPicker;
-	private JComboBox genderAdvancedPicker;
-	private JComboBox advancedbmiPicker;
+	private JComboBox<String> genderPicker;
+	private JComboBox<String> bmiPicker;
+	private JComboBox<String> genderAdvancedPicker;
+	private JComboBox<String> advancedbmiPicker;
 	private JPanel saveMenuPane;
 	private JPanel filterSavePane;
 	private JPanel searchSavePane;
@@ -151,15 +151,15 @@ public class SavePatientDialog extends JDialog {
 		maxRangeField.setText("100");
 		maxRangeField.setColumns(10);
 		
-		genderPicker = new JComboBox();
-		genderPicker.setModel(new DefaultComboBoxModel(new String[] {"Both", "Male", "Female"}));
+		genderPicker = new JComboBox<String>();
+		genderPicker.setModel(new DefaultComboBoxModel<String>(new String[] {"Both", "Male", "Female"}));
 		
 		JLabel genderLabel = new JLabel("Gender:");
 		
 		JLabel bmiClassificationLabel = new JLabel("BMI Classification");
 		
-		bmiPicker = new JComboBox();
-		bmiPicker.setModel(new DefaultComboBoxModel(new String[] {"All", "Severely Underweight", "Underweight", "Normal", "Overweight", "Obese", "Morbidly Obese"}));
+		bmiPicker = new JComboBox<String>();
+		bmiPicker.setModel(new DefaultComboBoxModel<String>(new String[] {"All", "Severely Underweight", "Underweight", "Normal", "Overweight", "Obese", "Morbidly Obese"}));
 		
 		saveFilteredToFile = new JButton("Save to File");
 		saveFilteredToFile.addActionListener(new ActionListener() {
@@ -272,13 +272,13 @@ public class SavePatientDialog extends JDialog {
 		
 		JLabel genderAdvancedLabel = new JLabel("Gender:");
 		
-		genderAdvancedPicker = new JComboBox();
-		genderAdvancedPicker.setModel(new DefaultComboBoxModel(new String[] {"Both", "Male", "Female"}));
+		genderAdvancedPicker = new JComboBox<String>();
+		genderAdvancedPicker.setModel(new DefaultComboBoxModel<String>(new String[] {"Both", "Male", "Female"}));
 		
 		JLabel advancedbmiLabel = new JLabel("BMI Classification:");
 		
-		advancedbmiPicker = new JComboBox();
-		advancedbmiPicker.setModel(new DefaultComboBoxModel(new String[] {"Any", "Severely Underweight", "Underweight", "Normal", "Overweight", "Obese", "Morbidly Obese"}));
+		advancedbmiPicker = new JComboBox<String>();
+		advancedbmiPicker.setModel(new DefaultComboBoxModel<String>(new String[] {"Any", "Severely Underweight", "Underweight", "Normal", "Overweight", "Obese", "Morbidly Obese"}));
 		
 		saveAdvancedSearchToFile = new JButton("Save To File");
 		saveAdvancedSearchToFile.addActionListener(new ActionListener() {
