@@ -16,10 +16,11 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.jgoodies.forms.factories.FormFactory;
@@ -29,11 +30,32 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.medicalmanager.controllers.Database;
 import com.medicalmanager.controllers.Diagnosis;
 import com.medicalmanager.models.Patient;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 public class PatientDialog extends JDialog {
+	private JPanel testDataPanel;
+	private JPanel buttonPane;
 	private final JPanel contentPanel = new JPanel();
+	
+	private CardLayout cl = new CardLayout(0, 0);
+
+	private JButton nextButton;
+	private JButton okButton;
+	private JButton backButton;  
+	private JButton cancelButton;
+
+	private JComboBox raceBox;
+	private JComboBox genderBox;
+	
+	private JFormattedTextField dobField;
+	private JFormattedTextField homeAddressField;
+	private JFormattedTextField emailAddressField;
+	private JFormattedTextField homePhoneField;
+	private JFormattedTextField cellPhoneField;
+
+	private JTextArea explanationBMIField;
+	private JTextArea textArea;
+	private JTextArea bmiExplanationField;
+	
 	private JTextField ageField;
 	private JTextField heightField;
 	private JTextField weightField;
@@ -41,28 +63,11 @@ public class PatientDialog extends JDialog {
 	private JTextField firstNameField;
 	private JTextField middleNameField;
 	private JTextField lastNameField;
-	CardLayout cl = new CardLayout(0, 0);
-	private JPanel testDataPanel;
-	private JButton nextButton;
-	private JButton okButton;
-	private JButton backButton;  
-	private JPanel buttonPane;
-	private JButton cancelButton;
-	private JFormattedTextField dobField;
-	private JComboBox raceBox;
-	private JComboBox genderBox;
-	private JFormattedTextField homeAddressField;
-	private JFormattedTextField emailAddressField;
-	private JFormattedTextField homePhoneField;
-	private JFormattedTextField cellPhoneField;
-	private JTextArea explanationBMIField;
-	private JTextArea textArea;
 	private JTextField meanArterialField;
 	private JTextField systolicField;
 	private JTextField diastolicField;
 	private JTextField MAPLabel;
 	private JTextField calculatedBMIField;
-	private JTextArea bmiExplanationField;
 
 	/**
 	 * Create the dialog.
