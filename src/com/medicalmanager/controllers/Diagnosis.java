@@ -7,17 +7,21 @@ public class Diagnosis {
 		return ((weight)/(Math.pow(height, 2))) * 703;
 	}
 	
-	public static String analyizeBMI(double bmi, double height, double weight){
-		String bmiExplanation = "BMI is calculated using the formula (weight / height^2) * 703 per the U.S. Department of Health and Human Services's advice. Based on the data entered of a weight of %f and height of %f the patient is %s";
-		
-		String blah = String.format(bmiExplanation, height, weight, bmiDiagnosis(bmi));
-		
-		return blah;
-		
-	}
-	
 	public static double calculateMAP(double diastolic, double systolic) {
 		return (((2*diastolic) + systolic)/3);
+	}
+	
+	public static String analyizeBMI(double bmi, double height, double weight){
+		String bmiExplanation = "BMI is calculated using the formula (weight / height^2) * 703" +
+								" per the U.S. Department of Health and Human Services's advice. " +
+								"Based on the data entered of a weight of %f and height of %f the" +
+								" patient is %s";
+		return String.format(bmiExplanation, height, weight, bmiDiagnosis(bmi));
+	}
+	
+	public static String finalPatientAnalysis(){
+		return "blah";
+		//TODO
 	}
 	
 	public static String mapDiagnosis(double map){
@@ -32,11 +36,6 @@ public class Diagnosis {
 		}
 		
 		return MAPDiagnosis;
-	}
-	
-	public static String finalPatientAnalysis(){
-		return "blah";
-		//TODO
 	}
 	
 	public static String bmiDiagnosis(double BMI){

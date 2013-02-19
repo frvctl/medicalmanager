@@ -399,8 +399,9 @@ public class PatientView extends JFrame {
 					Patient rawr = patientArray.get(patientList.getSelectedIndex());
 					PatientView.setSelected(rawr);
 					patientInfoArea.setText("AGE: " + rawr.getAge() + "\n"
-							+ "Name: " + rawr.getName() + "\n" + "HEIGHT: "
-							+ rawr.getHeight() + "\n" + "DOB: " + rawr.getDOB()
+							+ "Name: " + rawr.getName() + "\n" 
+							+ "HEIGHT: " + rawr.getHeight() + "\n" 
+							+ "DOB: " + rawr.getDOB()
 							+ "\n" + "BMI: " + rawr.getCalculatedBMI());
 				}
 			}
