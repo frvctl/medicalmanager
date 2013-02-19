@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Vector;
 
 import com.medicalmanager.models.Patient;
 import com.medicalmanager.views.PatientView;
@@ -263,6 +264,12 @@ public class Database {
 			int anID = p.get(x).getID();
 			allIDs[x] = anID;
 		}
+	}
+	
+	public static void updatePatient(Patient p, String[] data, ArrayList<Patient> pRay){
+		int editIndex = pRay.indexOf(p);
+		Patient rawr = new Patient().addName(data[0]);
+		PatientView.updateListAfterPatientEdit(editIndex, rawr);
 	}
 
 	public static String[] splitPatient(String input){

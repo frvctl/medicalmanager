@@ -62,7 +62,7 @@ public class PatientView extends JFrame {
 	private JButton prescribeMedicationButton;
 	private JButton setDiagnosisButton;
 
-	private JList patientList;
+	private static JList patientList;
 	public static DefaultListModel listModel;
 	private JScrollPane infoScollPane;
 	
@@ -226,9 +226,21 @@ public class PatientView extends JFrame {
 	 * Update's the PatientList by adding the patient to the listModel
 	 */
 	public static void updateList(Patient p) {
-		int theSize = patientArray.size();
 		patientArray.add(p);
 		listModel.addElement(p.getName());
+	}
+	
+	public static void updateListAfterPatientEdit(int index, Patient p){
+		patientArray.remove(p);
+		patientArray.add(index, p);
+		patientList.clearSelection();
+		listModel.remove(index);
+		listModel.add(index, p.getName());
+	}
+	
+	public static void changePriority(Patient p, int prior){
+		patientArray.remove(p);
+		listModel.add(prior, p.getName());
 	}
 
 	public void makeWelcomePanel() {
@@ -380,13 +392,16 @@ public class PatientView extends JFrame {
 		patientList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
 				PatientView.isSelected = true;
-				Patient rawr = patientArray.get(patientList.getSelectedIndex());
-				PatientView.setSelected(rawr);
-				patientInfoArea.setText("AGE: " + rawr.getAge() + "\n"
-						+ "Name: " + rawr.getName() + "\n" + "HEIGHT: "
-						+ rawr.getHeight() + "\n" + "DOB: " + rawr.getDOB()
-						+ "\n" + "BMI: " + rawr.getCalculatedBMI());
+				if(!patientList.isSelectionEmpty()){
+					Patient rawr = patientArray.get(patientList.getSelectedIndex());
+					PatientView.setSelected(rawr);
+					patientInfoArea.setText("AGE: " + rawr.getAge() + "\n"
+							+ "Name: " + rawr.getName() + "\n" + "HEIGHT: "
+							+ rawr.getHeight() + "\n" + "DOB: " + rawr.getDOB()
+							+ "\n" + "BMI: " + rawr.getCalculatedBMI());
+				}
 			}
+				
 		});
 	}
 

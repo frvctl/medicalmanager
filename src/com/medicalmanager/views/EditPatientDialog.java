@@ -13,13 +13,12 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+
+import com.medicalmanager.controllers.Database;
 
 public class EditPatientDialog extends JDialog {
 
@@ -75,50 +74,13 @@ public class EditPatientDialog extends JDialog {
 		);
 		
 		table = new JTable(tableModel);
-
-		tableModel.addColumn("Key");
-		tableModel.addColumn("Value");
 		
-		if (PatientView.getSelected() != null){
-			tableModel.addRow(new Object[]{"Name", PatientView.getSelected().getName()});
-			tableModel.addRow(new Object[]{"Age", PatientView.getSelected().getAge()});
-			tableModel.addRow(new Object[]{"Height", PatientView.getSelected().getHeight()});
-			tableModel.addRow(new Object[]{"Weight", PatientView.getSelected().getWeight()});
-			tableModel.addRow(new Object[]{"BMI", PatientView.getSelected().getCalculatedBMI()});
-		
+		if(tableModel.getRowCount() > 0){
+			updateTable();
+		}else{
+			instantiateTable();
 		}
-		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-		tableModel.addTableModelListener(new TableModelListener(){
-			@Override
-			public void tableChanged(TableModelEvent arg0) {
-				int row = arg0.getFirstRow();
-				int column = arg0.getColumn();
-				Object data = tableModel.getValueAt(0, 1);
-				System.out.println(data);
-			}
-		});
-	
-//		  table.setCellSelectionEnabled(true);
-//		  ListSelectionModel cellSelectionModel = table.getSelectionModel();
-//		  cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//			
-//		  cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
-//			  public void valueChanged(ListSelectionEvent e) {
-//				  tableModel.fireTableDataChanged();
-//				  String selectedData = null;
-//			
-//				  int[] selectedRow = table.getSelectedRows();
-//				  int[] selectedColumns = table.getSelectedColumns();
-//			
-//				  for (int i = 0; i < selectedRow.length; i++) {
-//					  for (int j = 0; j < selectedColumns.length; j++) {
-//						  selectedData = (String) table.getValueAt(selectedRow[i], selectedColumns[j]);
-//					  }
-//				  }
-//				  System.out.println("Selected: " + selectedData);
-//			  }
-//			});
-				
+		
 		scrollPane.setViewportView(table);
 		panel.setLayout(gl_panel);
 		contentPanel.setLayout(gl_contentPanel);
@@ -130,9 +92,7 @@ public class EditPatientDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						Vector data = tableModel.getDataVector();
-						System.out.println(table.getValueAt(0, 1));
-						System.out.println(data);
+						Database.updatePatient(PatientView.getSelected(), compileEditedData(), PatientView.patientArray);
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -145,5 +105,38 @@ public class EditPatientDialog extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	
+	public void updateTable(){
+		tableModel.setValueAt(PatientView.getSelected().getName(), 0, 1);
+		tableModel.setValueAt(PatientView.getSelected().getAge(), 1, 1);
+		tableModel.setValueAt(PatientView.getSelected().getHeight(), 2, 1);
+		tableModel.setValueAt(PatientView.getSelected().getWeight(), 3, 1);
+		tableModel.setValueAt(PatientView.getSelected().getCalculatedBMI(), 4, 1);
+	}
+	
+	public void instantiateTable(){
+		tableModel.addColumn("Key");
+		tableModel.addColumn("Value");
+		
+		if (PatientView.getSelected() != null){
+			tableModel.addRow(new Object[]{"Name", PatientView.getSelected().getName()});
+			tableModel.addRow(new Object[]{"Age", PatientView.getSelected().getAge()});
+			tableModel.addRow(new Object[]{"Height", PatientView.getSelected().getHeight()});
+			tableModel.addRow(new Object[]{"Weight", PatientView.getSelected().getWeight()});
+			tableModel.addRow(new Object[]{"BMI", PatientView.getSelected().getCalculatedBMI()});
+		}
+		
+		// Allows you to get updated values without changing the focus of the cell via button event
+		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+	}
+	
+	public String[] compileEditedData(){
+		String arr[] = new String[tableModel.getRowCount()];
+		for(int x = 0; x < tableModel.getRowCount(); x++){
+			arr[x] = tableModel.getValueAt(x, 1).toString();
+		}
+		
+		return arr;
 	}
 }
