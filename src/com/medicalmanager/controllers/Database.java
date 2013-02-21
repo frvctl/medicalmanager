@@ -207,10 +207,14 @@ public class Database {
 	 *  5 -> bmiclass
 	 *  If any option is not filled in by the user it will come in as "n/a"
 	 */
-	public static Patient advancedPatientSearch(File file, String[] options){
-		ArrayList<Patient> listToSort = PatientView.patientArray;
-		sortPatients(listToSort, options[0]);
+	public static Patient[] advancedPatientSearch(File file, String[] options){
 		int index;
+
+		ArrayList<Patient> listToSort = PatientView.patientArray;
+		Patient pRay[] = new Patient[listToSort.size()];
+		
+		sortPatients(listToSort, options[0]);
+		
 		Patient toFind = new Patient();
 		
 		try{
@@ -219,46 +223,82 @@ public class Database {
 			index = Collections.binarySearch(listToSort, toFind, new CompareID());
 		} catch (NumberFormatException se){
 			toFind.addName(options[0]);
-			index =  Collections.binarySearch(listToSort, toFind, new CompareName());
-			checkMultiples(index, listToSort);
+			index = Collections.binarySearch(listToSort, toFind, new CompareName());
+			if(index > 0){
+				pRay = checkMultiples(index, listToSort);		
+			}
 		}
-
-		return PatientView.patientArray.get(index);
+		
+		for(Patient p: pRay){
+			if(p != null){
+				System.out.println(p.getName());
+			}
+		}
+		
+		return pRay;
 	}
 	
 	public static Patient[] checkMultiples(int index, ArrayList<Patient> sortedList){
-		boolean isTrue = true;
-		Patient testAgainst = PatientView.patientArray.get(index);
-		Patient derp[] = new Patient[sortedList.size()];
+		boolean upTrue = true;
+		boolean downTrue = true;
 		
-		int x = 0;
-		int z = 0;
-		while(isTrue){
-			if(testAgainst.getName() == PatientView.patientArray.get(index - x).getName()){
-				System.out.println("DERPERP2");
-				if(index - x > 0){
-					derp[z] = PatientView.patientArray.get(index - x);
-					x++;
-					z++;
-				}
+		Patient testAgainst = PatientView.patientArray.get(index);
+		Patient multiples[] = new Patient[sortedList.size()];
+		
+		multiples[0] = testAgainst;
+		
+		int indexSorted = sortedList.indexOf(testAgainst);
 
-			} else if (testAgainst.getName().toLowerCase() 
-							== PatientView.patientArray.get(index + x).getName().toLowerCase()){
-				derp[z] = PatientView.patientArray.get(index + x);
-				x++;
-				z++;
-			} else {
-				System.out.println("Drop");
-				isTrue = false;
+		Patient up;
+		Patient down;
+		
+		int x = 1;
+		while(downTrue || upTrue){
+			if(upTrue){
+				up = checkUp(indexSorted + x, testAgainst.getName(), sortedList);
+				if(up != null){
+					multiples[x] = up;
+					System.out.println("UP: " + up);
+					x++;
+				}else{
+					upTrue = false; 
+				}
 			}
 			
-			System.out.println(z + " " + x);
-				
+			if(downTrue){
+				down = checkDown(indexSorted - x, testAgainst.getName(), sortedList);
+				System.out.println("DOWN: " + down);
+				if(down != null){
+					multiples[x] = down;
+					x++;
+				}else{
+					downTrue = false;
+				}
+			}
 		}
 		
-		System.out.println(derp[0]);
-		
-		
+		return multiples;
+	}
+	
+	public static Patient checkUp(int upTo, String name, ArrayList<Patient> list){
+		try{
+			if(list.get(upTo).getName() == name){
+				return list.get(upTo);
+			}
+		} catch(Exception e){
+			return null;	
+		}
+		return null;
+	}
+	
+	public static Patient checkDown(int downTo, String name, ArrayList<Patient> list){
+		try{
+			if(list.get(downTo).getName() == name){
+				return list.get(downTo);
+			}
+		} catch(Exception e){
+			return null;	
+		}
 		return null;
 	}
 	

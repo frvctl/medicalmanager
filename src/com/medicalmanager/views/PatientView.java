@@ -379,6 +379,10 @@ public class PatientView extends JFrame {
 		
 		adjustSeverityButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String ops[] = new String[1];
+				ops[0] = "Ben";
+				SearchResultsDialog sD = new SearchResultsDialog(Database.advancedPatientSearch(null,ops));
+				sD.setVisible(true); 
 			}
 		});
 		

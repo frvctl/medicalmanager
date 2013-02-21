@@ -171,9 +171,8 @@ public class SearchDialog extends JDialog {
 				public void actionPerformed(ActionEvent arg0) {
 					System.out.println("DERP");
 					String ops[] = new String[1];
-					ops[0] = "Ben";
-					System.out.println(Database.advancedPatientSearch(null, ops).getName());
-					
+					ops[0] = "derp";
+					System.out.println(Database.advancedPatientSearch(null, ops)[0]);
 				}
 			});
 			contentPanel.add(btnNewButton, "2, 22, 7, 1");

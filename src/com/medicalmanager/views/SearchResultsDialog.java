@@ -2,6 +2,7 @@ package com.medicalmanager.views;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,7 +25,7 @@ public class SearchResultsDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public SearchResultsDialog() {
+	public SearchResultsDialog(Patient[] pRay) {
 		setBounds(100, 100, 565, 378);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
