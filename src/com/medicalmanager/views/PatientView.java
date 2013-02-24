@@ -233,6 +233,22 @@ public class PatientView extends JFrame {
 		listModel.addElement(p.getFirstName());
 	}
 	
+	public static void toTop(Patient[] pRay){
+		try{
+			int index = 0;
+			for(Patient p: pRay){
+				System.out.println(p.getFirstName());
+				
+				int remIndex = patientArray.indexOf(p);
+				listModel.remove(remIndex);
+				listModel.add(index, p.getFirstName());
+				index++;
+			}
+		}catch(NullPointerException e){
+			System.out.println(e);
+		}
+	}
+	
 	public static void updateListAfterPatientEdit(int index, Patient p){
 		patientArray.remove(p);
 		patientArray.add(index, p);
@@ -384,7 +400,7 @@ public class PatientView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String ops[] = new String[1];
 				ops[0] = "Ben";
-				SearchResultsDialog sD = new SearchResultsDialog(Database.advancedPatientSearch(null,ops));
+				SearchResultsDialog sD = new SearchResultsDialog(Database.advancedPatientSearch(ops));
 				sD.setVisible(true); 
 			}
 		});

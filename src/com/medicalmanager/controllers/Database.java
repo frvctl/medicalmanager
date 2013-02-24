@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -135,7 +134,6 @@ public class Database {
 	 * Underweight                  24 -- BMI Analysis
 	 * 
 	 */
-	
 	public static void readAllPatientsFromFile() throws IOException{
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(writeFile));
@@ -209,12 +207,41 @@ public class Database {
 		  }    
 	}
 	
+	public static class CompareAge implements Comparator<Patient> {
+		  @Override
+		  public int compare(Patient p1, Patient p2) {
+			  int rank1 = p1.getID();
+			  int rank2 = p2.getID();
+			  return (rank1 > rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
+		  }   
+	}
+	
+	public static class CompareHeight implements Comparator<Patient> {
+		  @Override
+		  public int compare(Patient p1, Patient p2) {
+			  double rank1 = p1.getHeight();
+			  double rank2 = p2.getHeight();
+			  System.out.println(rank1);
+			  System.out.println(rank2);
+			  return (rank1 > rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
+		  }   
+	}
+	
+	public static class CompareWeight implements Comparator<Patient> {
+		  @Override
+		  public int compare(Patient p1, Patient p2) {
+			  double rank1 = p1.getWeight();
+			  double rank2 = p2.getWeight();
+			  return (rank1 > rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
+		  }   
+	}
+	
 	public static class CompareID implements Comparator<Patient> {
 		  @Override
 		  public int compare(Patient p1, Patient p2) {
-			  int ID1 = p1.getID();
-			  int ID2 = p2.getID();
-			  return (ID1 > ID2 ? -1 : (ID1 == ID2 ? 0 : 1));
+			  int rank1 = p1.getID();
+			  int rank2 = p2.getID();
+			  return (rank1 > rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
 		  }   
 	}
 	
@@ -248,7 +275,7 @@ public class Database {
 	 *  5 -> bmiclass
 	 *  If any option is not filled in by the user it will come in as "n/a"
 	 */
-	public static Patient[] advancedPatientSearch(File file, String[] options){
+	public static Patient[] advancedPatientSearch(String[] options){
 		int index;
 
 		ArrayList<Patient> listToSort = PatientView.patientArray;
@@ -265,16 +292,12 @@ public class Database {
 		} catch (NumberFormatException se){
 			toFind.setFirstName(options[0]);
 			index =  Collections.binarySearch(listToSort, toFind, new CompareName());
+			System.out.println(index);
 			if(index > 0){
 				pRay = checkMultiples(index, listToSort);		
 			}
 		}
-		
-		for(Patient p: pRay){
-			if(p != null){
-				System.out.println(p.getFirstName());
-			}
-		}
+			
 		
 		return pRay;
 	}
@@ -284,10 +307,9 @@ public class Database {
 		boolean downTrue = true;
 		
 		Patient testAgainst = PatientView.patientArray.get(index);
-		Patient multiples[] = new Patient[sortedList.size()];
-		
-		multiples[0] = testAgainst;
-		
+		ArrayList<Patient> multiples = new ArrayList<Patient>();
+		multiples.add(testAgainst);
+
 		int indexSorted = sortedList.indexOf(testAgainst);
 
 		Patient up;
@@ -298,8 +320,7 @@ public class Database {
 			if(upTrue){
 				up = checkUp(indexSorted + x, testAgainst.getFirstName(), sortedList);
 				if(up != null){
-					multiples[x] = up;
-					System.out.println("UP: " + up);
+					multiples.add(up);
 					x++;
 				}else{
 					upTrue = false; 
@@ -308,38 +329,39 @@ public class Database {
 			
 			if(downTrue){
 				down = checkDown(indexSorted - x, testAgainst.getFirstName(), sortedList);
-				System.out.println("DOWN: " + down);
 				if(down != null){
-					multiples[x] = down;
+					multiples.add(down);
 					x++;
 				}else{
 					downTrue = false;
 				}
 			}
 		}
-		
-		return multiples;
+
+		return multiples.toArray(new Patient[multiples.size()]);
 	}
 	
 	public static Patient checkUp(int upTo, String name, ArrayList<Patient> list){
 		try{
-			if(list.get(upTo).getFirstName() == name){
+			if(list.get(upTo).getFirstName().equals(name)){
 				return list.get(upTo);
 			}
-		} catch(Exception e){
-			return null;	
+		}catch(IndexOutOfBoundsException e){
+			return null;
 		}
+		
 		return null;
 	}
 	
 	public static Patient checkDown(int downTo, String name, ArrayList<Patient> list){
 		try{
-			if(list.get(downTo).getFirstName() == name){
+			if(list.get(downTo).getFirstName().equals(name)){
 				return list.get(downTo);
 			}
-		} catch(Exception e){
-			return null;	
+		}catch(IndexOutOfBoundsException e){
+			return null;
 		}
+		
 		return null;
 	}
 	

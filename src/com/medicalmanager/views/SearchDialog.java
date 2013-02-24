@@ -22,18 +22,19 @@ import com.medicalmanager.models.Patient;
 import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 @SuppressWarnings("serial")
 public class SearchDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField searchField;
+	private JTextField minAgeField;
+	private JTextField maxAgeField;
+	private JTextField minHeightField;
+	private JTextField maxHeightField;
+	private JTextField minWeightField;
+	private JTextField maxWeightField;
 
 	/**
 	 * Create the dialog.
@@ -83,9 +84,9 @@ public class SearchDialog extends JDialog {
 		JLabel lblSearchString = new JLabel("Search String");
 		contentPanel.add(lblSearchString, "2, 6, right, default");
 		
-		textField = new JTextField();
-		contentPanel.add(textField, "4, 6, 5, 1, fill, default");
-		textField.setColumns(10);
+		searchField = new JTextField();
+		contentPanel.add(searchField, "4, 6, 5, 1, fill, default");
+		searchField.setColumns(10);
 		{
 			JLabel lblFilter = new JLabel("Filter - Leave Blank to Not Filter by that Field");
 			lblFilter.setHorizontalAlignment(SwingConstants.CENTER);
@@ -96,74 +97,76 @@ public class SearchDialog extends JDialog {
 			contentPanel.add(lblAge, "2, 12, right, default");
 		}
 		{
-			textField_1 = new JTextField();
-			contentPanel.add(textField_1, "4, 12, fill, default");
-			textField_1.setColumns(10);
+			minAgeField = new JTextField();
+			contentPanel.add(minAgeField, "4, 12, fill, default");
+			minAgeField.setColumns(10);
 		}
 		{
 			JLabel lblThrough = new JLabel("through");
 			contentPanel.add(lblThrough, "6, 12, right, default");
 		}
 		{
-			textField_2 = new JTextField();
-			contentPanel.add(textField_2, "8, 12, fill, default");
-			textField_2.setColumns(10);
+			maxAgeField = new JTextField();
+			contentPanel.add(maxAgeField, "8, 12, fill, default");
+			maxAgeField.setColumns(10);
 		}
 		{
 			JLabel lblHeight = new JLabel("Height");
 			contentPanel.add(lblHeight, "2, 14, right, default");
 		}
 		{
-			textField_3 = new JTextField();
-			textField_3.setToolTipText("In Inches\r\n");
-			contentPanel.add(textField_3, "4, 14, fill, default");
-			textField_3.setColumns(10);
+			minHeightField = new JTextField();
+			minHeightField.setToolTipText("In Inches\r\n");
+			contentPanel.add(minHeightField, "4, 14, fill, default");
+			minHeightField.setColumns(10);
 		}
 		{
 			JLabel lblThrough_1 = new JLabel("through");
 			contentPanel.add(lblThrough_1, "6, 14, right, default");
 		}
 		{
-			textField_4 = new JTextField();
-			textField_4.setToolTipText("In Inches\r\n");
-			contentPanel.add(textField_4, "8, 14, fill, default");
-			textField_4.setColumns(10);
+			maxHeightField = new JTextField();
+			maxHeightField.setToolTipText("In Inches\r\n");
+			contentPanel.add(maxHeightField, "8, 14, fill, default");
+			maxHeightField.setColumns(10);
 		}
 		{
 			JLabel lblWeight = new JLabel("Weight");
 			contentPanel.add(lblWeight, "2, 16, right, default");
 		}
 		{
-			textField_5 = new JTextField();
-			textField_5.setToolTipText("In Pounds\r\n");
-			contentPanel.add(textField_5, "4, 16, fill, default");
-			textField_5.setColumns(10);
+			minWeightField = new JTextField();
+			minWeightField.setToolTipText("In Pounds\r\n");
+			contentPanel.add(minWeightField, "4, 16, fill, default");
+			minWeightField.setColumns(10);
 		}
 		{
 			JLabel lblThrough_2 = new JLabel("through");
 			contentPanel.add(lblThrough_2, "6, 16, right, default");
 		}
 		{
-			textField_6 = new JTextField();
-			textField_6.setToolTipText("In Pounds\r\n");
-			contentPanel.add(textField_6, "8, 16, fill, default");
-			textField_6.setColumns(10);
+			maxWeightField = new JTextField();
+			maxWeightField.setToolTipText("In Pounds\r\n");
+			contentPanel.add(maxWeightField, "8, 16, fill, default");
+			maxWeightField.setColumns(10);
 		}
 		{
 			JLabel lblGender = new JLabel("Gender");
 			contentPanel.add(lblGender, "2, 18, right, default");
 		}
 		{
-			JComboBox comboBox = new JComboBox();
-			contentPanel.add(comboBox, "4, 18, 5, 1, fill, default");
+			JComboBox genderBox = new JComboBox();
+			genderBox.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female"}));
+			contentPanel.add(genderBox, "4, 18, 5, 1, fill, default");
 		}
 		{
 			JLabel lblBmiClassification = new JLabel("BMI Classification");
 			contentPanel.add(lblBmiClassification, "2, 20, right, default");
 		}
 		{
-			JComboBox comboBox = new JComboBox();
-			contentPanel.add(comboBox, "4, 20, 5, 1, fill, default");
+			JComboBox bmiBox = new JComboBox();
+			bmiBox.setModel(new DefaultComboBoxModel(new String[] {"Under Weight", "Normal", "Over Weight"}));
+			contentPanel.add(bmiBox, "4, 20, 5, 1, fill, default");
 		}
 		{
 			JButton btnNewButton = new JButton("Search!");
@@ -171,8 +174,11 @@ public class SearchDialog extends JDialog {
 				public void actionPerformed(ActionEvent arg0) {
 					System.out.println("DERP");
 					String ops[] = new String[1];
-					ops[0] = "derp";
-					System.out.println(Database.advancedPatientSearch(null, ops)[0]);
+					ops[0] = searchField.getText();
+					Patient results[] = Database.advancedPatientSearch(ops);
+					PatientView.toTop(results);
+					SearchResultsDialog dialog = new SearchResultsDialog(results);
+					dialog.setVisible(true);
 				}
 			});
 			contentPanel.add(btnNewButton, "2, 22, 7, 1");

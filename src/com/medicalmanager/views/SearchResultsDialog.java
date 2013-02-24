@@ -2,17 +2,15 @@ package com.medicalmanager.views;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.medicalmanager.models.Patient;
@@ -50,13 +48,14 @@ public class SearchResultsDialog extends JDialog {
 		model.addColumn("Severity");
 		model.addColumn("Age");
 		model.addColumn("Height");
-		
-		System.out.println(PatientView.patientArray);
-		for(Patient p: PatientView.patientArray){
-			model.addRow(new Object[]{p.getID(), p.getFirstName(), "severe", p.getAge(), p.getHeight()});
-			System.out.println("ADDINGROW");
+			
+		try{
+			for(Patient p: pRay){
+				model.addRow(new Object[]{p.getID(), p.getFullName(), "severe", p.getAge(), p.getHeight()});
+			}
+		}catch(NullPointerException e){
+			System.out.println(e);
 		}
-		
 		
 		scrollPane.setViewportView(resultsTable);
 		contentPanel.setLayout(gl_contentPanel);
