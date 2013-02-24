@@ -81,7 +81,7 @@ public class EditPatientDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						System.out.println("OK PRESSED: " + PatientView.getSelected().getName());
+						System.out.println("OK PRESSED: " + PatientView.getSelected().getFirstName());
 						Database.updatePatient(PatientView.getSelected(), compileEditedData(), PatientView.patientArray);
 					}
 				});
@@ -98,11 +98,11 @@ public class EditPatientDialog extends JDialog {
 	}
 	
 	public void updateTable(){
-		tableModel.setValueAt(PatientView.getSelected().getName(), 0, 1);
+		tableModel.setValueAt(PatientView.getSelected().getFirstName(), 0, 1);
 		tableModel.setValueAt(PatientView.getSelected().getAge(), 1, 1);
 		tableModel.setValueAt(PatientView.getSelected().getHeight(), 2, 1);
 		tableModel.setValueAt(PatientView.getSelected().getWeight(), 3, 1);
-		tableModel.setValueAt(PatientView.getSelected().getCalculatedBMI(), 4, 1);
+		tableModel.setValueAt(PatientView.getSelected().getBMIDiagnosis(), 4, 1);
 		tableModel.fireTableDataChanged();
 	}
 	
@@ -111,11 +111,11 @@ public class EditPatientDialog extends JDialog {
 		tableModel.addColumn("Value");
 		
 		if (PatientView.getSelected() != null){
-			tableModel.addRow(new Object[]{"Name", PatientView.getSelected().getName()});
+			tableModel.addRow(new Object[]{"Name", PatientView.getSelected().getFirstName()});
 			tableModel.addRow(new Object[]{"Age", PatientView.getSelected().getAge()});
 			tableModel.addRow(new Object[]{"Height", PatientView.getSelected().getHeight()});
 			tableModel.addRow(new Object[]{"Weight", PatientView.getSelected().getWeight()});
-			tableModel.addRow(new Object[]{"BMI", PatientView.getSelected().getCalculatedBMI()});
+			tableModel.addRow(new Object[]{"BMI", PatientView.getSelected().getBMIDiagnosis()});
 		}
 	}
 	

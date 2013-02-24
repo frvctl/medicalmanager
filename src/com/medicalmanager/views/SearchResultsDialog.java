@@ -52,11 +52,10 @@ public class SearchResultsDialog extends JDialog {
 		
 		System.out.println(PatientView.patientArray);
 		for(Patient p: PatientView.patientArray){
-			model.addRow(new Object[]{p.getID(), p.getName(), "severe", p.getAge(), p.getHeight()});
+			model.addRow(new Object[]{p.getID(), p.getFirstName(), "severe", p.getAge(), p.getHeight()});
 			System.out.println("ADDINGROW");
 		}
 		
-		model.addRow(new Object[]{"v1", "v2", "v3", "v4", "v5"});
 		
 		scrollPane.setViewportView(resultsTable);
 		contentPanel.setLayout(gl_contentPanel);

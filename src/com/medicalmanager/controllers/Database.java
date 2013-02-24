@@ -102,30 +102,71 @@ public class Database {
 	    }
 	}
 	
+	/*
+	 * Sample File CSV 
+	 * 0,                           0  -- ID 
+	 * first,                       1  -- first name
+	 * middle,                      2  -- middle name
+	 * last,                        3  -- last name
+	 * dateofbirth,                 4  -- date of birth
+	 * home,                        5  -- address
+	 * email,                       6  -- email
+	 * phone,                       7  -- home phone
+	 * cell,                        8  -- cell phone
+	 * info,                        9  -- additional information
+	 * conditions,                  10 -- current medical conditions
+	 * Yes - Several Packs a day,   11 -- tobaco usage
+	 * Yes - Very heavy drinker ,   12 -- alcohol consumption
+	 * meds,                        13 -- current medications
+	 * adasdfsdfsdfa ,              14 -- additionalmedical information
+	 * aditionalMedical,            15 -- patient analysis
+	 * 189.0,                       16 -- Age
+	 * 890.0,                       17 -- Height
+	 * 908.0,                       18 -- Weight
+	 * 0.0,                         19 -- Systolic
+	 * 0.0,                         20 -- Diastolic
+	 * 0.8058628960989774,          21 -- BMI
+	 * 0.0,                         22 -- MAP
+	 * Too Low,                     23 -- MAP Analysis
+	 * Underweight                  24 -- BMI Analysis
+	 * 
+	 */
+	
 	public static void readAllPatientsFromFile() throws IOException{
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(writeFile));
 			String line = null;
-			String[] stringray = new String[20];
+			String[] stringray = new String[24];
 			int x = countLines();
 			while ((line = br.readLine()) != null) {
 				stringray = splitPatient(line);
 				System.out.println(line);
 				if(stringray != null) {
 					Patient readPatient = new Patient()
-						.addName(stringray[1])
-						.addAge(Double.parseDouble(stringray[9]))
-						.addDOB(null)
-						.addAddress(null)
-						.addPhoneNumber(null)
-						.addInsuranceCompany(null)
-						.addMedicalConditions(null)
-						.addCurrentMedications(null)
-						.addAdditionalComments(null)
-						.addID(countLines() - x)
-						.addHeight(10)
-						.addWeight(Double.parseDouble(stringray[10]))
-						.addBMI(10,10);
+						.setID(Integer.parseInt(stringray[0]))
+						.setFirstName(stringray[1])
+						.setMiddleName(stringray[2])
+						.setLastName(stringray[3])
+						.setDOB(stringray[4])
+						.setAddress(stringray[5])
+						.setEmailAddress(stringray[6])
+						.setHomePhone(stringray[7])
+						.setCellPhone(stringray[8])
+						.setAdditionalPatientInformation(stringray[9])
+						.setMedicalConditions(stringray[10])
+						.setTobaccoUsage(stringray[11])
+						.setAlcoholConsumption(stringray[12])
+						.setCurrentMedications(stringray[13])
+						.setAdditionalMedicalInformation(stringray[14])
+						.setPatientAnalysis(stringray[15])
+						.setAge(Double.parseDouble(stringray[16]))
+						.setHeight(Double.parseDouble(stringray[17]))
+						.setWeight(Double.parseDouble(stringray[18]))
+						.setSystolicBloodPressure(Double.parseDouble(stringray[19]))
+						.setDiastolicBloodPressure(Double.parseDouble(stringray[20]))
+						.setBMI(Double.parseDouble(stringray[21]))
+						.setMAP(Double.parseDouble(stringray[22]));
+					
 				
 					PatientView.updateList(readPatient);
 					x--;
@@ -147,8 +188,8 @@ public class Database {
 	public static class CompareName implements Comparator<Patient> {
 		  @Override
 		  public int compare(Patient p1, Patient p2) {
-		    String rank1 = p1.getName();
-		    String rank2 = p2.getName();
+		    String rank1 = p1.getFirstName();
+		    String rank2 = p2.getFirstName();
 		    if (rank1 == null && rank2 == null) {
 		      return 0;
 		    }
@@ -211,10 +252,10 @@ public class Database {
 		
 		try{
 			Integer.parseInt(options[0]); // If this passes then it's a number else it goes to the catch block
-			toFind.addID(Integer.parseInt(options[0]));
+			toFind.setID(Integer.parseInt(options[0]));
 			index = Collections.binarySearch(listToSort, toFind, new CompareID());
 		} catch (NumberFormatException se){
-			toFind.addName(options[0]);
+			toFind.setFirstName(options[0]);
 			index =  Collections.binarySearch(listToSort, toFind, new CompareName());
 		}
 		
@@ -266,7 +307,7 @@ public class Database {
 	
 	public static void updatePatient(Patient p, String[] data, ArrayList<Patient> pRay){
 		int editIndex = pRay.indexOf(p);
-		p.addName(data[0]);
+		p.setFirstName(data[0]);
 		PatientView.updateListAfterPatientEdit(editIndex, p);
 		try {
 			Database.writeAllPatientsToFile();

@@ -1,117 +1,201 @@
 package com.medicalmanager.models;
 
+import com.medicalmanager.controllers.Diagnosis;
+
 public class Patient {
+	private int ID;
 	
 	// Basic Patient Information
-	private String name;
+	private String firstName;
+	private String lastName;
+	private String middleName;
+	private String race;
+	private String gender;
 	private String DOB;
 	private String address;
-	private String phoneNumber;
 	private String emailAddress;
+	private String homePhoneNumber;
+	private String cellPhoneNumber;
+	private String additionalPatientInformation;
 	
 	// Medical Information
-	private String insuranceCompany;
-	private String medicalConditions;
-	private String currentMedications;
-	private String additionalComments;
-	
-	// Numerical Values
-	private int ID;
 	private double age;
 	private double height;
 	private double weight;
+	private String tobaccoUsage;
+	private String alcoholConsumption;
+	private String medicalConditions;
+	private String currentMedications;
+	private String additionalMedicalInformation;
 	
 	// Calculated
 	private double BMI;
-	private double averageSystolicBP;
-	 
+	private double MAP;
+	private double systolicBloodPressure;
+	private double diastolicBloodPressure;
+	private String patientAnalysis; 
+	
     public Patient() { }
    
-    public static Patient create() {
-        return new Patient();
-    }
-    
-	public Patient addID(int ID) {
+	public Patient setID(int ID) {
 		this.ID = ID;
 		return this;
 	}
     
-    public Patient addName(String name) {
-    	this.name = name;
+    public Patient setFirstName(String name) {
+    	this.firstName = name;
         return this;
     }
     
-    public Patient addAge(double d) {
+    public Patient setMiddleName(String name){
+    	this.middleName = name;
+    	return this;
+    }
+    
+    public Patient setLastName(String name){
+    	this.lastName = name;
+    	return this;
+    }
+    
+    public Patient setGender(String gender){
+    	this.gender = gender;
+    	return this;
+    }
+    
+    public Patient setRace(String race){
+    	this.race = race;
+    	return this;
+    }
+    
+    public Patient setAge(double d) {
     	this.age = d;
         return this;
     }
     
-    public Patient addDOB(String DOB) {
+    public Patient setDOB(String DOB) {
     	this.DOB = DOB;
         return this;
     }
     
-    public Patient addHeight(double height) {
+    public Patient setHeight(double height) {
     	this.height = height;
         return this;
     }
     
-    public Patient addWeight(double weight) {
+    public Patient setWeight(double weight) {
     	this.weight = weight;
         return this;
     }
     
-    public Patient addInsuranceCompany(String insuranceCompany) {
-    	this.insuranceCompany = insuranceCompany;
+    public Patient setCalculatedBMI() {
+    	this.BMI = Diagnosis.calculateBMI(this.height, this.weight);
         return this;
     }
     
-    public Patient addCalculatedBMI(double calculatedBMI) {
-    	this.BMI = calculatedBMI;
-        return this;
+    public Patient setCalculatedMAP(){
+    	this.MAP = Diagnosis.calculateMAP(this.diastolicBloodPressure, this.systolicBloodPressure);
+    	return this;
     }
     
-    public Patient addMedicalConditions(String medicalConditions) {
+    public Patient setMedicalConditions(String medicalConditions) {
     	this.medicalConditions = medicalConditions;
         return this;
     }
     
-    public Patient addCurrentMedications(String currentMedications) {
+    public Patient setCurrentMedications(String currentMedications) {
     	this.currentMedications = currentMedications;
         return this;
     }
     
-    public Patient addAddress(String address) {
+    public Patient setAddress(String address) {
     	this.address = address;
         return this;
     }
     
-    public Patient addPhoneNumber(String phoneNumber) {
-    	this.phoneNumber = phoneNumber;
+    public Patient setHomePhone(String phoneNumber) {
+    	this.homePhoneNumber = phoneNumber;
         return this;
     }
     
-    public Patient addEmailAddress(String emailAddress) {
+    public Patient setCellPhone(String phoneNumber){
+    	this.cellPhoneNumber = phoneNumber;
+    	return this;
+    }
+    
+    public Patient setEmailAddress(String emailAddress) {
     	this.emailAddress = emailAddress;
         return this;
     }
     
-    public Patient addAdditionalComments(String additionalComments) {
-    	this.additionalComments = additionalComments;
+    public Patient setAlcoholConsumption(String consumption){
+    	this.alcoholConsumption = consumption;
+    	return this;
+    }
+    
+    public Patient setTobaccoUsage(String usage){
+    	this.tobaccoUsage = usage;
+    	return this;
+    }
+    
+    public Patient setSystolicBloodPressure(double systolic){
+    	this.systolicBloodPressure = systolic;
+    	return this;
+    }
+    
+    public Patient setDiastolicBloodPressure(double diastolic){
+    	this.diastolicBloodPressure = diastolic;
+    	return this;
+    }
+    
+    public Patient setPatientAnalysis(String analysis){
+    	this.patientAnalysis = analysis;
+    	return this;
+    }
+    
+    public Patient setAdditionalMedicalInformation(String info){
+    	this.additionalMedicalInformation = info;
+    	return this;
+    }
+    
+    public Patient setAdditionalPatientInformation(String info) {
+    	this.additionalPatientInformation = info;
         return this;
     }
     
-    public Patient addBMI(double height, double weight){
-    	this.BMI = ((weight)/(Math.pow(height, 2))) * 703;
-		return this;
+    public Patient setBMI(double BMI){
+    	this.BMI = BMI;
+    	return this;
     }
+    
+    public Patient setMAP(double MAP){
+    	this.MAP = MAP;
+    	return this;
+    }
+    
+    /*
+     * --------------------------------------------------
+     * Getters 
+     * --------------------------------------------------
+     */
     
     public int getID(){
     	return this.ID;
     }
     
-    public String getName(){
-    	return this.name;
+    public String getFullName(){
+    	return this.firstName + " " + this.middleName + " " + this.lastName;
+    }
+    
+    public String getFirstName(){
+    	return this.firstName;
+    }
+    
+    public String getMiddleName(){
+    	return this.middleName;
+    }
+    
+    public String getLastName(){
+    	return this.lastName;
     }
     
     public double getAge(){
@@ -126,6 +210,14 @@ public class Patient {
     	return this.weight;
     }
     
+    public double getSystolicBloodPressure(){
+    	return this.systolicBloodPressure;
+    }
+    
+    public double getDiastolicBloodPressure(){
+    	return this.diastolicBloodPressure;
+    }
+    
     public String getDOB(){
     	return this.DOB;
     }
@@ -134,8 +226,12 @@ public class Patient {
     	return this.address;
     }
     
-    public String getPhoneNumber(){
-    	return this.phoneNumber;
+    public String getHomePhoneNumber(){
+    	return this.homePhoneNumber;
+    }
+    
+    public String getCellPhoneNumber(){
+    	return this.cellPhoneNumber;
     }
     
     public String getEmailAddress(){
@@ -150,46 +246,84 @@ public class Patient {
     	return this.medicalConditions;
     }
     
-    public String getCalculatedBMI(){
-    	String BMIDiagnosis = null;
-    	
-    	if(BMI < 18){
-    		BMIDiagnosis = "Underweight";
-    	}else if(BMI > 18 && BMI < 24.9){
-    		BMIDiagnosis = "Normal Weight";
-    	}else if(BMI > 25 && BMI < 29.9){
-    		BMIDiagnosis = "Over Weight";
-    	}else{
-    		BMIDiagnosis = "Obese";
-    	}
-    	return BMIDiagnosis;
+    public String getTobaccoUsage(){
+    	return this.tobaccoUsage;
     }
     
-    public String getAddictionalComments(){
-    	return this.additionalComments;
+    public String getAlcoholConsumption(){
+    	return this.alcoholConsumption;
     }
     
-    public String getInsuranceCompany(){
-    	return this.insuranceCompany;
+    public double getBMI(){
+    	return this.BMI;
     }
     
+    public String getBMIDiagnosis(){
+    	return Diagnosis.bmiDiagnosis(this.BMI);
+    }
+    
+    public double getMAP(){
+    	return this.MAP;
+    }
+    
+    public String getRace(){
+    	return this.race;
+    }
+    
+    public String getGender(){
+    	return this.gender;
+    }
+    
+    public String getMAPDiagnosis(){
+    	return Diagnosis.mapDiagnosis(this.MAP);
+    }
+    
+    public String getAdditionalPatientInformation(){
+    	return this.additionalPatientInformation;
+    }
+    
+    public String getAdditionalMedicalInformation(){
+    	return this.additionalMedicalInformation;
+    }
+    
+    public String getPatientAnalysis(){
+    	return this.patientAnalysis;
+    }
+    
+    /*
+     * Method that allows a patient to be split and stored in the text file
+     * essentially csv-ifies the patient
+     */
     public static String stringify (Patient patient){
     	String patientString = "";
     	String comma = ", ";
     			
-    	patientString = patient.getID() + comma +
-    					patient.getName()
+    	patientString = patient.getID() 
+    					+ comma + patient.getFirstName()
+    					+ comma + patient.getMiddleName()
+    					+ comma + patient.getLastName()
     					+ comma + patient.getDOB() 
     					+ comma + patient.getAddress()
-    					+ comma + patient.getPhoneNumber()
     					+ comma + patient.getEmailAddress()
-    					+ comma + patient.getInsuranceCompany()
+    					+ comma + patient.getHomePhoneNumber()
+    					+ comma + patient.getCellPhoneNumber()
+    					+ comma + patient.getAdditionalPatientInformation()
     					+ comma + patient.getMedicalConditions()
-    					+ comma + patient.getAddictionalComments()
+    					+ comma + patient.getTobaccoUsage()
+    					+ comma + patient.getAlcoholConsumption()
+    					+ comma + patient.getCurrentMedications()
+    					+ comma + patient.getAdditionalMedicalInformation()
+    					+ comma + patient.getPatientAnalysis()
     					+ comma + patient.getAge()
     					+ comma + patient.getHeight()
     					+ comma + patient.getWeight()
-    					+ comma + patient.getCalculatedBMI() + "\r\n";
+    					+ comma + patient.getSystolicBloodPressure()
+    					+ comma + patient.getDiastolicBloodPressure()
+    					+ comma + patient.getBMI()
+    					+ comma + patient.getMAP()
+    					+ comma + patient.getMAPDiagnosis()
+    					+ comma + patient.getBMIDiagnosis()
+    					+ "\r\n";
     	
 		return patientString;
     }

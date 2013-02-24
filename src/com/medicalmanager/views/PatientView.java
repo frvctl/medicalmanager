@@ -213,12 +213,15 @@ public class PatientView extends JFrame {
 		patientInfoEditPanel.add(infoScollPane, "infoPane");
 		
 		patientInfoArea = new JTextArea();
+		patientInfoArea.setFont(new Font("Arimo", Font.PLAIN, 13));
+		patientInfoArea.setLineWrap(true);
+		patientInfoArea.setWrapStyleWord(true);
 		infoScollPane.setViewportView(patientInfoArea);
 		
 		patientPanel.setLayout(patientLayout);
 
 		for (Patient p : patientArray) {
-			listModel.addElement(p.getName());
+			listModel.addElement(p.getFirstName());
 		}
 	}
 	
@@ -227,7 +230,7 @@ public class PatientView extends JFrame {
 	 */
 	public static void updateList(Patient p) {
 		patientArray.add(p);
-		listModel.addElement(p.getName());
+		listModel.addElement(p.getFirstName());
 	}
 	
 	public static void updateListAfterPatientEdit(int index, Patient p){
@@ -238,12 +241,12 @@ public class PatientView extends JFrame {
 		patientList.setSelectedIndex(index);
 		
 		listModel.remove(index);
-		listModel.add(index, p.getName());
+		listModel.add(index, p.getFirstName());
 	}
 	
 	public static void changePriority(Patient p, int prior){
 		patientArray.remove(p);
-		listModel.add(prior, p.getName());
+		listModel.add(prior, p.getFirstName());
 	}
 
 	public void makeWelcomePanel() {
@@ -350,7 +353,7 @@ public class PatientView extends JFrame {
 				Database.sortPatients(patientArray, "ID");
 				listModel.clear();
 				for (Patient p : patientArray) {
-					listModel.addElement(p.getName());
+					listModel.addElement(p.getFirstName());
 				}
 			}
 		});
@@ -397,17 +400,43 @@ public class PatientView extends JFrame {
 				PatientView.isSelected = true;
 				if(!patientList.isSelectionEmpty()){
 					Patient rawr = patientArray.get(patientList.getSelectedIndex());
+					patientInfoArea.getWidth();
 					PatientView.setSelected(rawr);
-					patientInfoArea.setText("AGE: " + rawr.getAge() + "\n"
-							+ "Name: " + rawr.getName() + "\n" + "HEIGHT: "
-							+ rawr.getHeight() + "\n" + "DOB: " + rawr.getDOB()
-							+ "\n" + "BMI: " + rawr.getCalculatedBMI());
+					String newLine = "\n";
+					patientInfoArea.setText(
+							"    ----------------------------------- Patient Info ---------------------------------------\n"
+							+ formatField("Age", rawr.getAge())
+							+ newLine
+							+ formatField("Name", rawr.getFirstName())
+							+ newLine
+							+ formatField("Height", rawr.getHeight())
+							+ newLine
+							+ formatField("Weight", rawr.getWeight())
+							+ newLine
+							+ formatField("Date of Birth", rawr.getDOB())
+							+ newLine
+							+ formatField("Body Mass Index", rawr.getBMI())
+							+ newLine
+							+ formatField("Address", rawr.getAddress())
+							+ newLine
+							+ formatField("Home Phone:", rawr.getHomePhoneNumber())
+							+ newLine
+							+ formatField("Cell Phone:", rawr.getCellPhoneNumber())
+							+ newLine
+							+ formatField("Current Medications:", rawr.getCurrentMedications())
+							+ newLine
+							+ formatField("Additional Medical Information", rawr.getAdditionalMedicalInformation()));
 				}
 			}
 				
 		});
 	}
 
+	public static String formatField(String attr, Comparable val){
+		return String.format("    %-30s %4s", attr, val) + "\n";
+
+	}
+	
 	public static Patient getSelected() {
 		return selected;
 	}
