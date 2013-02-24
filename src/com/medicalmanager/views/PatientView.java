@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,7 +21,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -30,7 +28,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 
 import com.medicalmanager.controllers.Database;
 import com.medicalmanager.models.Patient;
@@ -74,6 +71,7 @@ public class PatientView extends JFrame {
 
 	public static ArrayList<Patient> sortedArray = new ArrayList<Patient>();
 	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
+	private JPanel aboutPanel;
 
 
 	/**
@@ -213,12 +211,15 @@ public class PatientView extends JFrame {
 		patientInfoEditPanel.add(infoScollPane, "infoPane");
 		
 		patientInfoArea = new JTextArea();
-		patientInfoArea.setFont(new Font("Arimo", Font.PLAIN, 13));
+		patientInfoArea.setFont(new Font("Monospaced", patientInfoArea.getFont().getStyle(), patientInfoArea.getFont().getSize()));
 		patientInfoArea.setLineWrap(true);
 		patientInfoArea.setWrapStyleWord(true);
 		infoScollPane.setViewportView(patientInfoArea);
 		
 		patientPanel.setLayout(patientLayout);
+		
+		aboutPanel = new JPanel();
+		contentPane.add(aboutPanel, "name_6720415608134");
 
 		for (Patient p : patientArray) {
 			listModel.addElement(p.getFirstName());
@@ -423,8 +424,15 @@ public class PatientView extends JFrame {
 					patientInfoArea.getWidth();
 					PatientView.setSelected(rawr);
 					String newLine = "\n";
+					String space = "    ";
 					patientInfoArea.setText(
-							"    ----------------------------------- Patient Info ---------------------------------------\n"
+							space+ "----------------------------------- Patient Info ---------------------------------------\n"
+							+ space + "** Information regarding " + rawr.getFullName() + " is listed below.  \n"
+							+ space + "** This Patient is under the care of Doctor Blah \n"
+							+ space + "** Remember to leave detailed remarks on any edits to the patients file \n"
+							+ space + "** If you encounter any difficulty consult the Help Menu \n"
+							+ space + "** If immediate attention by others is required raise the patients severity level \n"
+							+ newLine
 							+ formatField("Age", rawr.getAge())
 							+ newLine
 							+ formatField("Name", rawr.getFirstName())
@@ -439,11 +447,11 @@ public class PatientView extends JFrame {
 							+ newLine
 							+ formatField("Address", rawr.getAddress())
 							+ newLine
-							+ formatField("Home Phone:", rawr.getHomePhoneNumber())
+							+ formatField("Home Phone", rawr.getHomePhoneNumber())
 							+ newLine
-							+ formatField("Cell Phone:", rawr.getCellPhoneNumber())
+							+ formatField("Cell Phone", rawr.getCellPhoneNumber())
 							+ newLine
-							+ formatField("Current Medications:", rawr.getCurrentMedications())
+							+ formatField("Current Medications", rawr.getCurrentMedications())
 							+ newLine
 							+ formatField("Additional Medical Information", rawr.getAdditionalMedicalInformation()));
 				}
@@ -453,7 +461,7 @@ public class PatientView extends JFrame {
 	}
 
 	public static String formatField(String attr, Comparable val){
-		return String.format("    %-30s %4s", attr, val) + "\n";
+		return String.format("    %30s: => %-4s", attr, val) + "\n";
 
 	}
 	

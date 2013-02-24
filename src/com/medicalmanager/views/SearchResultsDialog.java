@@ -24,20 +24,21 @@ public class SearchResultsDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public SearchResultsDialog(Patient[] pRay) {
+		setTitle("Search Results");
 		setBounds(100, 100, 565, 378);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane resultsScrollPane = new JScrollPane();
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+				.addComponent(resultsScrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+				.addComponent(resultsScrollPane, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
 		);
 		
 		DefaultTableModel model = new DefaultTableModel();
@@ -57,7 +58,7 @@ public class SearchResultsDialog extends JDialog {
 			System.out.println(e);
 		}
 		
-		scrollPane.setViewportView(resultsTable);
+		resultsScrollPane.setViewportView(resultsTable);
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();

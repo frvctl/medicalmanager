@@ -40,6 +40,7 @@ public class SearchDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public SearchDialog() {
+		setTitle("Search Patients");
 		setBounds(100, 100, 564, 368);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -179,6 +180,7 @@ public class SearchDialog extends JDialog {
 					PatientView.toTop(results);
 					SearchResultsDialog dialog = new SearchResultsDialog(results);
 					dialog.setVisible(true);
+					SearchDialog.this.setVisible(false);
 				}
 			});
 			contentPanel.add(btnNewButton, "2, 22, 7, 1");

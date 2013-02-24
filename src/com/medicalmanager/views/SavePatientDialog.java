@@ -50,6 +50,7 @@ public class SavePatientDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public SavePatientDialog() {
+		setTitle("Save Patients");
 		setModal(true);
 		setBounds(100, 100, 584, 355);
 		getContentPane().setLayout(new BorderLayout());
