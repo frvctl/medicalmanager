@@ -167,6 +167,14 @@ public class SearchDialog extends JDialog {
 		}
 		{
 			JButton btnNewButton = new JButton("Search!");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					System.out.println("DERP");
+					String ops[] = new String[1];
+					ops[0] = "derp";
+					System.out.println(Database.advancedPatientSearch(null, ops)[0]);
+				}
+			});
 			contentPanel.add(btnNewButton, "2, 22, 7, 1");
 		}
 		{

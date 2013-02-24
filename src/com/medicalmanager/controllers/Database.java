@@ -22,6 +22,10 @@ public class Database {
 	public static FileWriter fw;
 	private static File writeDirectory;
 	private static File writeFile;
+	private static int[] numbers;
+	private static int[] helper;
+	static int number;
+
 	
 	public Database() { }
 	   
@@ -244,10 +248,14 @@ public class Database {
 	 *  5 -> bmiclass
 	 *  If any option is not filled in by the user it will come in as "n/a"
 	 */
-	public static Patient advancedPatientSearch(File file, String[] options){
-		ArrayList<Patient> listToSort = PatientView.patientArray;
-		sortPatients(listToSort, options[0]);
+	public static Patient[] advancedPatientSearch(File file, String[] options){
 		int index;
+
+		ArrayList<Patient> listToSort = PatientView.patientArray;
+		Patient pRay[] = new Patient[listToSort.size()];
+		
+		sortPatients(listToSort, options[0]);
+		
 		Patient toFind = new Patient();
 		
 		try{
@@ -257,9 +265,82 @@ public class Database {
 		} catch (NumberFormatException se){
 			toFind.setFirstName(options[0]);
 			index =  Collections.binarySearch(listToSort, toFind, new CompareName());
+			if(index > 0){
+				pRay = checkMultiples(index, listToSort);		
+			}
 		}
 		
-		return PatientView.patientArray.get(index);
+		for(Patient p: pRay){
+			if(p != null){
+				System.out.println(p.getFirstName());
+			}
+		}
+		
+		return pRay;
+	}
+	
+	public static Patient[] checkMultiples(int index, ArrayList<Patient> sortedList){
+		boolean upTrue = true;
+		boolean downTrue = true;
+		
+		Patient testAgainst = PatientView.patientArray.get(index);
+		Patient multiples[] = new Patient[sortedList.size()];
+		
+		multiples[0] = testAgainst;
+		
+		int indexSorted = sortedList.indexOf(testAgainst);
+
+		Patient up;
+		Patient down;
+		
+		int x = 1;
+		while(downTrue || upTrue){
+			if(upTrue){
+				up = checkUp(indexSorted + x, testAgainst.getFirstName(), sortedList);
+				if(up != null){
+					multiples[x] = up;
+					System.out.println("UP: " + up);
+					x++;
+				}else{
+					upTrue = false; 
+				}
+			}
+			
+			if(downTrue){
+				down = checkDown(indexSorted - x, testAgainst.getFirstName(), sortedList);
+				System.out.println("DOWN: " + down);
+				if(down != null){
+					multiples[x] = down;
+					x++;
+				}else{
+					downTrue = false;
+				}
+			}
+		}
+		
+		return multiples;
+	}
+	
+	public static Patient checkUp(int upTo, String name, ArrayList<Patient> list){
+		try{
+			if(list.get(upTo).getFirstName() == name){
+				return list.get(upTo);
+			}
+		} catch(Exception e){
+			return null;	
+		}
+		return null;
+	}
+	
+	public static Patient checkDown(int downTo, String name, ArrayList<Patient> list){
+		try{
+			if(list.get(downTo).getFirstName() == name){
+				return list.get(downTo);
+			}
+		} catch(Exception e){
+			return null;	
+		}
+		return null;
 	}
 	
 	public static int search(ArrayList<Patient> p, int searchValue) {
@@ -288,6 +369,7 @@ public class Database {
 	 * if its a string use the name if its a number use the id
 	 */
 	public static void sortPatients(ArrayList<Patient> p, String option){
+		Comparable bob = "derp";
 			try{
 				Integer.parseInt(option); // If this passes then it's a number else it goes to the catch block
 				Collections.sort(p, new CompareID());
@@ -295,16 +377,76 @@ public class Database {
 				Collections.sort(p, new CompareName());
 			}
 	}
-
-	public static void getAllIDs(ArrayList<Patient> p){
-		allIDs = new int[p.size()];
-
-		for(int x = 0; x < p.size(); x++){
-			int anID = p.get(x).getID();
-			allIDs[x] = anID;
-		}
+	
+	public static void sort(int[] values) {
+		number = values.length;
+		helper = new int[number];
+		mergesort(0, number - 1);
 	}
 	
+	public static void mergesort(int low, int high) {
+		if (low < high) {
+			int middle = low + (high - low) / 2;
+			mergesort(low, middle);
+			mergesort(middle + 1, high);
+			merge(low, middle, high);
+		}
+	}
+
+	  public static void merge(int low, int middle, int high) {
+		  // Copy both parts into the helper array
+		  for (int i = low; i <= high; i++) {
+			  helper[i] = numbers[i];
+		  }
+	
+		  int i = low;
+		  int j = middle + 1;
+		  int k = low;
+	
+		  // Copy the smallest values from either the left or the right side back
+		  // to the original array
+		  while (i <= middle && j <= high) {
+			  if (helper[i] <= helper[j]) {
+				  numbers[k] = helper[i];
+				  i++;
+			  } else {
+				  numbers[k] = helper[j];
+				  j++;
+			  }
+			  k++;
+		  }
+		  
+		  // Copy the rest of the left side of the array into the target array
+		  while (i <= middle) {
+			  numbers[k] = helper[i];
+			  k++;
+			  i++;
+		  }
+	  }
+	  
+	  public static void getAllIDs(ArrayList<Patient> p){
+		  allIDs = new int[p.size()];
+
+		  for(int x = 0; x < p.size(); x++){
+			  int anID = p.get(x).getID();
+			  allIDs[x] = anID;
+		  }
+	  }
+	
+	/* ====================== Update Patient ======================== *
+	 * Method: updatePatient | Modifier: Public Static | Return: Void *
+	 * -------------------------------------------------------------- * 
+	 * Arguments: p    -> Patient that is being updated               *
+	 * 		      data -> array of data for updating the patient      *
+	 * 			  pRay -> ArrayList of all the patients in memory.    *
+	 * -------------------------------------------------------------- *
+	 * Explanation: Changes the patient object according to edits     *
+	 * made in the EditPatientDialog by assigning the data passed in  *
+	 * it then calls a helper function inside of the PatientView in   *
+	 * order to update the PatientList which reflects the edits to    *
+	 * the user. pRay is used to find the index of the patient at the *
+	 * time of the edit.                                              *
+	 * ============================================================== */
 	public static void updatePatient(Patient p, String[] data, ArrayList<Patient> pRay){
 		int editIndex = pRay.indexOf(p);
 		p.setFirstName(data[0]);
@@ -315,7 +457,20 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/* ====================== Split Patient ================================= *
+	 * Method: splitPatient | Modifier: Public Static | Return: String Array  *
+	 * ---------------------------------------------------------------------- *
+	 * Arguments: String to be split                                          *
+	 * ---------------------------------------------------------------------- *
+	 * Explanation: Takes a string in CSV format i.e. blah,                   *
+	 * blah, blah and returns an array of the items split                     *
+	 * similarly to the way the split function works in                       *
+	 * Java.                                                                  *
+	 * ---------------------------------------------------------------------- *
+	 * Input: 'blah, blah, blah, blah, blah'                                  *
+	 * Return: {'blah', 'blah', 'blah', 'blah', 'blah'}                       *
+	 * ====================================================================== */
 	public static String[] splitPatient(String input){
 		if(input.length() > 0){
 			int startIndex = input.indexOf(",");

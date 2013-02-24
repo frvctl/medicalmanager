@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
+import com.medicalmanager.controllers.Database;
+
 public class SavePatientDialog extends JDialog {
 	private CardLayout card = new CardLayout(0,0);
 	private final JPanel contentPanel = new JPanel();
@@ -253,8 +255,7 @@ public class SavePatientDialog extends JDialog {
 		viewSearchResultsLabel = new JButton("View Results");
 		viewSearchResultsLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SearchResultsDialog dialog = new SearchResultsDialog();
-				dialog.setVisible(true); 
+			
 			}
 		});
 		
