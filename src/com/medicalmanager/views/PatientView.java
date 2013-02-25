@@ -1,13 +1,23 @@
 package com.medicalmanager.views;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.print.PrintService;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -18,6 +28,7 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -30,7 +41,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.medicalmanager.controllers.Database;
-import com.medicalmanager.controllers.Output;
 import com.medicalmanager.models.Patient;
 
 public class PatientView extends JFrame {
@@ -383,15 +393,67 @@ public class PatientView extends JFrame {
 			}
 		});
 		
+		class MyPrintable implements Printable {
+			  public int print(Graphics g, PageFormat pf, int pageIndex) {
+			    if (pageIndex != 0)
+			      return NO_SUCH_PAGE;
+			    Graphics2D g2 = (Graphics2D) g;
+			    g2.setFont(new Font("Serif", Font.PLAIN, 36));
+			    g2.setPaint(Color.black);
+			    g2.drawString("Medical Manager Patient Printout", 50, 100);
+			    int x = 150;
+			    int y = 200;
+			    g2.setFont(new Font("Serif", Font.PLAIN, 20));
+			    for(Patient p: patientArray){
+			    	g2.drawString(p.getFullName(), x, y);
+			    	y += 100;
+			    }
+			    Rectangle2D outline = new Rectangle2D.Double(pf.getImageableX(), pf.getImageableY(), pf
+			        .getImageableWidth(), pf.getImageableHeight());
+			    g2.draw(outline);
+			    return PAGE_EXISTS;
+			  }
+			}
+		
 		 fileMenuPrintItem.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
-			 // OutputController.displayAllPatients(patientArray);
-				try {
-					Output.sendToHumanReadableFile("derp", patientArray);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				 boolean isTrue = true;
+				 if(isTrue) {
+				        // Get a printing object
+				        PrinterJob printJob = PrinterJob.getPrinterJob(); 
+				        PrintService printer = printJob.getPrintService();
+				        PageFormat pf = printJob.defaultPage();
+				        Paper paper = new Paper();
+				        double margin = 36; // half inch
+				        paper.setImageableArea(margin, margin, paper.getWidth() - margin * 2, paper.getHeight()
+				            - margin * 2);
+				        pf.setPaper(paper);
+
+				        if(printer == null) {
+				          JOptionPane.showMessageDialog(contentPane, 
+				                                        "No default printer available.",
+				                                        "Printer Error",
+				                                        JOptionPane.ERROR_MESSAGE);
+				          return;
+				        }
+				        // The view is the page source
+
+				        printJob.setPrintable(new MyPrintable(), pf);
+
+
+				        if(printJob.printDialog()) {              // Display print dialog
+				                                                  // If true is returned...
+				          try {
+				            printJob.print();                            // then print
+				          } catch(PrinterException pe) {
+				            System.out.println(pe);
+				            JOptionPane.showMessageDialog(contentPane,
+				                                          "Error printing a sketch.",
+				                                          "Printer Error",
+				                                          JOptionPane.ERROR_MESSAGE);
+				          }
+				        }
+				      }
 			 }
 		 });
 		
