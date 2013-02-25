@@ -30,6 +30,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.medicalmanager.controllers.Database;
+import com.medicalmanager.controllers.Output;
 import com.medicalmanager.models.Patient;
 
 public class PatientView extends JFrame {
@@ -385,6 +386,12 @@ public class PatientView extends JFrame {
 		 fileMenuPrintItem.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 			 // OutputController.displayAllPatients(patientArray);
+				try {
+					Output.sendToHumanReadableFile("derp", patientArray);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			 }
 		 });
 		
