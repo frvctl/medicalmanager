@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import javax.swing.JOptionPane;
+
 import com.medicalmanager.models.Patient;
 import com.medicalmanager.views.PatientView;
 
@@ -187,7 +189,17 @@ public class Database {
 		}
 	}
 	
-	public static class CompareName implements Comparator<Patient> {
+	public static class CompareStringAttribute implements Comparator<Patient> {
+		  boolean direction = false; // false is descending; true is ascending
+		  String type = "FIRST_COMP"; 
+		  
+		  public CompareStringAttribute(){}
+		  
+		  public CompareStringAttribute(boolean direction, String type){
+			  this.direction = direction;
+			  this.type = type;
+		  }
+		
 		  @Override
 		  public int compare(Patient p1, Patient p2) {
 		    String rank1 = p1.getFirstName();
@@ -195,54 +207,60 @@ public class Database {
 		    if (rank1 == null && rank2 == null) {
 		      return 0;
 		    }
-
+		
 		    if (rank1 == null) {
 		      return 1;
 		    }
 		    if (rank2 == null) {
 		      return -1;
 		    }
-
+		
 		    return rank1.compareTo(rank2);
 		  }    
 	}
 	
-	public static class CompareAge implements Comparator<Patient> {
-		  @Override
-		  public int compare(Patient p1, Patient p2) {
-			  int rank1 = p1.getID();
-			  int rank2 = p2.getID();
-			  return (rank1 > rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
-		  }   
-	}
 	
-	public static class CompareHeight implements Comparator<Patient> {
-		  @Override
-		  public int compare(Patient p1, Patient p2) {
-			  double rank1 = p1.getHeight();
-			  double rank2 = p2.getHeight();
-			  System.out.println(rank1);
-			  System.out.println(rank2);
-			  return (rank1 > rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
-		  }   
-	}
+	public static class CompareNumberAttribute implements Comparator<Patient> {
+		private boolean direction = false; // descending;
+		private String type = "ID_COMP";
+		private double rank1;
+		private double rank2;
+		
+		public CompareNumberAttribute(){}
+		
+		public CompareNumberAttribute(boolean direction, String type){
+			this.direction = direction;
+			this.type = type;
+		}
+		
+		@Override
+		public int compare(Patient p1, Patient p2) {
+		
+			if(type.equals("ID_COMP")){
+				this.rank1 = p1.getID();
+				this.rank2 = p2.getID();
+			}else if(type.equals("AGE_COMP")){
+				this.rank1 = p1.getAge();
+				this.rank2 = p2.getAge();
+			}else if(type.equals("HEIGHT_COMP")){
+				this.rank1 = p1.getHeight();
+				this.rank2 = p2.getHeight();
+			}else if(type.equals("WEIGHT_COMP")){
+				this.rank1 = p1.getWeight();
+				this.rank2 = p2.getWeight();
+			}else{
+				System.out.println("Unrecognized type: Defaulting to ID");
+				this.rank1 = p1.getID();
+				this.rank2 = p1.getID();
+			}
+			
+			if(direction){
+				  return (rank1 > rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
+			}else{
+				  return (rank1 < rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
+			}
+		}
 	
-	public static class CompareWeight implements Comparator<Patient> {
-		  @Override
-		  public int compare(Patient p1, Patient p2) {
-			  double rank1 = p1.getWeight();
-			  double rank2 = p2.getWeight();
-			  return (rank1 > rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
-		  }   
-	}
-	
-	public static class CompareID implements Comparator<Patient> {
-		  @Override
-		  public int compare(Patient p1, Patient p2) {
-			  int rank1 = p1.getID();
-			  int rank2 = p2.getID();
-			  return (rank1 > rank2 ? -1 : (rank1 == rank2 ? 0 : 1));
-		  }   
 	}
 	
 	private static void swap(int index, int[] theArray){
@@ -281,17 +299,17 @@ public class Database {
 		ArrayList<Patient> listToSort = PatientView.patientArray;
 		Patient pRay[] = new Patient[listToSort.size()];
 		
-		sortPatients(listToSort, options[0]);
+		sortPatients(listToSort, options[0], true, true);
 		
 		Patient toFind = new Patient();
 		
 		try{
 			Integer.parseInt(options[0]); // If this passes then it's a number else it goes to the catch block
 			toFind.setID(Integer.parseInt(options[0]));
-			index = Collections.binarySearch(listToSort, toFind, new CompareID());
+			index = Collections.binarySearch(listToSort, toFind, new CompareNumberAttribute());
 		} catch (NumberFormatException se){
 			toFind.setFirstName(options[0]);
-			index =  Collections.binarySearch(listToSort, toFind, new CompareName());
+			index =  Collections.binarySearch(listToSort, toFind, new CompareStringAttribute());
 			System.out.println(index);
 			if(index > 0){
 				pRay = checkMultiples(index, listToSort);		
@@ -386,18 +404,26 @@ public class Database {
 		}               
 	} 
 	
-	/*
-	 * options meta data
-	 * if its a string use the name if its a number use the id
+	/**
+	 * @param direction Ascending or Descending. true is asc, false desc
+	 * @param type Number or String; true is number, false string
+	 * @param pRay The patient array list
+	 * @param option The way the list will be sorted. Options are attribute_COMP, i.e. ID_COMP, FIRST_COMP, LAST_COMP, etc
+	 * @return A sorted array list of type patient
 	 */
-	public static void sortPatients(ArrayList<Patient> p, String option){
-		Comparable bob = "derp";
+	public static ArrayList<Patient> sortPatients(ArrayList<Patient> pRay, String option, boolean direction, boolean type){
 			try{
-				Integer.parseInt(option); // If this passes then it's a number else it goes to the catch block
-				Collections.sort(p, new CompareID());
-			} catch (NumberFormatException se){
-				Collections.sort(p, new CompareName());
+				if(type){
+					Collections.sort(pRay, new CompareNumberAttribute(direction, option));
+					return pRay;
+				}else{
+					Collections.sort(pRay, new CompareStringAttribute(direction, option));
+					return pRay;
+				}
+			} catch (Exception ae){
+				PatientView.showError("Problem Sorting List!", "Sort Error");
 			}
+			return pRay;
 	}
 	
 	public static void sort(int[] values) {

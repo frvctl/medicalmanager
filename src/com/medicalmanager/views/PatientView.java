@@ -1,17 +1,12 @@
 package com.medicalmanager.views;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
-import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.IOException;
@@ -41,13 +36,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.medicalmanager.controllers.Database;
+import com.medicalmanager.controllers.Print;
 import com.medicalmanager.models.Patient;
 
 public class PatientView extends JFrame {
 
 	private CardLayout card = new CardLayout(0, 0);
 
-	private JPanel contentPane;
+	private static JPanel contentPane;
 	private JPanel patientInfoEditPanel;
 	
 	private JMenu fileMenu;
@@ -83,6 +79,7 @@ public class PatientView extends JFrame {
 	public static ArrayList<Patient> sortedArray = new ArrayList<Patient>();
 	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
 	private JPanel aboutPanel;
+	private JToolBar patientToolBar;
 
 
 	/**
@@ -164,7 +161,7 @@ public class PatientView extends JFrame {
 
 		JSplitPane splitPane = new JSplitPane();
 
-		JToolBar patientToolBar = new JToolBar();
+		patientToolBar = new JToolBar();
 		GroupLayout patientLayout = new GroupLayout(patientPanel);
 		patientLayout.setHorizontalGroup(patientLayout
 				.createParallelGroup(Alignment.LEADING)
@@ -191,18 +188,11 @@ public class PatientView extends JFrame {
 		patientToolBar.add(searchButton);
 		patientToolBar.add(sortPatientList);
 		patientToolBar.add(newPatientButton);
-		
+
 		editPatientButton = new JButton("Edit Patient");
-		patientToolBar.add(editPatientButton);
-		
 		adjustSeverityButton = new JButton("Adjust Severity");
-		patientToolBar.add(adjustSeverityButton);
-		
 		prescribeMedicationButton = new JButton("Prescribe Medication");
-		patientToolBar.add(prescribeMedicationButton);
-		
 		setDiagnosisButton = new JButton("Set Diagnosis");
-		patientToolBar.add(setDiagnosisButton);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setMinimumSize(new Dimension(100, 23));
@@ -276,6 +266,13 @@ public class PatientView extends JFrame {
 		patientArray.remove(p);
 		listModel.add(prior, p.getFirstName());
 	}
+	
+	public static void sortList(ArrayList<Patient> newOrder){
+		listModel.clear();
+		for (Patient p : newOrder) {
+			listModel.addElement(p.getFirstName());
+		}
+	}
 
 	public void makeWelcomePanel() {
 		JPanel welcomePanel = new JPanel();
@@ -287,7 +284,6 @@ public class PatientView extends JFrame {
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		mainAppButton = new JButton("Manage Patients");
-
 		aboutButton = new JButton("About Medical Manager");
 
 		JLabel createdByLabel = new JLabel("Created By: Ben Vest");
@@ -358,7 +354,7 @@ public class PatientView extends JFrame {
 	public void actionTime() {
 		mainAppButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				card.next(contentPane);
+				card.next(contentPane); 
 			}
 		});
 
@@ -378,11 +374,8 @@ public class PatientView extends JFrame {
 
 		sortPatientList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Database.sortPatients(patientArray, "ID");
-				listModel.clear();
-				for (Patient p : patientArray) {
-					listModel.addElement(p.getFirstName());
-				}
+				SelectSortMethod ssm = new SelectSortMethod();
+				ssm.setVisible(true);
 			}
 		});
 		
@@ -393,42 +386,22 @@ public class PatientView extends JFrame {
 			}
 		});
 		
-		class MyPrintable implements Printable {
-			  public int print(Graphics g, PageFormat pf, int pageIndex) {
-			    if (pageIndex != 0)
-			      return NO_SUCH_PAGE;
-			    Graphics2D g2 = (Graphics2D) g;
-			    g2.setFont(new Font("Serif", Font.PLAIN, 36));
-			    g2.setPaint(Color.black);
-			    g2.drawString("Medical Manager Patient Printout", 50, 100);
-			    int x = 150;
-			    int y = 200;
-			    g2.setFont(new Font("Serif", Font.PLAIN, 20));
-			    for(Patient p: patientArray){
-			    	g2.drawString(p.getFullName(), x, y);
-			    	y += 100;
-			    }
-			    Rectangle2D outline = new Rectangle2D.Double(pf.getImageableX(), pf.getImageableY(), pf
-			        .getImageableWidth(), pf.getImageableHeight());
-			    g2.draw(outline);
-			    return PAGE_EXISTS;
-			  }
-			}
 		
-		 fileMenuPrintItem.addActionListener(new ActionListener() {
+		fileMenuPrintItem.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 				 boolean isTrue = true;
 				 if(isTrue) {
-				        // Get a printing object
 				        PrinterJob printJob = PrinterJob.getPrinterJob(); 
 				        PrintService printer = printJob.getPrintService();
 				        PageFormat pf = printJob.defaultPage();
 				        Paper paper = new Paper();
+				        
 				        double margin = 36; // half inch
-				        paper.setImageableArea(margin, margin, paper.getWidth() - margin * 2, paper.getHeight()
-				            - margin * 2);
+				        paper.setImageableArea(margin, margin, 
+				        		paper.getWidth() - margin * 2, 
+				        		paper.getHeight() - margin * 2);
 				        pf.setPaper(paper);
-
+	
 				        if(printer == null) {
 				          JOptionPane.showMessageDialog(contentPane, 
 				                                        "No default printer available.",
@@ -436,24 +409,22 @@ public class PatientView extends JFrame {
 				                                        JOptionPane.ERROR_MESSAGE);
 				          return;
 				        }
-				        // The view is the page source
-
-				        printJob.setPrintable(new MyPrintable(), pf);
-
-
-				        if(printJob.printDialog()) {              // Display print dialog
-				                                                  // If true is returned...
+				        
+				     
+				        printJob.setPrintable(new Print(false), pf);
+				        
+				        if(printJob.printDialog()) {                      
 				          try {
-				            printJob.print();                            // then print
+				            printJob.print();                           
 				          } catch(PrinterException pe) {
 				            System.out.println(pe);
 				            JOptionPane.showMessageDialog(contentPane,
-				                                          "Error printing a sketch.",
+				                                          "Error printing",
 				                                          "Printer Error",
 				                                          JOptionPane.ERROR_MESSAGE);
 				          }
 				        }
-				      }
+				 }
 			 }
 		 });
 		
@@ -462,16 +433,26 @@ public class PatientView extends JFrame {
 				if(PatientView.isSelected){
 					EditPatientDialog dialog = new EditPatientDialog();
 					dialog.setVisible(true);	
+				} else {
+					 JOptionPane.showMessageDialog(contentPane,
+	                          "No Patient Selected!",
+	                          "Edit Error",
+	                          JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		
 		adjustSeverityButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String ops[] = new String[1];
-				ops[0] = "Ben";
-				SearchResultsDialog sD = new SearchResultsDialog(Database.advancedPatientSearch(ops));
-				sD.setVisible(true); 
+				if(PatientView.isSelected){
+					
+					
+				} else {
+					 JOptionPane.showMessageDialog(contentPane,
+	                          "No Patient Selected!",
+	                          "Edit Error",
+	                          JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -484,45 +465,56 @@ public class PatientView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-
+		
 		patientList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
 				PatientView.isSelected = true;
+				boolean isNew = true;
 				if(!patientList.isSelectionEmpty()){
-					Patient rawr = patientArray.get(patientList.getSelectedIndex());
-					patientInfoArea.getWidth();
-					PatientView.setSelected(rawr);
+					if(isNew){
+						patientToolBar.add(editPatientButton);
+						// commenting these out unless i have time to do it
+//						patientToolBar.add(adjustSeverityButton);
+//						patientToolBar.add(prescribeMedicationButton);
+//						patientToolBar.add(setDiagnosisButton);
+						isNew = false;
+					}
+					
+					Patient p = patientArray.get(patientList.getSelectedIndex());
+					PatientView.setSelected(p);
+					
 					String newLine = "\n";
-					String space = "    ";
+					String space = "  ";
+					
 					patientInfoArea.setText(
 							space+ "----------------------------------- Patient Info ---------------------------------------\n"
-							+ space + "** Information regarding " + rawr.getFullName() + " is listed below.  \n"
+							+ space + "** Information regarding " + p.getFullName() + " is listed below.  \n"
 							+ space + "** This Patient is under the care of Doctor Blah \n"
 							+ space + "** Remember to leave detailed remarks on any edits to the patients file \n"
 							+ space + "** If you encounter any difficulty consult the Help Menu \n"
 							+ space + "** If immediate attention by others is required raise the patients severity level \n"
 							+ newLine
-							+ formatField("Age", rawr.getAge())
+							+ formatField("Age", p.getAge())
 							+ newLine
-							+ formatField("Name", rawr.getFirstName())
+							+ formatField("Name", p.getFirstName())
 							+ newLine
-							+ formatField("Height", rawr.getHeight())
+							+ formatField("Height", p.getHeight())
 							+ newLine
-							+ formatField("Weight", rawr.getWeight())
+							+ formatField("Weight", p.getWeight())
 							+ newLine
-							+ formatField("Date of Birth", rawr.getDOB())
+							+ formatField("Date of Birth", p.getDOB())
 							+ newLine
-							+ formatField("Body Mass Index", rawr.getBMI())
+							+ formatField("Body Mass Index", p.getBMI())
 							+ newLine
-							+ formatField("Address", rawr.getAddress())
+							+ formatField("Address", p.getAddress())
 							+ newLine
-							+ formatField("Home Phone", rawr.getHomePhoneNumber())
+							+ formatField("Home Phone", p.getHomePhoneNumber())
 							+ newLine
-							+ formatField("Cell Phone", rawr.getCellPhoneNumber())
+							+ formatField("Cell Phone", p.getCellPhoneNumber())
 							+ newLine
-							+ formatField("Current Medications", rawr.getCurrentMedications())
+							+ formatField("Current Medications", p.getCurrentMedications())
 							+ newLine
-							+ formatField("Additional Medical Information", rawr.getAdditionalMedicalInformation()));
+							+ formatField("Additional Medical Information", p.getAdditionalMedicalInformation()));
 				}
 			}
 				
@@ -530,7 +522,7 @@ public class PatientView extends JFrame {
 	}
 
 	public static String formatField(String attr, Comparable val){
-		return String.format("    %30s: => %-4s", attr, val) + "\n";
+		return String.format("  %30s: => %-4s", attr, val) + "\n";
 
 	}
 	
@@ -541,4 +533,17 @@ public class PatientView extends JFrame {
 	public static void setSelected(Patient selected) {
 		PatientView.selected = selected;
 	}
+	
+	public static ArrayList<Patient> getPatientArray(){
+		return PatientView.patientArray;
+	}
+	
+	public static void showError(String msg, String title){
+		 JOptionPane.showMessageDialog(PatientView.contentPane, msg, title, JOptionPane.ERROR_MESSAGE);
+	}
 }
+
+//String ops[] = new String[1];
+//ops[0] = "Ben";
+//SearchResultsDialog sD = new SearchResultsDialog(Database.advancedPatientSearch(ops));
+//sD.setVisible(true); 

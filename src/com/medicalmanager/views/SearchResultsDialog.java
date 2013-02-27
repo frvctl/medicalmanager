@@ -14,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.medicalmanager.models.Patient;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SearchResultsDialog extends JDialog {
 
@@ -61,7 +63,7 @@ public class SearchResultsDialog extends JDialog {
 		resultsScrollPane.setViewportView(resultsTable);
 		contentPanel.setLayout(gl_contentPanel);
 		{
-			JPanel buttonPane = new JPanel();
+			JPanel buttonPane = new JPanel(); 
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
@@ -72,6 +74,11 @@ public class SearchResultsDialog extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						SearchResultsDialog.this.setVisible(false);
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
