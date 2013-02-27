@@ -113,7 +113,6 @@ public class PatientView extends JFrame {
 		
 		// Bootstrap the event handlers
 		actionTime();
-	
 		
 		// Set the standard write directory - possibly add settings to change where this is
 		Database.setWriteDirectory(System.getProperty("user.home") + "\\My Documents\\Medical Manager\\");
@@ -124,10 +123,10 @@ public class PatientView extends JFrame {
 		// Create the directory and file if it isn't already there
 		Database.prepareFile();
 		
-		new Test();
+		//new Test();
 		
 		// Read all the patients from the file dumping them into an array list for use later
-		//Database.readAllPatientsFromFile();
+		Database.readAllPatientsFromFile();
 	}
 
 	public void placeMenu() {
@@ -227,53 +226,6 @@ public class PatientView extends JFrame {
 		contentPane.add(aboutPanel, "name_6720415608134");
 
 		for (Patient p : patientArray) {
-			listModel.addElement(p.getFirstName());
-		}
-	}
-	
-	/*
-	 * Update's the PatientList by adding the patient to the listModel
-	 */
-	public static void updateList(Patient p) {
-		patientArray.add(p);
-		listModel.addElement(p.getFirstName());
-	}
-	
-	public static void toTop(Patient[] pRay){
-		try{
-			int index = 0;
-			for(Patient p: pRay){
-				System.out.println(p.getFirstName());
-				
-				int remIndex = patientArray.indexOf(p);
-				listModel.remove(remIndex);
-				listModel.add(index, p.getFirstName());
-				index++;
-			}
-		}catch(NullPointerException e){
-			System.out.println(e);
-		}
-	}
-	
-	public static void updateListAfterPatientEdit(int index, Patient p){
-		patientArray.remove(p);
-		patientArray.add(index, p);
-		
-		patientList.clearSelection();
-		patientList.setSelectedIndex(index);
-		
-		listModel.remove(index);
-		listModel.add(index, p.getFirstName());
-	}
-	
-	public static void changePriority(Patient p, int prior){
-		patientArray.remove(p);
-		listModel.add(prior, p.getFirstName());
-	}
-	
-	public static void sortList(ArrayList<Patient> newOrder){
-		listModel.clear();
-		for (Patient p : newOrder) {
 			listModel.addElement(p.getFirstName());
 		}
 	}
@@ -524,10 +476,83 @@ public class PatientView extends JFrame {
 				
 		});
 	}
+	
+	/**
+	 * Update's the PatientList by adding the patient to the listModel
+	 * @param p Patient being used to update the list, will be added to the bottom
+	 */
+	public static void updateList(Patient p) {
+		patientArray.add(p);
+		listModel.addElement(p.getFirstName());
+	}
+	
+	/**
+	 * Adds the elements of the patient array 
+	 * to the top of the array list
+	 * @param pRay Patient array that will be sent to the top of the patient list
+	 */
+	public static void toTop(Patient[] pRay){
+		try{
+			int index = 0;
+			for(Patient p: pRay){
+				System.out.println(p.getFirstName());
+				
+				int remIndex = patientArray.indexOf(p);
+				listModel.remove(remIndex);
+				listModel.add(index, p.getFirstName());
+				index++;
+			}
+		}catch(NullPointerException e){
+			System.out.println(e);
+		}
+	}
+	
+	/**
+	 * Updates the list to reflect name change after a patient is edited
+	 * @param index Original index on the patientList 
+	 * @param p Patient that is being re-added to the list after being edited
+	 */
+	public static void updateListAfterPatientEdit(int index, Patient p){
+		patientArray.remove(p);
+		patientArray.add(index, p);
+		
+		patientList.clearSelection();
+		patientList.setSelectedIndex(index);
+		
+		listModel.remove(index);
+		listModel.add(index, p.getFirstName());
+	}
+	
+	/**
+	 * Moves a Patient around in the list
+	 * @param p The patient being moved
+	 * @param prior How high a patients priority is, it's relative so
+	 * 				1 is really low 10 is really high
+	 */
+	public static void changePriority(Patient p, int prior){
+		patientArray.remove(p);
+		listModel.add(prior, p.getFirstName());
+	}
+	
+	/**
+	 * Helper method that reorders the list based on a 
+	 * passed in ArrayList.
+	 * @param newOrder ArrayList that the new order will follow
+	 */
+	public static void sortList(ArrayList<Patient> newOrder){
+		listModel.clear();
+		PatientView.setSortedArray(newOrder);
+		for (Patient p : newOrder) {
+			listModel.addElement(p.getFirstName());
+		}
+	}
 
-	public static String formatField(String attr, Comparable val){
+	public static String formatField(String attr, Comparable<?> val){
 		return String.format("  %30s: => %-4s", attr, val) + "\n";
-
+	}
+	
+	public static void setSortedArray(ArrayList<Patient> sorted){
+		PatientView.sortedArray = sorted;
 	}
 	
 	public static Patient getSelected() {

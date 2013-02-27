@@ -7,18 +7,21 @@ import com.medicalmanager.views.PatientView;
 
 public class Test {
 	public Test() throws IOException{
-		String[] firstNames = {"Ben", "Bob", "Andrew", "Kevin", "Joe", "Michael", "Norah", "Andrea", "Christine", "Haley", "Kelsey", "Sarah"}; //11
+		String[] firstNames = {"Ben", "Bob", "Andrew", "Kevin", "Joe", "Michael", "Lark", "Andrea", "Christine", "Haley", "Kelsey", "Sarah"}; //11
 		String[] middleNames = {"Ryan", "Middle", "Notsure", "What", "This", "Should", "Be", "Its", "Just", "Test", "Output"}; //11
 		String[] lastNames = {"Kwok", "Vest", "Ursini", "Cool", "Tapir", "Tamir", "Derp", "Merp", "Flerp", "Quirk", "Lerp"}; //11
 		
-		for(int z = 0; z < 10000; z++){
+		for(int z = 0; z < 100; z++){
 			int rand = (int) (Math.random() * 11);
+			int randAge = (int)(Math.random() * 100);
+			
 			double randPressure = Math.random() * 200 + 50;
 			double randBMI = Math.random() * 30;
-			int randAge = (int)(Math.random() * 100);
 			double randMAP = Math.random() * 30;
 			double randHeight = Math.random() * 80 + 20;
 			double randWeight = Math.random() * 300 + 80;
+			
+			System.out.println(randHeight);
 			
 			Patient readPatient = new Patient()
 				.setID(z)

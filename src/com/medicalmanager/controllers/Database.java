@@ -17,6 +17,11 @@ import javax.swing.JOptionPane;
 import com.medicalmanager.models.Patient;
 import com.medicalmanager.views.PatientView;
 
+/**
+ * 
+ * @author 1536660
+ *
+ */
 public class Database {
 	public static int[] allIDs;
 	public static ArrayList<Patient> sortedList = new ArrayList<Patient>();
@@ -29,23 +34,42 @@ public class Database {
 
 	
 	public Database() { }
-	   
+	  
+	/**
+	 * 
+	 * @return
+	 */
 	public static File getWriteDirectory() {
 		return writeDirectory;
 	}
-
+	
+	/**
+	 * 
+	 * @param writeDirectory
+	 */
 	public static void setWriteDirectory(String writeDirectory) {
 		Database.writeDirectory = new File(writeDirectory);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static File getFile() {
 		return writeFile;
 	}
-
+	
+	/**
+	 * 
+	 * @param fileName
+	 */
 	public static void setFile(String fileName) {
 		Database.writeFile = new File(Database.writeDirectory.getPath() + "/" + fileName);
 	}
 	
+	/**
+	 * 
+	 */
 	public static void prepareFile(){
 		try{
 			if(Database.getWriteDirectory().mkdir()){
@@ -68,6 +92,12 @@ public class Database {
 		}	
 	}
 
+	/**
+	 * 
+	 * @param input
+	 * @param append
+	 * @throws IOException
+	 */
 	public static void writeToFile(String input, boolean append) throws IOException{
 		try {
 			fw = new FileWriter(Database.getFile(), append);
@@ -84,9 +114,12 @@ public class Database {
 		}
 	}	
 
-	
-	// Reads the file and counts the lines
-	// This is used for PatientID among other things
+	/**
+	 * Reads the current writeFile and counts the lines
+	 * this method is faster than readLines.
+	 * @return The number of lines in the file.
+	 * @throws IOException
+	 */
 	public static int countLines() throws IOException {
 	    InputStream is = new BufferedInputStream(new FileInputStream(writeFile));
 	    try {
@@ -107,34 +140,34 @@ public class Database {
 	    }
 	}
 	
-	/*
-	 * Sample File CSV 
-	 * 0,                           0  -- ID 
-	 * first,                       1  -- first name
-	 * middle,                      2  -- middle name
-	 * last,                        3  -- last name
-	 * dateofbirth,                 4  -- date of birth
-	 * home,                        5  -- address
-	 * email,                       6  -- email
-	 * phone,                       7  -- home phone
-	 * cell,                        8  -- cell phone
-	 * info,                        9  -- additional information
-	 * conditions,                  10 -- current medical conditions
-	 * Yes - Several Packs a day,   11 -- tobaco usage
-	 * Yes - Very heavy drinker ,   12 -- alcohol consumption
-	 * meds,                        13 -- current medications
-	 * adasdfsdfsdfa ,              14 -- additionalmedical information
-	 * aditionalMedical,            15 -- patient analysis
-	 * 189.0,                       16 -- Age
-	 * 890.0,                       17 -- Height
-	 * 908.0,                       18 -- Weight
-	 * 0.0,                         19 -- Systolic
-	 * 0.0,                         20 -- Diastolic
-	 * 0.8058628960989774,          21 -- BMI
-	 * 0.0,                         22 -- MAP
-	 * Too Low,                     23 -- MAP Analysis
-	 * Underweight                  24 -- BMI Analysis
-	 * 
+	/**
+	 * Sample File Data
+	 * 0,                           0  -- ID <br>
+	 * first,                       1  -- first name <br>
+	 * middle,                      2  -- middle name <br>
+	 * last,                        3  -- last name <br>
+	 * dateofbirth,                 4  -- date of birth <br>
+	 * home,                        5  -- address <br>
+	 * email,                       6  -- email <br>
+	 * phone,                       7  -- home phone <br>
+	 * cell,                        8  -- cell phone <br>
+	 * info,                        9  -- additional information <br>
+	 * conditions,                  10 -- current medical conditions <br>
+	 * Yes - Several Packs a day,   11 -- tobaco usage <br>
+	 * Yes - Very heavy drinker ,   12 -- alcohol consumption <br>
+	 * meds,                        13 -- current medications <br>
+	 * adasdfsdfsdfa ,              14 -- additionalmedical information <br>
+	 * aditionalMedical,            15 -- patient analysis <br>
+	 * 189.0,                       16 -- Age <br>
+	 * 890.0,                       17 -- Height <br>
+	 * 908.0,                       18 -- Weight <br>
+	 * 0.0,                         19 -- Systolic <br>
+	 * 0.0,                         20 -- Diastolic <br>
+	 * 0.8058628960989774,          21 -- BMI <br>
+	 * 0.0,                         22 -- MAP <br>
+	 * Too Low,                     23 -- MAP Analysis <br>
+	 * Underweight                  24 -- BMI Analysis <br>
+	 * @throws IOException
 	 */
 	public static void readAllPatientsFromFile() throws IOException{
 		try {
@@ -180,7 +213,11 @@ public class Database {
 		    e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	public static void writeAllPatientsToFile() throws IOException{
 		boolean append = false;
 		for(Patient p: PatientView.patientArray){
@@ -189,6 +226,11 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * 
+	 * @author 1536660
+	 *
+	 */
 	public static class CompareStringAttribute implements Comparator<Patient> {
 		  boolean direction = false; // false is descending; true is ascending
 		  String type = "FIRST_COMP"; 
@@ -202,6 +244,7 @@ public class Database {
 		
 		  @Override
 		  public int compare(Patient p1, Patient p2) {
+			System.out.println("COMPARINGSTRING");
 		    String rank1 = p1.getFirstName();
 		    String rank2 = p2.getFirstName();
 		    if (rank1 == null && rank2 == null) {
@@ -220,6 +263,9 @@ public class Database {
 	}
 	
 	
+	/**
+	 * @author 1536660
+	 */
 	public static class CompareNumberAttribute implements Comparator<Patient> {
 		private boolean direction = false; // descending;
 		private String type = "ID_COMP";
@@ -263,12 +309,23 @@ public class Database {
 	
 	}
 	
+	/**
+	 * 
+	 * @param index
+	 * @param theArray
+	 */
 	private static void swap(int index, int[] theArray){
 		int replace = theArray[index - 1];
 		theArray[index - 1] = theArray[index];
 		theArray[index] = replace;
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 * @param searchFor
+	 * @return
+	 */
 	public static Patient linSearch(ArrayList<Patient> p, int searchFor){
 		int sizeP = p.size();
 
@@ -293,13 +350,18 @@ public class Database {
 	 *  5 -> bmiclass
 	 *  If any option is not filled in by the user it will come in as "n/a"
 	 */
+	/**
+	 * 
+	 * @param options
+	 * @return
+	 */
 	public static Patient[] advancedPatientSearch(String[] options){
 		int index;
 
 		ArrayList<Patient> listToSort = PatientView.patientArray;
 		Patient pRay[] = new Patient[listToSort.size()];
 		
-		sortPatients(listToSort, options[0], true, true);
+		sortPatients(listToSort, options[0], true, false);
 		
 		Patient toFind = new Patient();
 		
@@ -309,17 +371,21 @@ public class Database {
 			index = Collections.binarySearch(listToSort, toFind, new CompareNumberAttribute());
 		} catch (NumberFormatException se){
 			toFind.setFirstName(options[0]);
-			index =  Collections.binarySearch(listToSort, toFind, new CompareStringAttribute());
+			index = Collections.binarySearch(listToSort, toFind, new CompareStringAttribute());
 			System.out.println(index);
 			if(index > 0){
 				pRay = checkMultiples(index, listToSort);		
 			}
-		}
-			
-		
+		}		
 		return pRay;
 	}
 	
+	/**
+	 * 
+	 * @param index
+	 * @param sortedList
+	 * @return
+	 */
 	public static Patient[] checkMultiples(int index, ArrayList<Patient> sortedList){
 		boolean upTrue = true;
 		boolean downTrue = true;
@@ -359,6 +425,13 @@ public class Database {
 		return multiples.toArray(new Patient[multiples.size()]);
 	}
 	
+	/**
+	 * 
+	 * @param upTo
+	 * @param name
+	 * @param list
+	 * @return
+	 */
 	public static Patient checkUp(int upTo, String name, ArrayList<Patient> list){
 		try{
 			if(list.get(upTo).getFirstName().equals(name)){
@@ -371,6 +444,13 @@ public class Database {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param downTo
+	 * @param name
+	 * @param list
+	 * @return
+	 */
 	public static Patient checkDown(int downTo, String name, ArrayList<Patient> list){
 		try{
 			if(list.get(downTo).getFirstName().equals(name)){
@@ -383,12 +463,26 @@ public class Database {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 * @param searchValue
+	 * @return
+	 */
 	public static int search(ArrayList<Patient> p, int searchValue) {
 			int left = 0;
 			int right = p.size() - 1;
 			return binarySearch(p, searchValue, left, right);
 	}
  
+	/**
+	 * 
+	 * @param p
+	 * @param searchValue
+	 * @param left
+	 * @param right
+	 * @return
+	 */
 	private static int binarySearch(ArrayList<Patient> p, int searchValue, int left, int right) {
 		if (right < left) {
 			return -1;
@@ -426,12 +520,21 @@ public class Database {
 			return pRay;
 	}
 	
+	/**
+	 * 
+	 * @param values
+	 */
 	public static void sort(int[] values) {
 		number = values.length;
 		helper = new int[number];
 		mergesort(0, number - 1);
 	}
 	
+	/**
+	 * 
+	 * @param low
+	 * @param high
+	 */
 	public static void mergesort(int low, int high) {
 		if (low < high) {
 			int middle = low + (high - low) / 2;
@@ -440,7 +543,13 @@ public class Database {
 			merge(low, middle, high);
 		}
 	}
-
+		
+	/**
+	 * 
+	 * @param low
+	 * @param middle
+	 * @param high
+	 */
 	  public static void merge(int low, int middle, int high) {
 		  // Copy both parts into the helper array
 		  for (int i = low; i <= high; i++) {
@@ -472,6 +581,10 @@ public class Database {
 		  }
 	  }
 	  
+	  /**
+	   * 
+	   * @param p
+	   */
 	  public static void getAllIDs(ArrayList<Patient> p){
 		  allIDs = new int[p.size()];
 
@@ -481,20 +594,17 @@ public class Database {
 		  }
 	  }
 	
-	/* ====================== Update Patient ======================== *
-	 * Method: updatePatient | Modifier: Public Static | Return: Void *
-	 * -------------------------------------------------------------- * 
-	 * Arguments: p    -> Patient that is being updated               *
-	 * 		      data -> array of data for updating the patient      *
-	 * 			  pRay -> ArrayList of all the patients in memory.    *
-	 * -------------------------------------------------------------- *
-	 * Explanation: Changes the patient object according to edits     *
-	 * made in the EditPatientDialog by assigning the data passed in  *
-	 * it then calls a helper function inside of the PatientView in   *
-	 * order to update the PatientList which reflects the edits to    *
-	 * the user. pRay is used to find the index of the patient at the *
-	 * time of the edit.                                              *
-	 * ============================================================== */
+	/**
+	 * Changes the patient object according to edits 
+	 * made in the EditPatientDialog by assigning the data passed in  
+	 * it then calls a helper function inside of the PatientView in   
+	 * order to update the PatientList which reflects the edits to    
+	 * the user. pRay is used to find the index of the patient at the 
+	 * time of the edit.                                     
+	 * @param p Patient that is being updated 
+	 * @param data array of data for updating the patient
+	 * @param pRay ArrayList of all the patients in memory. 
+	 */
 	public static void updatePatient(Patient p, String[] data, ArrayList<Patient> pRay){
 		int editIndex = pRay.indexOf(p);
 		p.setFirstName(data[0]);
@@ -506,19 +616,16 @@ public class Database {
 		}
 	}
 	
-	/* ====================== Split Patient ================================= *
-	 * Method: splitPatient | Modifier: Public Static | Return: String Array  *
-	 * ---------------------------------------------------------------------- *
-	 * Arguments: String to be split                                          *
-	 * ---------------------------------------------------------------------- *
-	 * Explanation: Takes a string in CSV format i.e. blah,                   *
-	 * blah, blah and returns an array of the items split                     *
-	 * similarly to the way the split function works in                       *
-	 * Java.                                                                  *
-	 * ---------------------------------------------------------------------- *
-	 * Input: 'blah, blah, blah, blah, blah'                                  *
-	 * Return: {'blah', 'blah', 'blah', 'blah', 'blah'}                       *
-	 * ====================================================================== */
+	/**
+	 * Takes a string in CSV format i.e. blah,                   
+	 * blah, blah and returns an array of the items split                     
+	 * similarly to the way the split function works in                       
+	 * Java.                           
+	 * @param input A csv line passed in to be split
+	 * 				strings must be be encapsulated by
+	 * 	 			single quotes ''
+	 * @return An Array of Strings
+	 */
 	public static String[] splitPatient(String input){
 		if(input.length() > 0){
 			int startIndex = input.indexOf(",");
@@ -529,7 +636,6 @@ public class Database {
 			int count = 2; // accounts for the first and last word
 	
 			String word;
-			String word2 = null;
 	
 			// find size of the patients
 			while(index < finalIndex){

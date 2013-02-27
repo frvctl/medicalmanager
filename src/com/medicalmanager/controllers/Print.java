@@ -22,6 +22,8 @@ public class Print implements Printable {
 		if (pageIndex != 0){
 			return NO_SUCH_PAGE;
 		}
+		int y = 200;
+		int x = 100;
 		
 		Graphics2D g2 = (Graphics2D) g;
 		
@@ -29,40 +31,27 @@ public class Print implements Printable {
 		g2.setPaint(Color.black);
 		g2.drawString("Medical Manager Patient Printout", 50, 100);
 		
+		g2.setFont(new Font("Serif", Font.PLAIN, 24));
 		if(all){
-			int y = 200;
-			int x = 150;
-			
-			g2.setFont(new Font("Serif", Font.PLAIN, 20));
-			
 			for(Patient p: PatientView.getPatientArray()){
 				g2.drawString("-----------------------", x, y);
 				y += 50;
-				g2.drawString("Name: => " + p.getFullName(), x, y);
+				g2.drawString("Name: " + p.getFullName(), x, y);
 				y += 50;
-				g2.drawString("Age: =>" + p.getAge(), x, y);
+				g2.drawString("Age: " + p.getAge(), x, y);
 				y += 50;
-				g2.drawString("Email: => " + p.getEmailAddress(), x, y);
+				g2.drawString("Email: " + p.getEmailAddress(), x, y);
 				y += 50;
 				g2.drawString("-----------------------", x, y);
 				y += 100;
 			}
 		} else {
 		    Patient p = PatientView.getSelected();
-			
-			int y = 200;
-			int x = 150;
-			
-			g2.setFont(new Font("Serif", Font.PLAIN, 20));
-			g2.drawString("-----------------------", x, y);
+			g2.drawString("Name: " + p.getFullName(), x, y);
 			y += 50;
-			g2.drawString("Name: => " + p.getFullName(), x, y);
+			g2.drawString("Age: " + p.getAge(), x, y);
 			y += 50;
-			g2.drawString("Age: =>" + p.getAge(), x, y);
-			y += 50;
-			g2.drawString("Email: => " + p.getEmailAddress(), x, y);
-			y += 50;
-			g2.drawString("-----------------------", x, y);
+			g2.drawString("Email: " + p.getEmailAddress(), x, y);
 			y += 100;
 		}
 		
