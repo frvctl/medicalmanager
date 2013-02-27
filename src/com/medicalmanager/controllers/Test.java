@@ -7,7 +7,7 @@ import com.medicalmanager.views.PatientView;
 
 public class Test {
 	public Test() throws IOException{
-		String[] firstNames = {"Ben", "Bob", "Andrew", "Kevin", "Joe", "Michael", "Norah", "Andrea", "Christine", "Colleen", "Betsy", "Sarah"}; //11
+		String[] firstNames = {"Ben", "Bob", "Andrew", "Kevin", "Joe", "Michael", "Norah", "Andrea", "Christine", "Haley", "Kelsey", "Sarah"}; //11
 		String[] middleNames = {"Ryan", "Middle", "Notsure", "What", "This", "Should", "Be", "Its", "Just", "Test", "Output"}; //11
 		String[] lastNames = {"Kwok", "Vest", "Ursini", "Cool", "Tapir", "Tamir", "Derp", "Merp", "Flerp", "Quirk", "Lerp"}; //11
 		
