@@ -37,6 +37,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.medicalmanager.controllers.Database;
 import com.medicalmanager.controllers.Print;
+import com.medicalmanager.controllers.Test;
 import com.medicalmanager.models.Patient;
 
 public class PatientView extends JFrame {
@@ -112,6 +113,7 @@ public class PatientView extends JFrame {
 		
 		// Bootstrap the event handlers
 		actionTime();
+	
 		
 		// Set the standard write directory - possibly add settings to change where this is
 		Database.setWriteDirectory(System.getProperty("user.home") + "\\My Documents\\Medical Manager\\");
@@ -122,8 +124,10 @@ public class PatientView extends JFrame {
 		// Create the directory and file if it isn't already there
 		Database.prepareFile();
 		
+		new Test();
+		
 		// Read all the patients from the file dumping them into an array list for use later
-		Database.readAllPatientsFromFile();
+		//Database.readAllPatientsFromFile();
 	}
 
 	public void placeMenu() {
