@@ -18,8 +18,13 @@ import com.medicalmanager.models.Patient;
 import com.medicalmanager.views.PatientView;
 
 /**
- * 
- * @author 1536660
+ * Functionality for the data store and data manipulation including <ul>
+ * <li> Searching </li>
+ * <li> Sorting </li>
+ * <li> File I/O </li>
+ * <li> General Persistence </li>
+ *
+ * @author Ben Vest
  *
  */
 public class Database {
@@ -31,44 +36,51 @@ public class Database {
 	private static int[] numbers;
 	private static int[] helper;
 	static int number;
-
-	
-	public Database() { }
-	  
+  
 	/**
+	 * Getter for where the current database is located
 	 * 
-	 * @return
+	 * @return The folder that corresponds to where everything
+	 * 			is being written to.
 	 */
 	public static File getWriteDirectory() {
 		return writeDirectory;
 	}
 	
 	/**
+	 * Setter for the database directory
 	 * 
-	 * @param writeDirectory
+	 * @param writeDirectory The full path of the location of the folder
+	 * on the file system where everything will be written to.
 	 */
 	public static void setWriteDirectory(String writeDirectory) {
 		Database.writeDirectory = new File(writeDirectory);
 	}
 	
 	/**
+	 * Getter for the actual write file, that is the file that contains
+	 * the patient records in CSV format.
 	 * 
-	 * @return
+	 * @return A File that is being used for current File I/O
 	 */
 	public static File getFile() {
 		return writeFile;
 	}
 	
 	/**
+	 * Sets the absolute file location by combining where the 
+	 * write directory is with the filename
 	 * 
-	 * @param fileName
+	 * @param fileName What you want the file to be called
 	 */
 	public static void setFile(String fileName) {
 		Database.writeFile = new File(Database.writeDirectory.getPath() + "/" + fileName);
 	}
 	
 	/**
-	 * 
+	 * Prepares the file for writing by creating the directory or actual file
+	 * if necessary, a newly created file or directory is entirely empty of 
+	 * any data.
 	 */
 	public static void prepareFile(){
 		try{
@@ -80,9 +92,7 @@ public class Database {
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-		
-		System.out.println(Database.getFile());
-		
+
 		if (!Database.getFile().exists()) {
 			try {
 				Database.getFile().createNewFile();
@@ -93,9 +103,17 @@ public class Database {
 	}
 
 	/**
+	 * Function for writing lines to a file, the function relies on the
+	 * write file that is assigned to Database at the time of the function
+	 * call. Therefore in order to change where something is being written
+	 * you must <b> change the write file </b> furthermore you <b> must </b>
+	 * pass <b> true </b> into append or else the <b> entire file </b> will 
+	 * be rewritten with only the last line called in.
 	 * 
-	 * @param input
-	 * @param append
+	 * @param input What is being written to the file
+	 * @param append Determines whether to append or not, append is necessary
+	 * unless you are trying to rewrite the file entirely, such as what happens
+	 * when you edit a patient.
 	 * @throws IOException
 	 */
 	public static void writeToFile(String input, boolean append) throws IOException{
@@ -117,6 +135,7 @@ public class Database {
 	/**
 	 * Reads the current writeFile and counts the lines
 	 * this method is faster than readLines.
+	 * 
 	 * @return The number of lines in the file.
 	 * @throws IOException
 	 */
@@ -141,32 +160,23 @@ public class Database {
 	}
 	
 	/**
-	 * Sample File Data
-	 * 0,                           0  -- ID <br>
-	 * first,                       1  -- first name <br>
-	 * middle,                      2  -- middle name <br>
-	 * last,                        3  -- last name <br>
-	 * dateofbirth,                 4  -- date of birth <br>
-	 * home,                        5  -- address <br>
-	 * email,                       6  -- email <br>
-	 * phone,                       7  -- home phone <br>
-	 * cell,                        8  -- cell phone <br>
-	 * info,                        9  -- additional information <br>
-	 * conditions,                  10 -- current medical conditions <br>
-	 * Yes - Several Packs a day,   11 -- tobaco usage <br>
-	 * Yes - Very heavy drinker ,   12 -- alcohol consumption <br>
-	 * meds,                        13 -- current medications <br>
-	 * adasdfsdfsdfa ,              14 -- additionalmedical information <br>
-	 * aditionalMedical,            15 -- patient analysis <br>
-	 * 189.0,                       16 -- Age <br>
-	 * 890.0,                       17 -- Height <br>
-	 * 908.0,                       18 -- Weight <br>
-	 * 0.0,                         19 -- Systolic <br>
-	 * 0.0,                         20 -- Diastolic <br>
-	 * 0.8058628960989774,          21 -- BMI <br>
-	 * 0.0,                         22 -- MAP <br>
-	 * Too Low,                     23 -- MAP Analysis <br>
-	 * Underweight                  24 -- BMI Analysis <br>
+	 * Reads all the patients from the file and instantiates them as 
+	 * Patient Objects while updating the master array list and the
+	 * PatientList in the PatientView. <br>
+	 * Indices of a split CSV patient line of data
+	 * <ol>
+	 * <li> ID </li> <li> first name </li> <li> middle name </li>
+	 * <li> last name </li> <li> date of birth </li> <li> address </li>
+	 * <li> email </li> <li> home phone </li> <li> cell phone </li>
+	 * <li> additional information </li> <li> current medical conditions </li>
+	 * <li> tobaco usage </li> <li> alcohol consumption </li>
+	 * <li> current medications </li> <li> additionalmedical information </li>
+	 * <li> patient analysis </li> <li> Age </li> <li> Height </li>
+	 * <li> Weight </li> <li> Systolic </li> <li> Diastolic </li>
+	 * <li> BMI </li> <li> MAP </li> <li> MAP Analysis </li>
+	 * <li> BMI Analysis </li>
+	 * </ol>
+	 * 
 	 * @throws IOException
 	 */
 	public static void readAllPatientsFromFile() throws IOException{
@@ -174,10 +184,8 @@ public class Database {
 			BufferedReader br = new BufferedReader(new FileReader(writeFile));
 			String line = null;
 			String[] stringray = new String[24];
-			int x = countLines();
 			while ((line = br.readLine()) != null) {
 				stringray = splitPatient(line);
-				System.out.println(line);
 				if(stringray != null) {
 					Patient readPatient = new Patient()
 						.setID(Integer.parseInt(stringray[0]))
@@ -206,16 +214,20 @@ public class Database {
 					
 				
 					PatientView.updateList(readPatient);
-					x--;
 				}
 			}
+			
+			br.close();
 		}catch (Exception e) {
 		    e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * 
+	 * Writes every patient in the master ArrayList to
+	 * a file, this is a helper method for when a patient is edited.
+	 * Append is called initially then set to true which allows the file
+	 * to be totally rewritten.
 	 * @throws IOException
 	 */
 	public static void writeAllPatientsToFile() throws IOException{
@@ -228,7 +240,7 @@ public class Database {
 	
 	/**
 	 * 
-	 * @author 1536660
+	 * @author Ben Vest
 	 *
 	 */
 	public static class CompareStringAttribute implements Comparator<Patient> {
@@ -264,7 +276,7 @@ public class Database {
 	
 	
 	/**
-	 * @author 1536660
+	 * @author Ben Vest
 	 */
 	public static class CompareNumberAttribute implements Comparator<Patient> {
 		private boolean direction = false; // descending;

@@ -31,6 +31,14 @@ import com.medicalmanager.controllers.Database;
 import com.medicalmanager.controllers.Diagnosis;
 import com.medicalmanager.models.Patient;
 
+/**
+ * Patient Dialog for creating patients.
+ * Just a big form that can be filled out.
+ * 
+ * @author Ben Vest
+ *
+ */
+@SuppressWarnings("serial")
 public class PatientDialog extends JDialog {
 	private JPanel testDataPanel;
 	private JPanel buttonPane;
@@ -40,7 +48,6 @@ public class PatientDialog extends JDialog {
 
 	private JButton nextButton;
 	private JButton okButton;
-	private JButton backButton;  
 	private JButton cancelButton;
 
 	private JComboBox<String> raceBox;
@@ -77,27 +84,30 @@ public class PatientDialog extends JDialog {
 	private JTextArea patientAnalysisArea;
 
 	/**
-	 * Create the dialog.
+	 * Bootstrap the Dialog.
 	 */
 	public PatientDialog() {
 		setBounds(100, 100, 742, 475);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setLayout(cl);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 
-		createWelcomePane();
 		createHealthInfoPane();
 		createPersonalInfoPane();
 		createTestDataPane();
+		createButtonPane();
 	}
 	
+	/**
+	 * When the form reaches the end switch the button
+	 * configuration and add the ok listener.
+	 */
 	public void switchToOkay(){
 		okButton = new JButton("OK");
-		backButton = new JButton("BACK");
 		buttonPane.remove(cancelButton);
 		buttonPane.remove(nextButton);
 		buttonPane.add(okButton);
-		buttonPane.add(backButton);
 		buttonPane.add(cancelButton);
 		
 		okButton.addActionListener(new ActionListener() {
@@ -136,126 +146,15 @@ public class PatientDialog extends JDialog {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				
 				PatientDialog.this.setVisible(false);
 			}
 		});
 	}
 	
-	
-	public void createWelcomePane(){
-		contentPanel.setLayout(cl);
-	}
-	
+	/**
+	 * Health Info Form
+	 */
 	public void createHealthInfoPane(){
-		JPanel personalInfoPanel = new JPanel();
-		contentPanel.add(personalInfoPanel, "personalInfo");
-		personalInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),}));
-		
-		JLabel nameLabel = new JLabel("First Name");
-		personalInfoPanel.add(nameLabel, "2, 4, right, default");
-		
-		firstNameField = new JTextField();
-		personalInfoPanel.add(firstNameField, "4, 4, fill, default");
-		firstNameField.setColumns(10);
-		
-		JLabel middleNameLabel = new JLabel("Middle Name");
-		personalInfoPanel.add(middleNameLabel, "2, 6, right, default");
-		
-		middleNameField = new JTextField();
-		personalInfoPanel.add(middleNameField, "4, 6, fill, default");
-		middleNameField.setColumns(10);
-		
-		JLabel lastNameLabel = new JLabel("Last Name");
-		personalInfoPanel.add(lastNameLabel, "2, 8, right, default");
-		
-		lastNameField = new JTextField();
-		personalInfoPanel.add(lastNameField, "4, 8, fill, default");
-		lastNameField.setColumns(10);
-		
-		JLabel dobLabel = new JLabel("Date of Birth");
-		personalInfoPanel.add(dobLabel, "2, 10, right, default");
-		
-		dobField = new JFormattedTextField();
-		personalInfoPanel.add(dobField, "4, 10, fill, default");
-		
-		JLabel raceLabel = new JLabel("Race");
-		personalInfoPanel.add(raceLabel, "2, 12, right, default");
-		
-		raceBox = new JComboBox();
-		raceBox.setModel(new DefaultComboBoxModel(new String[] {"Caucasian", "Black", "Asian", "Native American", "Latino", "Other"}));
-		personalInfoPanel.add(raceBox, "4, 12, fill, default");
-		
-		JLabel genderLabel = new JLabel("Gender");
-		personalInfoPanel.add(genderLabel, "2, 14, right, default");
-		
-		genderBox = new JComboBox();
-		genderBox.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female"}));
-		personalInfoPanel.add(genderBox, "4, 14, fill, default");
-		
-		JLabel homeAddressLabel = new JLabel("Home Address");
-		personalInfoPanel.add(homeAddressLabel, "2, 16, right, default");
-		
-		homeAddressField = new JFormattedTextField();
-		personalInfoPanel.add(homeAddressField, "4, 16, fill, default");
-		
-		JLabel emailAddressLabel = new JLabel("Email Address");
-		personalInfoPanel.add(emailAddressLabel, "2, 18, right, default");
-		
-		emailAddressField = new JFormattedTextField();
-		personalInfoPanel.add(emailAddressField, "4, 18, fill, default");
-		
-		JLabel homePhoneLabel = new JLabel("Home Phone");
-		personalInfoPanel.add(homePhoneLabel, "2, 20, right, default");
-		
-		homePhoneField = new JFormattedTextField();
-		personalInfoPanel.add(homePhoneField, "4, 20, fill, default");
-		
-		JLabel callPhoneLabel = new JLabel("Cell Phone");
-		personalInfoPanel.add(callPhoneLabel, "2, 22, right, default");
-		
-		cellPhoneField = new JFormattedTextField();
-		personalInfoPanel.add(cellPhoneField, "4, 22, fill, default");
-		
-		JLabel lblAdditionalInformation = new JLabel("Additional Information");
-		personalInfoPanel.add(lblAdditionalInformation, "2, 24");
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		personalInfoPanel.add(scrollPane_1, "4, 24, fill, fill");
-		
-		additionalPatientInfoArea = new JTextArea();
-		additionalPatientInfoArea.setLineWrap(true);
-		scrollPane_1.setViewportView(additionalPatientInfoArea);
 		JPanel healthInfoPanel = new JPanel();
 		contentPanel.add(healthInfoPanel, "healthInfo");
 		healthInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -324,8 +223,8 @@ public class PatientDialog extends JDialog {
 		JLabel tobaccoLabel = new JLabel("Tobacco Usage");
 		healthInfoPanel.add(tobaccoLabel, "2, 14, right, default");
 		
-		tobaccoBox = new JComboBox();
-		tobaccoBox.setModel(new DefaultComboBoxModel(new String[] {"No - Never", "Yes - Previously but quit", "Yes - Rarely", "Yes - Frequently", "Yes - Several Packs a day"}));
+		tobaccoBox = new JComboBox<String>();
+		tobaccoBox.setModel(new DefaultComboBoxModel<String>(new String[] {"No - Never", "Yes - Previously but quit", "Yes - Rarely", "Yes - Frequently", "Yes - Several Packs a day"}));
 		healthInfoPanel.add(tobaccoBox, "4, 14, fill, default");
 		
 		JLabel alcoholLabel = new JLabel("Alcohol Consumption");
@@ -334,8 +233,8 @@ public class PatientDialog extends JDialog {
 		JLabel commentsLabel = new JLabel("Additional Medical Info");
 		healthInfoPanel.add(commentsLabel, "2, 18");
 		
-		alcoholBox = new JComboBox();
-		alcoholBox.setModel(new DefaultComboBoxModel(new String[] {"No - Never", "Yes - Now has quit", "Yes - Moderate amounts", "Yes - Heavy drinker", "Yes - Very heavy drinker ", "Yes - Alcoholic / Alcoholism"}));
+		alcoholBox = new JComboBox<String>();
+		alcoholBox.setModel(new DefaultComboBoxModel<String>(new String[] {"No - Never", "Yes - Now has quit", "Yes - Moderate amounts", "Yes - Heavy drinker", "Yes - Very heavy drinker ", "Yes - Alcoholic / Alcoholism"}));
 		healthInfoPanel.add(alcoholBox, "4, 16, fill, default");
 		
 		scrollPane_2 = new JScrollPane();
@@ -347,10 +246,126 @@ public class PatientDialog extends JDialog {
 		scrollPane_2.setViewportView(additionalMedicalInfoArea);
 	}
 	
-	
+	/**
+	 * Personal Info Form
+	 */
 	public void createPersonalInfoPane(){
+		JPanel personalInfoPanel = new JPanel();
+		contentPanel.add(personalInfoPanel, "personalInfo");
+		personalInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
+		
+		JLabel nameLabel = new JLabel("First Name");
+		personalInfoPanel.add(nameLabel, "2, 4, right, default");
+		
+		firstNameField = new JTextField();
+		personalInfoPanel.add(firstNameField, "4, 4, fill, default");
+		firstNameField.setColumns(10);
+		
+		JLabel middleNameLabel = new JLabel("Middle Name");
+		personalInfoPanel.add(middleNameLabel, "2, 6, right, default");
+		
+		middleNameField = new JTextField();
+		personalInfoPanel.add(middleNameField, "4, 6, fill, default");
+		middleNameField.setColumns(10);
+		
+		JLabel lastNameLabel = new JLabel("Last Name");
+		personalInfoPanel.add(lastNameLabel, "2, 8, right, default");
+		
+		lastNameField = new JTextField();
+		personalInfoPanel.add(lastNameField, "4, 8, fill, default");
+		lastNameField.setColumns(10);
+		
+		JLabel dobLabel = new JLabel("Date of Birth");
+		personalInfoPanel.add(dobLabel, "2, 10, right, default");
+		
+		dobField = new JFormattedTextField();
+		personalInfoPanel.add(dobField, "4, 10, fill, default");
+		
+		JLabel raceLabel = new JLabel("Race");
+		personalInfoPanel.add(raceLabel, "2, 12, right, default");
+		
+		raceBox = new JComboBox<String>();
+		raceBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Caucasian", "Black", "Asian", "Native American", "Latino", "Other"}));
+		personalInfoPanel.add(raceBox, "4, 12, fill, default");
+		
+		JLabel genderLabel = new JLabel("Gender");
+		personalInfoPanel.add(genderLabel, "2, 14, right, default");
+		
+		genderBox = new JComboBox<String>();
+		genderBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Male", "Female"}));
+		personalInfoPanel.add(genderBox, "4, 14, fill, default");
+		
+		JLabel homeAddressLabel = new JLabel("Home Address");
+		personalInfoPanel.add(homeAddressLabel, "2, 16, right, default");
+		
+		homeAddressField = new JFormattedTextField();
+		personalInfoPanel.add(homeAddressField, "4, 16, fill, default");
+		
+		JLabel emailAddressLabel = new JLabel("Email Address");
+		personalInfoPanel.add(emailAddressLabel, "2, 18, right, default");
+		
+		emailAddressField = new JFormattedTextField();
+		personalInfoPanel.add(emailAddressField, "4, 18, fill, default");
+		
+		JLabel homePhoneLabel = new JLabel("Home Phone");
+		personalInfoPanel.add(homePhoneLabel, "2, 20, right, default");
+		
+		homePhoneField = new JFormattedTextField();
+		personalInfoPanel.add(homePhoneField, "4, 20, fill, default");
+		
+		JLabel callPhoneLabel = new JLabel("Cell Phone");
+		personalInfoPanel.add(callPhoneLabel, "2, 22, right, default");
+		
+		cellPhoneField = new JFormattedTextField();
+		personalInfoPanel.add(cellPhoneField, "4, 22, fill, default");
+		
+		JLabel lblAdditionalInformation = new JLabel("Additional Information");
+		personalInfoPanel.add(lblAdditionalInformation, "2, 24");
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		personalInfoPanel.add(scrollPane_1, "4, 24, fill, fill");
+		
+		additionalPatientInfoArea = new JTextArea();
+		additionalPatientInfoArea.setLineWrap(true);
+		scrollPane_1.setViewportView(additionalPatientInfoArea);
 	}
 	
+	/**
+	 * Test Data Panel
+	 * Contains the calculated BMI, how the BMI was calculated
+	 * as well as the ability to add blood pressure and calculate
+	 * Mean Artierial Pressure.
+	 */
 	public void createTestDataPane(){	
 		testDataPanel = new JPanel();
 		contentPanel.add(testDataPanel, "testData");
@@ -494,41 +509,44 @@ public class PatientDialog extends JDialog {
 		patientAnalysisArea.setLineWrap(true);
 		scrollPane_1.setViewportView(patientAnalysisArea);
 		testDataPanel.setLayout(gl_testDataPanel);
+	}
 	
+	/**
+	 * Button Panel and event handlers for those buttons
+	 */
+	public void createButtonPane(){
+		buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		{
-			buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-	
-				nextButton = new JButton("NEXT");
-				nextButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						cl.next(contentPanel);
-						if(heightField.getText().length() > 0 && weightField.getText().length() > 0){
-							calculatedBMIField.setText(String.valueOf(Diagnosis.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()))));
-							bmiExplanationField.setText(Diagnosis.analyizeBMI(Diagnosis.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())), Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())));
-						}
-						if(testDataPanel.isVisible()){
-							switchToOkay();
-						}
+
+			nextButton = new JButton("NEXT");
+			nextButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					cl.next(contentPanel);
+					if(heightField.getText().length() > 0 && weightField.getText().length() > 0){
+						calculatedBMIField.setText(String.valueOf(Diagnosis.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText()))));
+						bmiExplanationField.setText(Diagnosis.analyizeBMI(Diagnosis.calculateBMI(Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())), Double.parseDouble(heightField.getText()), Double.parseDouble(weightField.getText())));
 					}
-				});
-				nextButton.setActionCommand("NEXT");
-				buttonPane.add(nextButton);
-				getRootPane().setDefaultButton(nextButton);
-			
-			}
-			{
-				cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						PatientDialog.this.setVisible(false);
+					if(testDataPanel.isVisible()){
+						switchToOkay();
 					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
+				}
+			});
+			nextButton.setActionCommand("NEXT");
+			buttonPane.add(nextButton);
+			getRootPane().setDefaultButton(nextButton);
+		
+		}
+		{
+			cancelButton = new JButton("Cancel");
+			cancelButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PatientDialog.this.setVisible(false);
+				}
+			});
+			cancelButton.setActionCommand("Cancel");
+			buttonPane.add(cancelButton);
 		}
 	}
 }
