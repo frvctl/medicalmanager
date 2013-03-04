@@ -479,6 +479,7 @@ public class PatientView extends JFrame {
 	
 	/**
 	 * Update's the PatientList by adding the patient to the listModel
+	 * 
 	 * @param p Patient being used to update the list, will be added to the bottom
 	 */
 	public static void updateList(Patient p) {
@@ -488,6 +489,7 @@ public class PatientView extends JFrame {
 	
 	/**
 	 * Adds the elements of the patient array 
+	 * 
 	 * to the top of the array list
 	 * @param pRay Patient array that will be sent to the top of the patient list
 	 */
@@ -509,6 +511,7 @@ public class PatientView extends JFrame {
 	
 	/**
 	 * Updates the list to reflect name change after a patient is edited
+	 * 
 	 * @param index Original index on the patientList 
 	 * @param p Patient that is being re-added to the list after being edited
 	 */
@@ -525,6 +528,7 @@ public class PatientView extends JFrame {
 	
 	/**
 	 * Moves a Patient around in the list
+	 * 
 	 * @param p The patient being moved
 	 * @param prior How high a patients priority is, it's relative so
 	 * 				1 is really low 10 is really high
@@ -537,6 +541,7 @@ public class PatientView extends JFrame {
 	/**
 	 * Helper method that reorders the list based on a 
 	 * passed in ArrayList.
+	 * 
 	 * @param newOrder ArrayList that the new order will follow
 	 */
 	public static void sortList(ArrayList<Patient> newOrder){
@@ -546,33 +551,59 @@ public class PatientView extends JFrame {
 			listModel.addElement(p.getFirstName());
 		}
 	}
-
+	
+	/**
+	 * Formats things properly for being used in the patientInfoArea.
+	 * Aligns everything making it more readable.
+	 * 
+	 * @param attr The attribute of a patient
+	 * @param val The corresponding value of a patients attribute
+	 * @return A single formatted string that looks like 'blah: =>  dah'
+	 */
 	public static String formatField(String attr, Comparable<?> val){
 		return String.format("  %30s: => %-4s", attr, val) + "\n";
 	}
 	
+	/**
+	 * Assigns the PatientViews sorted array for use in other methods
+	 * 
+	 * @param sorted An ArrayList of Patients that is sorted
+	 */
 	public static void setSortedArray(ArrayList<Patient> sorted){
 		PatientView.sortedArray = sorted;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public static Patient getSelected() {
 		return selected;
 	}
 
+	/**
+	 * 
+	 * @param selected
+	 */
 	public static void setSelected(Patient selected) {
 		PatientView.selected = selected;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static ArrayList<Patient> getPatientArray(){
 		return PatientView.patientArray;
 	}
 	
+	/**
+	 * 
+	 * @param msg
+	 * @param title
+	 */
 	public static void showError(String msg, String title){
 		 JOptionPane.showMessageDialog(PatientView.contentPane, msg, title, JOptionPane.ERROR_MESSAGE);
 	}
 }
-
-//String ops[] = new String[1];
-//ops[0] = "Ben";
-//SearchResultsDialog sD = new SearchResultsDialog(Database.advancedPatientSearch(ops));
-//sD.setVisible(true); 

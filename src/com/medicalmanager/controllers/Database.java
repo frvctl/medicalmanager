@@ -228,6 +228,7 @@ public class Database {
 	 * a file, this is a helper method for when a patient is edited.
 	 * Append is called initially then set to true which allows the file
 	 * to be totally rewritten.
+	 * 
 	 * @throws IOException
 	 */
 	public static void writeAllPatientsToFile() throws IOException{
@@ -322,9 +323,10 @@ public class Database {
 	}
 	
 	/**
+	 * Swap for linear search. Swaps an element of an array.
 	 * 
-	 * @param index
-	 * @param theArray
+	 * @param index The index of the item that is being swapped
+	 * @param theArray The array that is swapping
 	 */
 	private static void swap(int index, int[] theArray){
 		int replace = theArray[index - 1];
@@ -333,10 +335,11 @@ public class Database {
 	}
 	
 	/**
+	 * Linear Search of patients
 	 * 
-	 * @param p
-	 * @param searchFor
-	 * @return
+	 * @param p ArrayList of all the patients
+	 * @param searchFor ID that is being searched for
+	 * @return The patient if one is found, else null
 	 */
 	public static Patient linSearch(ArrayList<Patient> p, int searchFor){
 		int sizeP = p.size();
@@ -533,8 +536,9 @@ public class Database {
 	}
 	
 	/**
+	 * Sort an array of Integers.
 	 * 
-	 * @param values
+	 * @param values Array of Integers to be sorted
 	 */
 	public static void sort(int[] values) {
 		number = values.length;
@@ -557,8 +561,9 @@ public class Database {
 	}
 		
 	/**
+	 * Merge portion of the mergesort routine.
 	 * 
-	 * @param low
+	 * @param low 
 	 * @param middle
 	 * @param high
 	 */
@@ -594,8 +599,10 @@ public class Database {
 	  }
 	  
 	  /**
+	   * Gets all of the userIDs in a patient ArrayList and puts them into the 
+	   * array allIDs of integers.
 	   * 
-	   * @param p
+	   * @param p ArrayList of all the patients that IDs need to be extracted from
 	   */
 	  public static void getAllIDs(ArrayList<Patient> p){
 		  allIDs = new int[p.size()];
@@ -612,7 +619,8 @@ public class Database {
 	 * it then calls a helper function inside of the PatientView in   
 	 * order to update the PatientList which reflects the edits to    
 	 * the user. pRay is used to find the index of the patient at the 
-	 * time of the edit.                                     
+	 * time of the edit.    
+	 *                                  
 	 * @param p Patient that is being updated 
 	 * @param data array of data for updating the patient
 	 * @param pRay ArrayList of all the patients in memory. 
@@ -632,10 +640,10 @@ public class Database {
 	 * Takes a string in CSV format i.e. blah,                   
 	 * blah, blah and returns an array of the items split                     
 	 * similarly to the way the split function works in                       
-	 * Java.                           
+	 * Java.
+	 *                            
 	 * @param input A csv line passed in to be split
-	 * 				strings must be be encapsulated by
-	 * 	 			single quotes ''
+	 * strings must be be encapsulated by single quotes ''
 	 * @return An Array of Strings
 	 */
 	public static String[] splitPatient(String input){
