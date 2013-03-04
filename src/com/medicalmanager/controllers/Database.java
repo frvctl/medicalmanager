@@ -547,9 +547,11 @@ public class Database {
 	}
 	
 	/**
+	 * Recursively sorts an array by essentially splitting the array up and
+	 * then merging it together.
 	 * 
-	 * @param low
-	 * @param high
+	 * @param low The smallest size of the array being sorted
+	 * @param high The max size of the array being sorted
 	 */
 	public static void mergesort(int low, int high) {
 		if (low < high) {
@@ -563,9 +565,9 @@ public class Database {
 	/**
 	 * Merge portion of the mergesort routine.
 	 * 
-	 * @param low 
-	 * @param middle
-	 * @param high
+	 * @param low Low number
+	 * @param middle Number in the middle
+	 * @param high High number
 	 */
 	  public static void merge(int low, int middle, int high) {
 		  // Copy both parts into the helper array
