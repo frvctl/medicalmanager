@@ -361,9 +361,7 @@ public class Database {
 	 * @return The patient if one is found, else null
 	 */
 	public static Patient linSearch(ArrayList<Patient> p, int searchFor){
-		int sizeP = p.size();
-
-		for( int i = 0; i < sizeP; i++ ){
+		for( int i = 0; i < p.size(); i++ ){
 			if(p.get(i).getID() == searchFor){
 				return p.get(i);
 			}
@@ -510,6 +508,7 @@ public class Database {
 	}
  
 	/**
+	 * 
 	 * 
 	 * @param p
 	 * @param searchValue

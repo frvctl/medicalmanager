@@ -125,10 +125,11 @@ public class PatientView extends JFrame {
 		// Create the directory and file if it isn't already there
 		Database.prepareFile();
 		
-		//new Test();
+		new Test();
 		
 		// Read all the patients from the file dumping them into an array list for use later
 		Database.readAllPatientsFromFile();
+		System.out.println(Database.linSearch(patientArray, 0).getFullName());
 	}
 
 	public void placeMenu() {
