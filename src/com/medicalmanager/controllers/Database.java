@@ -323,7 +323,26 @@ public class Database {
 	}
 	
 	/**
-	 * Swap for linear search. Swaps an element of an array.
+	 * Super simple integer bubble sort.
+	 * 
+	 * @param toSort Unsorted array of integers for sorting
+	 */
+	public static int[] bubbleSort(int[] toSort){
+		int n = toSort.length;
+		
+		for(int i = 0; i < n; i++){
+			for(int j = 0; j < (n-i); j++){
+				if(toSort[j-1] > toSort[j]){
+					swap(j, toSort);
+				}
+			}
+		}
+		
+		return toSort;
+	}
+	
+	/**
+	 * Swap for bubble sort. Swaps an element of an array.
 	 * 
 	 * @param index The index of the item that is being swapped
 	 * @param theArray The array that is swapping

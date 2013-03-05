@@ -30,6 +30,7 @@ public class EditPatientDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public EditPatientDialog() {
+		setTitle("Edit Patient");
 		setBounds(100, 100, 531, 543);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

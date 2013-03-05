@@ -81,6 +81,7 @@ public class PatientView extends JFrame {
 	public static ArrayList<Patient> patientArray = new ArrayList<Patient>();
 	private JPanel aboutPanel;
 	private JToolBar patientToolBar;
+	private JMenuItem helpMenuMainMenuItem;
 
 
 	/**
@@ -89,6 +90,7 @@ public class PatientView extends JFrame {
 	 * @throws IOException
 	 */
 	public PatientView() throws IOException {
+		setTitle("Medical Manager");
 		// Ensures the panel closes when you press the close button
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -153,6 +155,9 @@ public class PatientView extends JFrame {
 
 		helpMenuFAQItem = new JMenuItem("FAQ");
 		helpMenu.add(helpMenuFAQItem);
+		
+		helpMenuMainMenuItem = new JMenuItem("Main Menu");
+		helpMenu.add(helpMenuMainMenuItem);
 
 		helpMenuPreferencesItem = new JMenuItem("Preferences");
 		helpMenu.add(helpMenuPreferencesItem);
@@ -223,7 +228,8 @@ public class PatientView extends JFrame {
 		patientPanel.setLayout(patientLayout);
 		
 		aboutPanel = new JPanel();
-		contentPane.add(aboutPanel, "name_6720415608134");
+		contentPane.add(aboutPanel, "aboutPanel");
+		aboutPanel.setLayout(new CardLayout(0, 0));
 
 		for (Patient p : patientArray) {
 			listModel.addElement(p.getFirstName());
@@ -309,8 +315,14 @@ public class PatientView extends JFrame {
 
 	public void actionTime() {
 		mainAppButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				card.next(contentPane); 
+			}
+		});
+		
+		aboutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				card.show(contentPane, "aboutPanel");
 			}
 		});
 
@@ -383,6 +395,12 @@ public class PatientView extends JFrame {
 				 }
 			 }
 		 });
+		
+		helpMenuMainMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				card.show(contentPane, "welcomePanel"); 
+			}
+		});
 		
 		editPatientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -87,6 +87,7 @@ public class PatientDialog extends JDialog {
 	 * Bootstrap the Dialog.
 	 */
 	public PatientDialog() {
+		setTitle("New Patient");
 		setBounds(100, 100, 742, 475);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -155,101 +156,6 @@ public class PatientDialog extends JDialog {
 	 * Health Info Form
 	 */
 	public void createHealthInfoPane(){
-		JPanel healthInfoPanel = new JPanel();
-		contentPanel.add(healthInfoPanel, "healthInfo");
-		healthInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),}));
-		
-		JLabel hiddenInfoLabel = new JLabel("");
-		healthInfoPanel.add(hiddenInfoLabel, "4, 2");
-		
-		JLabel ageLabel = new JLabel("Age");
-		healthInfoPanel.add(ageLabel, "2, 4, right, default");
-		
-		ageField = new JTextField();
-		healthInfoPanel.add(ageField, "4, 4, fill, default");
-		ageField.setColumns(10);
-		
-		JLabel heightLabel = new JLabel("Height");
-		healthInfoPanel.add(heightLabel, "2, 6, right, default");
-		
-		heightField = new JTextField();
-		healthInfoPanel.add(heightField, "4, 6, fill, default");
-		heightField.setColumns(10);
-		
-		JLabel weightLabel = new JLabel("Weight");
-		healthInfoPanel.add(weightLabel, "2, 8, right, default");
-		
-		weightField = new JTextField();
-		healthInfoPanel.add(weightField, "4, 8, fill, default");
-		weightField.setColumns(10);
-		
-		JLabel medicationLabel = new JLabel("Current Medications");
-		healthInfoPanel.add(medicationLabel, "2, 10, right, default");
-		
-		medicationField = new JTextField();
-		healthInfoPanel.add(medicationField, "4, 10, fill, default");
-		medicationField.setColumns(10);
-		
-		JLabel medicalConditionsLabel = new JLabel("Current Medical Conditions");
-		healthInfoPanel.add(medicalConditionsLabel, "2, 12, right, default");
-		
-		medicalConditionsField = new JTextField();
-		healthInfoPanel.add(medicalConditionsField, "4, 12, fill, default");
-		medicalConditionsField.setColumns(10);
-		
-		JLabel tobaccoLabel = new JLabel("Tobacco Usage");
-		healthInfoPanel.add(tobaccoLabel, "2, 14, right, default");
-		
-		tobaccoBox = new JComboBox<String>();
-		tobaccoBox.setModel(new DefaultComboBoxModel<String>(new String[] {"No - Never", "Yes - Previously but quit", "Yes - Rarely", "Yes - Frequently", "Yes - Several Packs a day"}));
-		healthInfoPanel.add(tobaccoBox, "4, 14, fill, default");
-		
-		JLabel alcoholLabel = new JLabel("Alcohol Consumption");
-		healthInfoPanel.add(alcoholLabel, "2, 16, right, default");
-		
-		JLabel commentsLabel = new JLabel("Additional Medical Info");
-		healthInfoPanel.add(commentsLabel, "2, 18");
-		
-		alcoholBox = new JComboBox<String>();
-		alcoholBox.setModel(new DefaultComboBoxModel<String>(new String[] {"No - Never", "Yes - Now has quit", "Yes - Moderate amounts", "Yes - Heavy drinker", "Yes - Very heavy drinker ", "Yes - Alcoholic / Alcoholism"}));
-		healthInfoPanel.add(alcoholBox, "4, 16, fill, default");
-		
-		scrollPane_2 = new JScrollPane();
-		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		healthInfoPanel.add(scrollPane_2, "4, 18, fill, fill");
-		
-		additionalMedicalInfoArea = new JTextArea();
-		additionalMedicalInfoArea.setLineWrap(true);
-		scrollPane_2.setViewportView(additionalMedicalInfoArea);
-	}
-	
-	/**
-	 * Personal Info Form
-	 */
-	public void createPersonalInfoPane(){
 		JPanel personalInfoPanel = new JPanel();
 		contentPanel.add(personalInfoPanel, "personalInfo");
 		personalInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -358,6 +264,101 @@ public class PatientDialog extends JDialog {
 		additionalPatientInfoArea = new JTextArea();
 		additionalPatientInfoArea.setLineWrap(true);
 		scrollPane_1.setViewportView(additionalPatientInfoArea);
+		JPanel healthInfoPanel = new JPanel();
+		contentPanel.add(healthInfoPanel, "healthInfo");
+		healthInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
+		
+		JLabel hiddenInfoLabel = new JLabel("");
+		healthInfoPanel.add(hiddenInfoLabel, "4, 2");
+		
+		JLabel ageLabel = new JLabel("Age");
+		healthInfoPanel.add(ageLabel, "2, 4, right, default");
+		
+		ageField = new JTextField();
+		healthInfoPanel.add(ageField, "4, 4, fill, default");
+		ageField.setColumns(10);
+		
+		JLabel heightLabel = new JLabel("Height");
+		healthInfoPanel.add(heightLabel, "2, 6, right, default");
+		
+		heightField = new JTextField();
+		healthInfoPanel.add(heightField, "4, 6, fill, default");
+		heightField.setColumns(10);
+		
+		JLabel weightLabel = new JLabel("Weight");
+		healthInfoPanel.add(weightLabel, "2, 8, right, default");
+		
+		weightField = new JTextField();
+		healthInfoPanel.add(weightField, "4, 8, fill, default");
+		weightField.setColumns(10);
+		
+		JLabel medicationLabel = new JLabel("Current Medications");
+		healthInfoPanel.add(medicationLabel, "2, 10, right, default");
+		
+		medicationField = new JTextField();
+		healthInfoPanel.add(medicationField, "4, 10, fill, default");
+		medicationField.setColumns(10);
+		
+		JLabel medicalConditionsLabel = new JLabel("Current Medical Conditions");
+		healthInfoPanel.add(medicalConditionsLabel, "2, 12, right, default");
+		
+		medicalConditionsField = new JTextField();
+		healthInfoPanel.add(medicalConditionsField, "4, 12, fill, default");
+		medicalConditionsField.setColumns(10);
+		
+		JLabel tobaccoLabel = new JLabel("Tobacco Usage");
+		healthInfoPanel.add(tobaccoLabel, "2, 14, right, default");
+		
+		tobaccoBox = new JComboBox<String>();
+		tobaccoBox.setModel(new DefaultComboBoxModel<String>(new String[] {"No - Never", "Yes - Previously but quit", "Yes - Rarely", "Yes - Frequently", "Yes - Several Packs a day"}));
+		healthInfoPanel.add(tobaccoBox, "4, 14, fill, default");
+		
+		JLabel alcoholLabel = new JLabel("Alcohol Consumption");
+		healthInfoPanel.add(alcoholLabel, "2, 16, right, default");
+		
+		JLabel commentsLabel = new JLabel("Additional Medical Info");
+		healthInfoPanel.add(commentsLabel, "2, 18");
+		
+		alcoholBox = new JComboBox<String>();
+		alcoholBox.setModel(new DefaultComboBoxModel<String>(new String[] {"No - Never", "Yes - Now has quit", "Yes - Moderate amounts", "Yes - Heavy drinker", "Yes - Very heavy drinker ", "Yes - Alcoholic / Alcoholism"}));
+		healthInfoPanel.add(alcoholBox, "4, 16, fill, default");
+		
+		scrollPane_2 = new JScrollPane();
+		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		healthInfoPanel.add(scrollPane_2, "4, 18, fill, fill");
+		
+		additionalMedicalInfoArea = new JTextArea();
+		additionalMedicalInfoArea.setLineWrap(true);
+		scrollPane_2.setViewportView(additionalMedicalInfoArea);
+	}
+	
+	/**
+	 * Personal Info Form
+	 */
+	public void createPersonalInfoPane(){
 	}
 	
 	/**
