@@ -35,9 +35,13 @@ import com.medicalmanager.models.Patient;
  * Patient Dialog for creating patients.
  * Just a big form that can be filled out.
  * 
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
  * @author Ben Vest
  *
  */
+
 @SuppressWarnings("serial")
 public class PatientDialog extends JDialog {
 	private JPanel testDataPanel;

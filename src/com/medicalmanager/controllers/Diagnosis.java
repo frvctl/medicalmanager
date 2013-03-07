@@ -1,5 +1,14 @@
 package com.medicalmanager.controllers;
 
+/**
+ * Diagnosis methods for diagnosing a patient.
+ * 
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ *
+ */
 public class Diagnosis {
 	
 	

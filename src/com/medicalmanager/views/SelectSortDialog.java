@@ -15,7 +15,14 @@ import javax.swing.border.EmptyBorder;
 
 import com.medicalmanager.controllers.Database;
 
-public class SelectSortMethod extends JDialog {
+/**
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ *
+ */
+public class SelectSortDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JButton sortByLastName;
@@ -24,7 +31,7 @@ public class SelectSortMethod extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public SelectSortMethod() {
+	public SelectSortDialog() {
 		setTitle("Sort Patients");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -35,7 +42,7 @@ public class SelectSortMethod extends JDialog {
 		sortByFirstName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PatientView.sortList(Database.sortPatients(PatientView.getPatientArray(), "FIRST_COMP", true, false));
-				SelectSortMethod.this.setVisible(false);
+				SelectSortDialog.this.setVisible(false);
 			}
 		});
 		{
@@ -43,7 +50,7 @@ public class SelectSortMethod extends JDialog {
 			sortByLastName.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					PatientView.sortList(Database.sortPatients(PatientView.getPatientArray(), "LAST_COMP", true, false));
-					SelectSortMethod.this.setVisible(false);
+					SelectSortDialog.this.setVisible(false);
 				}
 			});
 		}
@@ -52,7 +59,7 @@ public class SelectSortMethod extends JDialog {
 			sortByHeight.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					PatientView.sortList(Database.sortPatients(PatientView.getPatientArray(), "HEIGHT_COMP", true, true));
-					SelectSortMethod.this.setVisible(false);
+					SelectSortDialog.this.setVisible(false);
 				}
 			});
 		}
@@ -75,7 +82,7 @@ public class SelectSortMethod extends JDialog {
 		sortByWeight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				PatientView.sortList(Database.sortPatients(PatientView.getPatientArray(), "WEIGHT_COMP", true, true));
-				SelectSortMethod.this.setVisible(false);
+				SelectSortDialog.this.setVisible(false);
 			}
 		});
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
@@ -123,7 +130,7 @@ public class SelectSortMethod extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						SelectSortMethod.this.setVisible(false);
+						SelectSortDialog.this.setVisible(false);
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

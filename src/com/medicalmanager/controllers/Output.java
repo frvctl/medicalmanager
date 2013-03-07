@@ -12,6 +12,15 @@ import java.util.ArrayList;
 
 import com.medicalmanager.models.Patient;
 
+/**
+ * Supports writing patients out to a file of your choosing.
+ * 
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ *
+ */
 public class Output {
 	
 	public Output(){}

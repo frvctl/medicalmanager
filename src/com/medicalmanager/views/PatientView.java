@@ -343,7 +343,7 @@ public class PatientView extends JFrame {
 
 		sortPatientList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelectSortMethod ssm = new SelectSortMethod();
+				SelectSortDialog ssm = new SelectSortDialog();
 				ssm.setVisible(true);
 			}
 		});

@@ -20,6 +20,17 @@ import javax.swing.table.DefaultTableModel;
 
 import com.medicalmanager.controllers.Database;
 
+/**
+ * Allows a patient to be edited by editing a cell in the
+ * JTable this class creates based on selected patient 
+ * information.
+ * 
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ *
+ */
 public class EditPatientDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -98,6 +109,9 @@ public class EditPatientDialog extends JDialog {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void updateTable(){
 		tableModel.setValueAt(PatientView.getSelected().getFirstName(), 0, 1);
 		tableModel.setValueAt(PatientView.getSelected().getAge(), 1, 1);
@@ -107,6 +121,9 @@ public class EditPatientDialog extends JDialog {
 		tableModel.fireTableDataChanged();
 	}
 	
+	/**
+	 * 
+	 */
 	public void instantiateTable(){
 		tableModel.addColumn("Key");
 		tableModel.addColumn("Value");
@@ -120,6 +137,10 @@ public class EditPatientDialog extends JDialog {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return String array of all the user data in the table.
+	 */
 	public String[] compileEditedData(){
 		String arr[] = new String[tableModel.getRowCount()];
 		for(int x = 0; x < tableModel.getRowCount(); x++){

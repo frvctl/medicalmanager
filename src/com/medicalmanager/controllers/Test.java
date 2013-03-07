@@ -5,6 +5,15 @@ import java.io.IOException;
 import com.medicalmanager.models.Patient;
 import com.medicalmanager.views.PatientView;
 
+
+/**
+ * Small Test class for creating patients to populate the database
+ * 
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ */
 public class Test {
 	public Test() throws IOException{
 		String[] firstNames = {"Ben", "Bob", "Andrew", "Kevin", "Joe", "Michael", "Lark", "Andrea", "Christine", "Haley", "Kelsey", "Sarah"}; //11

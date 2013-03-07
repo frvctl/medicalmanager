@@ -24,6 +24,9 @@ import com.medicalmanager.views.PatientView;
  * <li> File I/O </li>
  * <li> General Persistence </li>
  *
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
  * @author Ben Vest
  *
  */
@@ -181,36 +184,36 @@ public class Database {
 	 */
 	public static void readAllPatientsFromFile() throws IOException{
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(writeFile));
+			BufferedReader br = new BufferedReader(new FileReader(Database.getFile()));
 			String line = null;
-			String[] stringray = new String[24];
+			String[] patientAttrs = new String[24];
 			while ((line = br.readLine()) != null) {
-				stringray = splitPatient(line);
-				if(stringray != null) {
+				patientAttrs = splitPatient(line);
+				if(patientAttrs != null) {
 					Patient readPatient = new Patient()
-						.setID(Integer.parseInt(stringray[0]))
-						.setFirstName(stringray[1])
-						.setMiddleName(stringray[2])
-						.setLastName(stringray[3])
-						.setDOB(stringray[4])
-						.setAddress(stringray[5])
-						.setEmailAddress(stringray[6])
-						.setHomePhone(stringray[7])
-						.setCellPhone(stringray[8])
-						.setAdditionalPatientInformation(stringray[9])
-						.setMedicalConditions(stringray[10])
-						.setTobaccoUsage(stringray[11])
-						.setAlcoholConsumption(stringray[12])
-						.setCurrentMedications(stringray[13])
-						.setAdditionalMedicalInformation(stringray[14])
-						.setPatientAnalysis(stringray[15])
-						.setAge(Double.parseDouble(stringray[16]))
-						.setHeight(Double.parseDouble(stringray[17]))
-						.setWeight(Double.parseDouble(stringray[18]))
-						.setSystolicBloodPressure(Double.parseDouble(stringray[19]))
-						.setDiastolicBloodPressure(Double.parseDouble(stringray[20]))
-						.setBMI(Double.parseDouble(stringray[21]))
-						.setMAP(Double.parseDouble(stringray[22]));
+						.setID(Integer.parseInt(patientAttrs[0]))
+						.setFirstName(patientAttrs[1])
+						.setMiddleName(patientAttrs[2])
+						.setLastName(patientAttrs[3])
+						.setDOB(patientAttrs[4])
+						.setAddress(patientAttrs[5])
+						.setEmailAddress(patientAttrs[6])
+						.setHomePhone(patientAttrs[7])
+						.setCellPhone(patientAttrs[8])
+						.setAdditionalPatientInformation(patientAttrs[9])
+						.setMedicalConditions(patientAttrs[10])
+						.setTobaccoUsage(patientAttrs[11])
+						.setAlcoholConsumption(patientAttrs[12])
+						.setCurrentMedications(patientAttrs[13])
+						.setAdditionalMedicalInformation(patientAttrs[14])
+						.setPatientAnalysis(patientAttrs[15])
+						.setAge(Double.parseDouble(patientAttrs[16]))
+						.setHeight(Double.parseDouble(patientAttrs[17]))
+						.setWeight(Double.parseDouble(patientAttrs[18]))
+						.setSystolicBloodPressure(Double.parseDouble(patientAttrs[19]))
+						.setDiastolicBloodPressure(Double.parseDouble(patientAttrs[20]))
+						.setBMI(Double.parseDouble(patientAttrs[21]))
+						.setMAP(Double.parseDouble(patientAttrs[22]));
 					
 				
 					PatientView.updateList(readPatient);
@@ -220,7 +223,7 @@ public class Database {
 			br.close();
 		}catch (Exception e) {
 		    e.printStackTrace();
-		}
+	    }
 	}
 	
 	/**
@@ -370,22 +373,14 @@ public class Database {
 		return null;
 	}
 	
-	/*
-	 * Note: This is a single item lookup type of search, what I need to do from here is take the
-	 * index that I find from the search and use it to do another binary search of the names.
-	 *  Options are the search meta data
-	 *  0 -> Search Query: Name or ID
-	 *  1 -> minage-maxage
-	 *  2 -> minheight-maxheight
-	 *  3 -> minweight-maxweight
-	 *  4 -> gender
-	 *  5 -> bmiclass
-	 *  If any option is not filled in by the user it will come in as "n/a"
-	 */
 	/**
 	 * 
-	 * @param options
-	 * @return
+	 * @param options String of options in the following format
+	 * <ul> <li> Search Query </li> <li> minage-maxage </li>
+	 * <li> minheight-maxheight </li> <li> minweight-maxweight </li>
+	 * <li> gender </li> <li> bmi classification </li>
+	 * 
+	 * @return A sorted and searched list of patients
 	 */
 	public static Patient[] advancedPatientSearch(String[] options){
 		int index;
@@ -554,7 +549,7 @@ public class Database {
 	}
 	
 	/**
-	 * Sort an array of Integers.
+	 * Mergesort an array of Integers.
 	 * 
 	 * @param values Array of Integers to be sorted
 	 */

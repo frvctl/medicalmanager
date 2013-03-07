@@ -17,6 +17,13 @@ import com.medicalmanager.models.Patient;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ *
+ */
 public class SearchResultsDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();

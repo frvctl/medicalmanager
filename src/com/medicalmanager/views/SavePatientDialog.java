@@ -23,6 +23,13 @@ import javax.swing.border.EmptyBorder;
 
 import com.medicalmanager.controllers.Database;
 
+/**
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ *
+ */
 public class SavePatientDialog extends JDialog {
 	private CardLayout card = new CardLayout(0,0);
 	private final JPanel contentPanel = new JPanel();
