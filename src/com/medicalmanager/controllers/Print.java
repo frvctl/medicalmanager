@@ -11,6 +11,16 @@ import java.awt.print.Printable;
 import com.medicalmanager.models.Patient;
 import com.medicalmanager.views.PatientView;
 
+/**
+ * Allows patients to be printed out to physical copies on a physical 
+ * printer.
+ * 
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ *
+ */
 public class Print implements Printable {
 	boolean all = false;
 	

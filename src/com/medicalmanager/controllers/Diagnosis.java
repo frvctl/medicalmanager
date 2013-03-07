@@ -11,15 +11,38 @@ package com.medicalmanager.controllers;
  */
 public class Diagnosis {
 	
-	
+	/**
+	 * Calculates a patients Body Mass Index
+	 * 
+	 * @param height The height of the patient in inches
+	 * @param weight The weight of the patient in lbs
+	 * @return The BMI calculated using the given height and weight
+	 */
 	public static double calculateBMI(double height, double weight){
 		return ((weight)/(Math.pow(height, 2))) * 703;
 	}
 	
+	/**
+	 * Calculates a patients Mean Arterial Blood Pressure
+	 * 
+	 * @param diastolic The patients diastolic blood pressure
+	 * @param systolic The Patients systolic blood pressure
+	 * @return The calculated MAP
+	 */
 	public static double calculateMAP(double diastolic, double systolic) {
 		return (((2*diastolic) + systolic)/3);
 	}
 	
+	/**
+	 * Analyzes the patients BMI and provides the user
+	 * information about how the BMI was calculated.
+	 * 
+	 * @param bmi The BMI of the patient
+	 * @param height The Height of the Patient
+	 * @param weight The Weight of the Patient
+	 * @return A formatted string with a detailed analysis of 
+	 * a patients BMI situation.
+	 */
 	public static String analyizeBMI(double bmi, double height, double weight){
 		String bmiExplanation = "BMI is calculated using the formula (weight / height^2) * 703" +
 								" per the U.S. Department of Health and Human Services's advice. " +
@@ -28,11 +51,13 @@ public class Diagnosis {
 		return String.format(bmiExplanation, height, weight, bmiDiagnosis(bmi));
 	}
 	
-	public static String finalPatientAnalysis(){
-		return "blah";
-		//TODO
-	}
 	
+	/**
+	 * Assigns a label to the MAP of a patient
+	 * 
+	 * @param map The patients MAP
+	 * @return The MAP Classification
+	 */
 	public static String mapDiagnosis(double map){
 		String MAPDiagnosis = null;
 		
@@ -47,6 +72,12 @@ public class Diagnosis {
 		return MAPDiagnosis;
 	}
 	
+	/**
+	 * Assigns a label to the BMI of the patient
+	 * 
+	 * @param BMI The Patients BMI
+	 * @return The BMI Classification
+	 */
 	public static String bmiDiagnosis(double BMI){
 		String BMIDiagnosis = null;
 		
@@ -60,7 +91,6 @@ public class Diagnosis {
 			BMIDiagnosis = "Obese";
 		}
 		return BMIDiagnosis;
-
 	}
 
 }

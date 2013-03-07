@@ -18,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
+ * Displays the results of a search in a JTable.
+ * 
  * @school: Annandale High School
  * @IDE: Eclipse
  * @date: 3/6/2013

@@ -110,7 +110,8 @@ public class EditPatientDialog extends JDialog {
 	}
 	
 	/**
-	 * 
+	 * Update the table with the values of the selected patient being
+	 * edited
 	 */
 	public void updateTable(){
 		tableModel.setValueAt(PatientView.getSelected().getFirstName(), 0, 1);
@@ -122,7 +123,8 @@ public class EditPatientDialog extends JDialog {
 	}
 	
 	/**
-	 * 
+	 * Create the table if this is the first time opening the edit patient
+	 * dialog. Otherwise the updateTable method is called.
 	 */
 	public void instantiateTable(){
 		tableModel.addColumn("Key");
@@ -138,6 +140,9 @@ public class EditPatientDialog extends JDialog {
 	}
 	
 	/**
+	 * Gets all of the data from the 'value' column and then puts it into
+	 * an array so that it can be used to rewrite the patients file there
+	 * fore saving the changes made.
 	 * 
 	 * @return String array of all the user data in the table.
 	 */

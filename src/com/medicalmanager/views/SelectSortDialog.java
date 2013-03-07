@@ -16,11 +16,14 @@ import javax.swing.border.EmptyBorder;
 import com.medicalmanager.controllers.Database;
 
 /**
+ * Dialog which a simple navigation for selecting how the PatientList
+ * should be sorted. Allows things to be sorted in Ascending and 
+ * descending order. Ascending is A-Z whereas descending is Z-A.  
+ * 
  * @school: Annandale High School
  * @IDE: Eclipse
  * @date: 3/6/2013
  * @author Ben Vest
- *
  */
 public class SelectSortDialog extends JDialog {
 

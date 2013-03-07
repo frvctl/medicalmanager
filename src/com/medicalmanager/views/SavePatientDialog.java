@@ -24,6 +24,12 @@ import javax.swing.border.EmptyBorder;
 import com.medicalmanager.controllers.Database;
 
 /**
+ * Dialog for saving patients to files based on search 
+ * parameters and other factors. In other words you can
+ * save a specific subset of all the patients or the 
+ * specific patient that you want to save to any file,
+ * including ones that you create using the application.
+ * 
  * @school: Annandale High School
  * @IDE: Eclipse
  * @date: 3/6/2013

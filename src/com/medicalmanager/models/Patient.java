@@ -2,6 +2,16 @@ package com.medicalmanager.models;
 
 import com.medicalmanager.controllers.Diagnosis;
 
+/**
+ * Patient Object Model, allows patients to be created
+ * and data to be assigned to them.
+ * 
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ *
+ */
 public class Patient {
 	private int ID;
 	
@@ -290,9 +300,12 @@ public class Patient {
     	return this.patientAnalysis;
     }
     
-    /*
+    /**
      * Method that allows a patient to be split and stored in the text file
-     * essentially csv-ifies the patient
+     * essentially csvifies the patients data
+     * 
+     * @param patient The patient being stringified
+     * @return A string version of the patient passed in
      */
     public static String stringify (Patient patient){
     	String patientString = "";

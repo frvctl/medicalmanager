@@ -1,6 +1,7 @@
 package com.medicalmanager.views;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -40,6 +41,16 @@ import com.medicalmanager.controllers.Print;
 import com.medicalmanager.controllers.Test;
 import com.medicalmanager.models.Patient;
 
+/**
+ * All of the application log with regard to the main JFrame
+ * and panels within. Calls all of the other dialogs.
+ * 
+ * @school: Annandale High School
+ * @IDE: Eclipse
+ * @date: 3/6/2013
+ * @author Ben Vest
+ *
+ */
 public class PatientView extends JFrame {
 
 	private CardLayout card = new CardLayout(0, 0);
@@ -131,7 +142,10 @@ public class PatientView extends JFrame {
 		Database.readAllPatientsFromFile();
 		System.out.println(Database.linSearch(patientArray, 0).getFullName());
 	}
-
+	
+	/**
+	 * Place the top menu
+	 */
 	public void placeMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -163,7 +177,12 @@ public class PatientView extends JFrame {
 		helpMenuPreferencesItem = new JMenuItem("Preferences");
 		helpMenu.add(helpMenuPreferencesItem);
 	}
-
+	
+	/**
+	 * The Patient Panel is instantiated and placed here
+	 * 
+	 * @throws IOException
+	 */
 	public void makePatientPanel() throws IOException {
 		JPanel patientPanel = new JPanel();
 		contentPane.add(patientPanel, "patientPanel");
@@ -237,6 +256,9 @@ public class PatientView extends JFrame {
 		}
 	}
 
+	/**
+	 * The Welcome Panel is created here
+	 */
 	public void makeWelcomePanel() {
 		JPanel welcomePanel = new JPanel();
 		contentPane.add(welcomePanel, "welcomePanel");
@@ -313,7 +335,10 @@ public class PatientView extends JFrame {
 								GroupLayout.PREFERRED_SIZE).addContainerGap()));
 		welcomePanel.setLayout(welcomeLayout);
 	}
-
+	
+	/** 
+	 * All of the event handlers for the Patient View
+	 */
 	public void actionTime() {
 		mainAppButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -448,10 +473,6 @@ public class PatientView extends JFrame {
 				if(!patientList.isSelectionEmpty()){
 					if(isNew){
 						patientToolBar.add(editPatientButton);
-						// commenting these out unless i have time to do it
-//						patientToolBar.add(adjustSeverityButton);
-//						patientToolBar.add(prescribeMedicationButton);
-//						patientToolBar.add(setDiagnosisButton);
 						isNew = false;
 					}
 					
@@ -593,34 +614,51 @@ public class PatientView extends JFrame {
 	}
 	
 	/**
+	 * Return the patient that is selected in the PatientList
 	 * 
-	 * 
-	 * @return
+	 * @return Patient selected in the PatientList
 	 */
 	public static Patient getSelected() {
 		return selected;
 	}
 
 	/**
+	 * Sets the patient that is selected in the Patient List
 	 * 
-	 * @param selected
+	 * @param selected Patient selected in the Patient List
 	 */
 	public static void setSelected(Patient selected) {
 		PatientView.selected = selected;
 	}
 	
 	/**
+	 * Method for getting the patient array from the PatientView safely.
+	 * This is the ArrayList in charge of all of the main patient manip
+	 * ulation. Essentially the in memory patient store is this.
 	 * 
-	 * @return
+	 * @return The ArrayList of all Patients in the application
 	 */
 	public static ArrayList<Patient> getPatientArray(){
 		return PatientView.patientArray;
 	}
 	
 	/**
+	 * Helper method for showing an error message from anywhere in the application
 	 * 
-	 * @param msg
-	 * @param title
+	 * @param msg The message of the error
+	 * @param title The title of the error message.
+	 * @param contentPanel The panel that the message should show up on
+	 */
+	public static void showError(Component contentPanel, String msg, String title){
+		 JOptionPane.showMessageDialog(contentPanel, msg, title, JOptionPane.ERROR_MESSAGE);
+	}
+	
+	/**
+	 * Same as the helper method above for showing error messages but this uses the 
+	 * PatientView contentPane by default.
+	 * 
+	 * @param msg The message of the error
+	 * @param title The title of the error message.
 	 */
 	public static void showError(String msg, String title){
 		 JOptionPane.showMessageDialog(PatientView.contentPane, msg, title, JOptionPane.ERROR_MESSAGE);

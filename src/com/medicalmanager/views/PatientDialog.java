@@ -10,11 +10,14 @@ import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -156,6 +159,111 @@ public class PatientDialog extends JDialog {
 		});
 	}
 	
+	  class StringVerifier extends InputVerifier {
+		  String type = "REGULAR_STRING";
+		  JTextField tf;
+		  
+		  public StringVerifier(){}
+		  	 
+		  public StringVerifier(String type){
+			  this.type = type;
+		  }
+		  
+	      public boolean verify(JComponent input) {
+	    	  this.tf = (JTextField) input;
+	    	  
+			  if(this.type.equals("REGULAR_STRING")){
+				   verifyRegular(this.tf.getText());
+			  }else if(this.type.equals("DOB_STRING")){
+				  verifyDob(this.tf.getText());
+			  }else if(this.type.equals("ADDRESS_STRING")){
+				  verifyAddress(this.tf.getText());
+			  }else if(this.type.equals("EMAIL_STRING")){
+				  verifyEmail(this.tf.getText());
+			  }else if(this.type.equals("PHONE_STRING")){
+				  verifyPhone(this.tf.getText());
+			  }else{
+				  this.type = "REGULAR_STRING";
+			  }
+			return false;   
+	      }
+	      
+	      private boolean verifyRegular(String s){
+	    	  try{
+	        	   Double.parseDouble(s);
+	        	   PatientView.showError(contentPanel, "Must Enter a String", "Field Entry Format Error");
+	           } catch (NumberFormatException e){
+	        	   return true;
+	           }
+	               
+	    	  
+	    	  return false;  
+	      }
+	      
+	      private boolean verifyDob(String s){
+	    	  try{
+	        	   Double.parseDouble(s);
+	        	   PatientView.showError(contentPanel, "Must Enter a String", "Field Entry Format Error");
+	           } catch (NumberFormatException e){
+	        	   return true;
+	           }
+	               
+	    	  
+	    	  return false;  
+	      }
+	      
+	      private boolean verifyAddress(String s){
+	    	  try{
+	        	   Double.parseDouble(s);
+	        	   PatientView.showError(contentPanel, "Must Enter a String", "Field Entry Format Error");
+	           } catch (NumberFormatException e){
+	        	   return true;
+	           }
+	               
+	    	  
+	    	  return false;    
+	      }
+	      
+	      private boolean verifyEmail(String s){
+	    	  try{
+	        	   Double.parseDouble(s);
+	        	   PatientView.showError(contentPanel, "Must Enter a String", "Field Entry Format Error");
+	           } catch (NumberFormatException e){
+	        	   return true;
+	           }
+	               
+	    	  
+	    	  return false;   
+	      }
+	      
+	      private boolean verifyPhone(String s){
+	    	  try{
+	        	   Double.parseDouble(s);
+	        	   PatientView.showError(contentPanel, "Must Enter a String", "Field Entry Format Error");
+	           } catch (NumberFormatException e){
+	        	   return true;
+	           }
+	               
+	    	  
+	    	  return false;  
+	      }
+
+	  }
+	  
+	  class NumberVerifier extends InputVerifier {
+	         public boolean verify(JComponent input) {
+	               JTextField tf = (JTextField) input;
+	               try{
+	            	   Double.parseDouble(tf.getText());
+	            	   return true;
+	               } catch (NumberFormatException e){
+	            	   PatientView.showError(contentPanel, "Must enter a number", "Field Entry Format Error");
+	               }
+	               
+	               return false;
+	         }
+	     }
+	
 	/**
 	 * Health Info Form
 	 */
@@ -199,6 +307,7 @@ public class PatientDialog extends JDialog {
 		firstNameField = new JTextField();
 		personalInfoPanel.add(firstNameField, "4, 4, fill, default");
 		firstNameField.setColumns(10);
+		firstNameField.setInputVerifier(new StringVerifier());
 		
 		JLabel middleNameLabel = new JLabel("Middle Name");
 		personalInfoPanel.add(middleNameLabel, "2, 6, right, default");
@@ -206,6 +315,7 @@ public class PatientDialog extends JDialog {
 		middleNameField = new JTextField();
 		personalInfoPanel.add(middleNameField, "4, 6, fill, default");
 		middleNameField.setColumns(10);
+		middleNameField.setInputVerifier(new StringVerifier());
 		
 		JLabel lastNameLabel = new JLabel("Last Name");
 		personalInfoPanel.add(lastNameLabel, "2, 8, right, default");
@@ -213,12 +323,14 @@ public class PatientDialog extends JDialog {
 		lastNameField = new JTextField();
 		personalInfoPanel.add(lastNameField, "4, 8, fill, default");
 		lastNameField.setColumns(10);
+		lastNameField.setInputVerifier(new StringVerifier());
 		
 		JLabel dobLabel = new JLabel("Date of Birth");
 		personalInfoPanel.add(dobLabel, "2, 10, right, default");
 		
 		dobField = new JFormattedTextField();
 		personalInfoPanel.add(dobField, "4, 10, fill, default");
+		dobField.setInputVerifier(new StringVerifier("DOB_STRING"));
 		
 		JLabel raceLabel = new JLabel("Race");
 		personalInfoPanel.add(raceLabel, "2, 12, right, default");
@@ -239,24 +351,28 @@ public class PatientDialog extends JDialog {
 		
 		homeAddressField = new JFormattedTextField();
 		personalInfoPanel.add(homeAddressField, "4, 16, fill, default");
+		homeAddressField.setInputVerifier(new StringVerifier("ADDRESS_STRING"));
 		
 		JLabel emailAddressLabel = new JLabel("Email Address");
 		personalInfoPanel.add(emailAddressLabel, "2, 18, right, default");
 		
 		emailAddressField = new JFormattedTextField();
 		personalInfoPanel.add(emailAddressField, "4, 18, fill, default");
+		emailAddressField.setInputVerifier(new StringVerifier("EMAIL_STRING"));
 		
 		JLabel homePhoneLabel = new JLabel("Home Phone");
 		personalInfoPanel.add(homePhoneLabel, "2, 20, right, default");
 		
 		homePhoneField = new JFormattedTextField();
 		personalInfoPanel.add(homePhoneField, "4, 20, fill, default");
+		homePhoneField.setInputVerifier(new StringVerifier("PHONE_STRING"));
 		
 		JLabel callPhoneLabel = new JLabel("Cell Phone");
 		personalInfoPanel.add(callPhoneLabel, "2, 22, right, default");
 		
 		cellPhoneField = new JFormattedTextField();
 		personalInfoPanel.add(cellPhoneField, "4, 22, fill, default");
+		cellPhoneField.setInputVerifier(new StringVerifier("PHONE_STRING"));
 		
 		JLabel lblAdditionalInformation = new JLabel("Additional Information");
 		personalInfoPanel.add(lblAdditionalInformation, "2, 24");
@@ -304,6 +420,7 @@ public class PatientDialog extends JDialog {
 		ageField = new JTextField();
 		healthInfoPanel.add(ageField, "4, 4, fill, default");
 		ageField.setColumns(10);
+		ageField.setInputVerifier(new NumberVerifier());
 		
 		JLabel heightLabel = new JLabel("Height");
 		healthInfoPanel.add(heightLabel, "2, 6, right, default");
@@ -311,6 +428,7 @@ public class PatientDialog extends JDialog {
 		heightField = new JTextField();
 		healthInfoPanel.add(heightField, "4, 6, fill, default");
 		heightField.setColumns(10);
+		heightField.setInputVerifier(new NumberVerifier());
 		
 		JLabel weightLabel = new JLabel("Weight");
 		healthInfoPanel.add(weightLabel, "2, 8, right, default");
@@ -318,6 +436,7 @@ public class PatientDialog extends JDialog {
 		weightField = new JTextField();
 		healthInfoPanel.add(weightField, "4, 8, fill, default");
 		weightField.setColumns(10);
+		weightField.setInputVerifier(new NumberVerifier());
 		
 		JLabel medicationLabel = new JLabel("Current Medications");
 		healthInfoPanel.add(medicationLabel, "2, 10, right, default");
@@ -325,6 +444,7 @@ public class PatientDialog extends JDialog {
 		medicationField = new JTextField();
 		healthInfoPanel.add(medicationField, "4, 10, fill, default");
 		medicationField.setColumns(10);
+		medicationField.setInputVerifier(new StringVerifier());
 		
 		JLabel medicalConditionsLabel = new JLabel("Current Medical Conditions");
 		healthInfoPanel.add(medicalConditionsLabel, "2, 12, right, default");
@@ -332,6 +452,7 @@ public class PatientDialog extends JDialog {
 		medicalConditionsField = new JTextField();
 		healthInfoPanel.add(medicalConditionsField, "4, 12, fill, default");
 		medicalConditionsField.setColumns(10);
+		medicalConditionsField.setInputVerifier(new StringVerifier());
 		
 		JLabel tobaccoLabel = new JLabel("Tobacco Usage");
 		healthInfoPanel.add(tobaccoLabel, "2, 14, right, default");
@@ -395,9 +516,11 @@ public class PatientDialog extends JDialog {
 		
 		systolicField = new JTextField();
 		systolicField.setColumns(10);
+		systolicField.setInputVerifier(new NumberVerifier());
 		
 		diastolicField = new JTextField();
 		diastolicField.setColumns(10);
+		diastolicField.setInputVerifier(new NumberVerifier());
 		
 		MAPLabel = new JTextField();
 		MAPLabel.setEditable(false);

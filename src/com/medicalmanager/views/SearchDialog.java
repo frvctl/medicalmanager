@@ -25,6 +25,9 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 /**
+ * Dialog with a form in it designed for allowing a user
+ * to search the database of Patients.
+ * 
  * @school: Annandale High School
  * @IDE: Eclipse
  * @date: 3/6/2013

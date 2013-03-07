@@ -243,6 +243,8 @@ public class Database {
 	}
 	
 	/**
+	 * Override implementation of Comparator for string attributes of
+	 * patients.
 	 * 
 	 * @author Ben Vest
 	 *
@@ -280,6 +282,9 @@ public class Database {
 	
 	
 	/**
+	 * Override implementation of Comparator for number attributes of
+	 * patients.
+	 * 
 	 * @author Ben Vest
 	 */
 	public static class CompareNumberAttribute implements Comparator<Patient> {
@@ -408,10 +413,13 @@ public class Database {
 	}
 	
 	/**
+	 * Allows for the finding of multiple patients by the same name or other
+	 * attribute.
 	 * 
-	 * @param index
-	 * @param sortedList
-	 * @return
+	 * @param index The index of the patient in the unsorted array
+	 * @param sortedList The sorted ArrayList to use for checking multiples
+	 * @return An Array of Patients with all of the multiples or atleast
+	 * the original found patient
 	 */
 	public static Patient[] checkMultiples(int index, ArrayList<Patient> sortedList){
 		boolean upTrue = true;
@@ -453,11 +461,12 @@ public class Database {
 	}
 	
 	/**
+	 * Checks up the array list for the check multiples algorithm
 	 * 
-	 * @param upTo
-	 * @param name
-	 * @param list
-	 * @return
+	 * @param upTo Index to check
+	 * @param name Name to check against
+	 * @param list The ArrayList being used to check with
+	 * @return The Patient if it matches or null if not
 	 */
 	public static Patient checkUp(int upTo, String name, ArrayList<Patient> list){
 		try{
@@ -472,11 +481,12 @@ public class Database {
 	}
 	
 	/**
+	 * Checks down  the array list for the check multiples algorithm
 	 * 
-	 * @param downTo
-	 * @param name
-	 * @param list
-	 * @return
+	 * @param downTo Index to check
+	 * @param name Name to check against
+	 * @param list The ArrayList being used to check with
+	 * @return The Patient if it matches or null if not
 	 */
 	public static Patient checkDown(int downTo, String name, ArrayList<Patient> list){
 		try{
@@ -491,10 +501,11 @@ public class Database {
 	}
 	
 	/**
+	 * Binary Search for an array of integers, or in this case IDs
 	 * 
-	 * @param p
-	 * @param searchValue
-	 * @return
+	 * @param p ArrayList of patients
+	 * @param searchValue the ID being searched for
+	 * @return The index of the patient if found.
 	 */
 	public static int search(ArrayList<Patient> p, int searchValue) {
 			int left = 0;
@@ -503,13 +514,15 @@ public class Database {
 	}
  
 	/**
+	 * The Actual Binary Search. Checks the two sides of the array until a 
+	 * match is found.
 	 * 
-	 * 
-	 * @param p
-	 * @param searchValue
-	 * @param left
-	 * @param right
-	 * @return
+	 * @param p Patient being searched for
+	 * @param searchValue Value being used to check against
+	 * @param left The left side of the array being searched
+	 * @param right The right side of the array being searched
+	 * @return An integer value of the index of the item being searched
+	 * for, or a recursive call of itself.
 	 */
 	private static int binarySearch(ArrayList<Patient> p, int searchValue, int left, int right) {
 		if (right < left) {
@@ -527,6 +540,9 @@ public class Database {
 	} 
 	
 	/**
+	 * Sort patients using Collections.sort and the custom Comparator classes
+	 * defined earlier in the file.
+	 * 
 	 * @param direction Ascending or Descending. true is asc, false desc
 	 * @param type Number or String; true is number, false string
 	 * @param pRay The patient array list
